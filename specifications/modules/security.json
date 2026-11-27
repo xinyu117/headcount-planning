@@ -3,32 +3,61 @@
   "module": {
     "id": "security",
     "name": "权限与角色管理",
-    "description": "负责权限与角色管理相关业务能力。"
+    "description": "使用 Spring Security 与 jCasbin 维护功能权限和组织数据范围，并在后端执行授权。"
   },
-  "purpose": "负责权限与角色管理相关业务能力。",
+  "purpose": "确保部门、招聘、编制规划和系统管理员只能访问其授权功能和数据。",
   "dependencies": [
-    "organization",
-    "account"
+    "organization"
   ],
   "requirements": [
     {
       "id": "SEC-001",
-      "title": "角色维护",
-      "description": "Web 页面维护角色与功能权限关系。",
+      "title": "角色、用户组与功能权限",
+      "description": "管理员维护角色、用户组、功能权限和角色成员关系。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "角色权限变更生效"
+        "权限变更及时生效或按已配置缓存策略刷新",
+        "权限代码稳定并可审计",
+        "前端隐藏不作为安全边界"
       ],
       "status": "CONFIRMED",
       "openQuestion": null
     },
     {
       "id": "SEC-002",
-      "title": "数据范围",
-      "description": "按组织范围限制用户数据访问。",
+      "title": "组织数据范围",
+      "description": "按组织、角色和计划分派关系限制计划、人员、报表和导出数据。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "越权 API 请求被拒绝"
+        "越权 API 请求返回拒绝且不泄露数据",
+        "部门负责人仅能编辑被分派计划",
+        "招聘角色仅能编辑招聘预估及相关汇总"
+      ],
+      "status": "TBD",
+      "openQuestion": "组织树是否默认包含下级、跨组织兼任合并规则以及管理员特殊数据范围尚未确认。"
+    },
+    {
+      "id": "SEC-003",
+      "title": "后端授权",
+      "description": "所有 API 在 Controller/应用服务边界执行功能权限与数据范围授权。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "查询、修改、提交、审核、导出和集成同步均有权限校验",
+        "服务间调用仍携带可审计身份",
+        "权限测试覆盖拒绝路径"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "SEC-004",
+      "title": "权限变更审计",
+      "description": "角色、用户组、用户状态和数据范围变更保留审计记录。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "记录变更前后值、操作者和时间",
+        "审计记录不可由普通管理员删除",
+        "敏感配置变更可追溯"
       ],
       "status": "CONFIRMED",
       "openQuestion": null

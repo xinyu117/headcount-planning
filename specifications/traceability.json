@@ -1,79 +1,46 @@
 {
   "schemaVersion": "1.1",
   "items": [
-    {
-      "requirementId": "PLAN-001",
-      "module": "plan",
-      "apiIds": [
-        "API-PLAN-CREATE"
-      ],
-      "uiPageIds": [
-        "PLAN-WORKSPACE",
-        "PLAN-NEW",
-        "PLAN-DETAIL"
-      ],
-      "testIds": [
-        "TC-PLAN-001-001"
-      ]
-    },
-    {
-      "requirementId": "PLAN-002",
-      "module": "plan",
-      "apiIds": [
-        "API-PLAN-UPDATE"
-      ],
-      "uiPageIds": [
-        "PLAN-DETAIL"
-      ],
-      "testIds": [
-        "TC-PLAN-002-001"
-      ]
-    },
-    {
-      "requirementId": "PLAN-003",
-      "module": "plan",
-      "apiIds": [
-        "API-PLAN-SUBMIT"
-      ],
-      "uiPageIds": [
-        "PLAN-DETAIL",
-        "PLAN-APPROVAL-WORKSPACE",
-        "PLAN-APPROVAL-DETAIL"
-      ],
-      "testIds": [
-        "TC-PLAN-003-001"
-      ]
-    },
-    {
-      "requirementId": "PLAN-004",
-      "module": "plan",
-      "apiIds": [
-        "API-PLAN-REJECT",
-        "API-PLAN-APPROVAL-TASKS",
-        "API-PLAN-GET"
-      ],
-      "uiPageIds": [
-        "PLAN-DETAIL",
-        "PLAN-APPROVAL-WORKSPACE",
-        "PLAN-APPROVAL-DETAIL"
-      ],
-      "testIds": [
-        "TC-PLAN-004-001"
-      ]
-    },
-    {
-      "requirementId": "PLAN-005",
-      "module": "plan",
-      "apiIds": [
-        "API-PLAN-APPROVE"
-      ],
-      "uiPageIds": [
-        "PLAN-APPROVAL-WORKSPACE",
-        "PLAN-APPROVAL-DETAIL"
-      ],
-      "testIds": [
-        "TC-PLAN-005-001"
-      ]
-    }
+    {"requirementId": "PLAN-001", "module": "plan", "apiIds": ["API-TEMPLATE-LIST", "API-TEMPLATE-CREATE", "API-TEMPLATE-UPDATE"], "uiPageIds": ["TEMPLATE-ADMIN"], "testIds": ["TC-PLAN-001-001", "TC-PLAN-001-002"]},
+    {"requirementId": "PLAN-002", "module": "plan", "apiIds": ["API-PLAN-BATCH-CREATE"], "uiPageIds": ["HOME", "PLAN-BATCH-CREATE", "ORG-MULTI-SELECT-DIALOG"], "testIds": ["TC-PLAN-002-001", "TC-PLAN-002-002"]},
+    {"requirementId": "PLAN-003", "module": "plan", "apiIds": ["API-PLAN-BATCH-CREATE", "API-PLAN-LIST"], "uiPageIds": ["PLAN-BATCH-CREATE", "HOME"], "testIds": ["TC-PLAN-003-001"]},
+    {"requirementId": "PLAN-004", "module": "plan", "apiIds": ["API-PLAN-GET"], "uiPageIds": ["PLAN-DEPARTMENT", "PLAN-REVIEW"], "testIds": ["TC-PLAN-004-001", "TC-PLAN-004-002"]},
+    {"requirementId": "PLAN-005", "module": "plan", "apiIds": ["API-PLAN-GET"], "uiPageIds": ["PLAN-DEPARTMENT"], "testIds": ["TC-PLAN-005-001"]},
+    {"requirementId": "PLAN-006", "module": "plan", "apiIds": ["API-PLAN-GET", "API-PLAN-DEPARTMENT-SAVE"], "uiPageIds": ["HOME", "PLAN-DEPARTMENT"], "testIds": ["TC-PLAN-006-001", "TC-PLAN-006-002"]},
+    {"requirementId": "PLAN-007", "module": "plan", "apiIds": ["API-PLAN-GET", "API-PLAN-DEPARTMENT-SAVE", "API-PLAN-DEPARTMENT-SUBMIT"], "uiPageIds": ["PLAN-DEPARTMENT"], "testIds": ["TC-PLAN-007-001", "TC-PLAN-007-002"]},
+    {"requirementId": "PLAN-008", "module": "plan", "apiIds": ["API-PLAN-GET", "API-PLAN-DEPARTMENT-SAVE"], "uiPageIds": ["PLAN-DEPARTMENT"], "testIds": ["TC-PLAN-008-001"]},
+    {"requirementId": "PLAN-009", "module": "plan", "apiIds": ["API-PLAN-BATCH-CREATE", "API-PLAN-GET"], "uiPageIds": ["PLAN-BATCH-CREATE", "PLAN-DEPARTMENT"], "testIds": ["TC-PLAN-009-001", "TC-PLAN-009-002"]},
+    {"requirementId": "PLAN-010", "module": "plan", "apiIds": ["API-PLAN-EXPORT", "API-PLAN-DEPARTMENT-SUBMIT"], "uiPageIds": ["PLAN-DEPARTMENT"], "testIds": ["TC-PLAN-010-001", "TC-PLAN-010-002"]},
+    {"requirementId": "PLAN-011", "module": "plan", "apiIds": ["API-PLAN-REVIEW-APPROVE", "API-PLAN-REVIEW-RETURN", "API-TASK-LIST"], "uiPageIds": ["HOME", "PLAN-REVIEW"], "testIds": ["TC-PLAN-011-001", "TC-PLAN-011-002"]},
+    {"requirementId": "PLAN-012", "module": "plan", "apiIds": ["API-PLAN-ADMIN-UPDATE"], "uiPageIds": ["PLAN-REVIEW"], "testIds": ["TC-PLAN-012-001"]},
+    {"requirementId": "PLAN-013", "module": "plan", "apiIds": ["API-RECRUITMENT-BATCH-GET", "API-RECRUITMENT-BATCH-SAVE"], "uiPageIds": ["HOME", "RECRUITMENT-BATCH"], "testIds": ["TC-PLAN-013-001", "TC-PLAN-013-002"]},
+    {"requirementId": "PLAN-014", "module": "plan", "apiIds": ["API-RECRUITMENT-BATCH-GET", "API-RECRUITMENT-BATCH-SAVE"], "uiPageIds": ["RECRUITMENT-BATCH"], "testIds": ["TC-PLAN-014-001"]},
+    {"requirementId": "PLAN-015", "module": "plan", "apiIds": ["API-TASK-LIST"], "uiPageIds": ["HOME"], "testIds": ["TC-PLAN-015-001"]},
+    {"requirementId": "PLAN-016", "module": "plan", "apiIds": ["API-PLAN-HISTORY", "API-PLAN-HISTORY-EXPORT"], "uiPageIds": ["PLAN-HISTORY"], "testIds": ["TC-PLAN-016-001", "TC-PLAN-016-002"]},
+    {"requirementId": "PLAN-017", "module": "plan", "apiIds": ["API-REPORT-HEADCOUNT", "API-REPORT-EXPORT"], "uiPageIds": ["HEADCOUNT-REPORT"], "testIds": ["TC-PLAN-017-001"]},
+    {"requirementId": "PLAN-018", "module": "plan", "apiIds": [], "uiPageIds": [], "testIds": ["TC-PLAN-018-001"]},
+    {"requirementId": "PLAN-019", "module": "plan", "apiIds": ["API-RECRUITMENT-BATCH-GET", "API-RECRUITMENT-BATCH-SAVE"], "uiPageIds": ["RECRUITMENT-BATCH"], "testIds": ["TC-PLAN-019-001"]},
+    {"requirementId": "PLAN-020", "module": "plan", "apiIds": ["API-RECRUITMENT-BATCH-COMPLETE"], "uiPageIds": ["RECRUITMENT-BATCH"], "testIds": ["TC-PLAN-020-001"]},
+    {"requirementId": "ORG-001", "module": "organization", "apiIds": ["API-ORG-LIST", "API-SYNC-LIST", "API-SYNC-START"], "uiPageIds": ["ORG-ADMIN", "INTEGRATION-ADMIN"], "testIds": ["TC-ORG-001-001"]},
+    {"requirementId": "ORG-002", "module": "organization", "apiIds": ["API-ORG-CREATE", "API-ORG-UPDATE"], "uiPageIds": ["ORG-ADMIN"], "testIds": ["TC-ORG-002-001"]},
+    {"requirementId": "ORG-003", "module": "organization", "apiIds": ["API-ORG-LIST"], "uiPageIds": ["ORG-ADMIN", "MAPPING-ADMIN"], "testIds": ["TC-ORG-003-001"]},
+    {"requirementId": "ORG-004", "module": "organization", "apiIds": ["API-ORG-LIST", "API-PLAN-GET"], "uiPageIds": ["ORG-ADMIN", "PLAN-DEPARTMENT"], "testIds": ["TC-ORG-004-001"]},
+    {"requirementId": "PER-001", "module": "person", "apiIds": ["API-PERSON-LIST", "API-SYNC-START"], "uiPageIds": ["PERSON-ADMIN", "INTEGRATION-ADMIN"], "testIds": ["TC-PER-001-001"]},
+    {"requirementId": "PER-002", "module": "person", "apiIds": ["API-PERSON-LIST", "API-PLAN-GET"], "uiPageIds": ["PERSON-ADMIN", "PLAN-DEPARTMENT"], "testIds": ["TC-PER-002-001"]},
+    {"requirementId": "PER-003", "module": "person", "apiIds": ["API-SYNC-LIST", "API-SYNC-START"], "uiPageIds": ["INTEGRATION-ADMIN"], "testIds": ["TC-PER-003-001"]},
+    {"requirementId": "PER-004", "module": "person", "apiIds": ["API-PLAN-GET"], "uiPageIds": ["PLAN-DEPARTMENT", "PLAN-REVIEW"], "testIds": ["TC-PER-004-001", "TC-PER-004-002"]},
+    {"requirementId": "PER-005", "module": "person", "apiIds": ["API-PERSON-LIST", "API-PERSON-EXPORT"], "uiPageIds": ["PERSON-ADMIN"], "testIds": ["TC-PER-005-001"]},
+    {"requirementId": "POS-001", "module": "position", "apiIds": ["API-TITLE-LIST", "API-TITLE-CREATE", "API-TITLE-UPDATE"], "uiPageIds": ["TITLE-ADMIN"], "testIds": ["TC-POS-001-001"]},
+    {"requirementId": "POS-002", "module": "position", "apiIds": ["API-MAPPING-LIST", "API-MAPPING-UPDATE", "API-PLAN-GET"], "uiPageIds": ["MAPPING-ADMIN", "PLAN-DEPARTMENT"], "testIds": ["TC-POS-002-001"]},
+    {"requirementId": "POS-003", "module": "position", "apiIds": ["API-MAPPING-LIST", "API-MAPPING-UPDATE"], "uiPageIds": ["MAPPING-ADMIN"], "testIds": ["TC-POS-003-001"]},
+    {"requirementId": "POS-004", "module": "position", "apiIds": ["API-TITLE-LIST", "API-PERSON-LIST"], "uiPageIds": ["TITLE-ADMIN", "PERSON-ADMIN"], "testIds": ["TC-POS-004-001"]},
+    {"requirementId": "ACC-001", "module": "account", "apiIds": ["API-USER-LIST"], "uiPageIds": ["HOME", "SECURITY-ADMIN"], "testIds": ["TC-ACC-001-001"]},
+    {"requirementId": "ACC-002", "module": "account", "apiIds": ["API-USER-LIST", "API-USER-STATUS"], "uiPageIds": ["SECURITY-ADMIN"], "testIds": ["TC-ACC-002-001"]},
+    {"requirementId": "ACC-003", "module": "account", "apiIds": ["API-USER-LIST", "API-ROLE-UPDATE"], "uiPageIds": ["SECURITY-ADMIN"], "testIds": ["TC-ACC-003-001"]},
+    {"requirementId": "ACC-004", "module": "account", "apiIds": ["API-ACCESS-LOG-LIST"], "uiPageIds": ["SECURITY-ADMIN"], "testIds": ["TC-ACC-004-001"]},
+    {"requirementId": "SEC-001", "module": "security", "apiIds": ["API-ROLE-LIST", "API-ROLE-UPDATE"], "uiPageIds": ["SECURITY-ADMIN"], "testIds": ["TC-SEC-001-001"]},
+    {"requirementId": "SEC-002", "module": "security", "apiIds": ["API-PLAN-LIST", "API-PLAN-GET", "API-PLAN-DEPARTMENT-SAVE", "API-RECRUITMENT-BATCH-GET"], "uiPageIds": ["HOME", "PLAN-DEPARTMENT", "RECRUITMENT-BATCH"], "testIds": ["TC-SEC-002-001", "TC-SEC-002-002"]},
+    {"requirementId": "SEC-003", "module": "security", "apiIds": ["API-PLAN-GET", "API-PLAN-REVIEW-APPROVE", "API-PLAN-EXPORT", "API-SYNC-START"], "uiPageIds": ["HOME", "PLAN-REVIEW", "PLAN-DEPARTMENT", "INTEGRATION-ADMIN"], "testIds": ["TC-SEC-003-001", "TC-SEC-003-002"]},
+    {"requirementId": "SEC-004", "module": "security", "apiIds": ["API-AUDIT-LIST", "API-USER-STATUS", "API-ROLE-UPDATE"], "uiPageIds": ["SECURITY-ADMIN"], "testIds": ["TC-SEC-004-001"]}
   ]
 }

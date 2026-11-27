@@ -1,63 +1,104 @@
 {
   "schemaVersion": "1.1",
   "workflow": {
-    "id": "WF-HEADCOUNT-APPROVAL",
-    "name": "人力计划审批流程",
+    "id": "WF-HEADCOUNT-PLAN",
+    "name": "部门预估审核与招聘预估流程",
     "engine": "Flowable",
-    "description": "提交后进入审批；驳回返回申请人修改并允许再次提交。"
+    "description": "计划管理员发起并分派计划后，由部门负责人或总助填写部门预估，计划管理员审核或退回；审核通过后由招聘团队填写招聘预估并完成归档。"
   },
   "states": [
     {
-      "id": "DRAFT",
-      "name": "草稿",
+      "id": "DEPARTMENT_INPUT",
+      "name": "部门填报",
       "type": "START"
     },
     {
-      "id": "IN_REVIEW",
-      "name": "审批中",
+      "id": "ADMIN_REVIEW",
+      "name": "编制计划管理员审核",
       "type": "TASK"
     },
     {
       "id": "RETURNED",
-      "name": "已驳回",
+      "name": "退回部门修改",
       "type": "TASK"
     },
     {
-      "id": "APPROVED",
-      "name": "已批准",
+      "id": "RECRUITMENT_INPUT",
+      "name": "招聘预估",
+      "type": "TASK"
+    },
+    {
+      "id": "COMPLETED",
+      "name": "已完成",
       "type": "END"
     }
   ],
   "transitions": [
     {
-      "id": "T-SUBMIT",
-      "from": "DRAFT",
-      "to": "IN_REVIEW"
+      "id": "T-DEPARTMENT-SUBMIT",
+      "from": "DEPARTMENT_INPUT",
+      "to": "ADMIN_REVIEW",
+      "condition": "部门预估校验通过并提交"
     },
     {
-      "id": "T-APPROVE",
-      "from": "IN_REVIEW",
-      "to": "APPROVED"
+      "id": "T-ADMIN-RETURN",
+      "from": "ADMIN_REVIEW",
+      "to": "RETURNED",
+      "condition": "审核意见为退回且退回原因必填"
     },
     {
-      "id": "T-REJECT",
-      "from": "IN_REVIEW",
-      "to": "RETURNED"
-    },
-    {
-      "id": "T-RESUBMIT",
+      "id": "T-DEPARTMENT-RESUBMIT",
       "from": "RETURNED",
-      "to": "IN_REVIEW"
+      "to": "ADMIN_REVIEW",
+      "condition": "部门基于退回数据修改并重新提交"
+    },
+    {
+      "id": "T-ADMIN-APPROVE",
+      "from": "ADMIN_REVIEW",
+      "to": "RECRUITMENT_INPUT",
+      "condition": "本批次所有必备部门计划均已审核通过"
+    },
+    {
+      "id": "T-RECRUITMENT-COMPLETE",
+      "from": "RECRUITMENT_INPUT",
+      "to": "COMPLETED",
+      "condition": "招聘预估保存成功且必填检查通过"
     }
   ],
   "assignmentRules": [
     {
-      "id": "AR-APPROVER",
-      "taskId": "IN_REVIEW",
+      "id": "AR-DEPARTMENT-OWNER",
+      "taskId": "DEPARTMENT_INPUT",
       "assigneeRule": {
-        "type": "DEPARTMENT_ROLE",
-        "departmentId": "${plan.departmentId}",
-        "roleCode": "PLAN_APPROVER",
+        "type": "EXPRESSION",
+        "expression": "${plan.assignedAccountId}",
+        "fallback": "PLAN_DEPARTMENT_OWNER"
+      }
+    },
+    {
+      "id": "AR-PLANNING-ADMIN",
+      "taskId": "ADMIN_REVIEW",
+      "assigneeRule": {
+        "type": "ROLE",
+        "roleCode": "PLANNING_ADMIN",
+        "fallback": null
+      }
+    },
+    {
+      "id": "AR-RETURNED-OWNER",
+      "taskId": "RETURNED",
+      "assigneeRule": {
+        "type": "EXPRESSION",
+        "expression": "${plan.assignedAccountId}",
+        "fallback": "PLAN_DEPARTMENT_OWNER"
+      }
+    },
+    {
+      "id": "AR-RECRUITMENT",
+      "taskId": "RECRUITMENT_INPUT",
+      "assigneeRule": {
+        "type": "ROLE",
+        "roleCode": "RECRUITMENT",
         "fallback": null
       }
     }

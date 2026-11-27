@@ -1,245 +1,453 @@
 {
   "schemaVersion": "1.2",
   "actions": [
+    {"id": "ACT-MENU-BATCH-CREATE", "name": "发起编制计划", "type": "NAVIGATION", "transitionId": "NAV-MENU-BATCH-CREATE"},
+    {"id": "ACT-MENU-HISTORY", "name": "历史计划", "type": "NAVIGATION", "transitionId": "NAV-MENU-HISTORY"},
+    {"id": "ACT-MENU-REPORTS", "name": "报表", "type": "NAVIGATION", "transitionId": "NAV-MENU-REPORTS"},
+    {"id": "ACT-MENU-TEMPLATES", "name": "模板管理", "type": "NAVIGATION", "transitionId": "NAV-MENU-TEMPLATES"},
+    {"id": "ACT-MENU-ORGS", "name": "组织管理", "type": "NAVIGATION", "transitionId": "NAV-MENU-ORGS"},
+    {"id": "ACT-MENU-PERSONS", "name": "人员管理", "type": "NAVIGATION", "transitionId": "NAV-MENU-PERSONS"},
+    {"id": "ACT-MENU-TITLES", "name": "职衔管理", "type": "NAVIGATION", "transitionId": "NAV-MENU-TITLES"},
+    {"id": "ACT-MENU-MAPPINGS", "name": "组织职衔映射", "type": "NAVIGATION", "transitionId": "NAV-MENU-MAPPINGS"},
+    {"id": "ACT-MENU-SECURITY", "name": "安全与权限", "type": "NAVIGATION", "transitionId": "NAV-MENU-SECURITY"},
+    {"id": "ACT-MENU-INTEGRATIONS", "name": "集成监控", "type": "NAVIGATION", "transitionId": "NAV-MENU-INTEGRATIONS"},
+    {"id": "ACT-OPEN-DEPARTMENT", "name": "进入部门填报", "type": "NAVIGATION", "transitionId": "NAV-OPEN-DEPARTMENT"},
+    {"id": "ACT-OPEN-REVIEW", "name": "进入计划审核", "type": "NAVIGATION", "transitionId": "NAV-OPEN-REVIEW"},
+    {"id": "ACT-OPEN-RECRUITMENT", "name": "进入招聘汇总", "type": "NAVIGATION", "transitionId": "NAV-OPEN-RECRUITMENT"},
+    {"id": "ACT-OPEN-ORG-MULTI-SELECT", "name": "选择部门", "type": "NAVIGATION", "transitionId": "NAV-OPEN-ORG-MULTI-SELECT"},
     {
-      "id": "ACT-CREATE-PLAN",
-      "name": "创建计划",
-      "type": "NAVIGATION",
-      "transitionId": "NAV-PLAN-CREATE",
-      "description": "打开新建计划页；首次保存时创建草稿。"
-    },
-    {
-      "id": "ACT-OPEN-PLAN-NEW-TAB",
-      "name": "新标签页打开计划",
-      "type": "NAVIGATION",
-      "transitionId": "NAV-PLAN-NEW-TAB"
-    },
-    {
-      "id": "ACT-SELECT-ORG",
-      "name": "选择组织",
-      "type": "NAVIGATION",
-      "transitionId": "NAV-ORG-PICKER"
-    },
-    {
-      "id": "ACT-SELECT-ORG-NEW",
-      "name": "新计划选择组织",
-      "type": "NAVIGATION",
-      "transitionId": "NAV-ORG-PICKER-NEW"
-    },
-    {
-      "id": "ACT-VIEW-PERSON",
-      "name": "查看人员",
-      "type": "NAVIGATION",
-      "transitionId": "NAV-PERSON-QUICK-VIEW"
-    },
-    {
-      "id": "ACT-TOGGLE-ADVANCED-FILTERS",
-      "name": "高级筛选",
-      "type": "NAVIGATION",
-      "transitionId": "NAV-ADVANCED-FILTERS"
-    },
-    {
-      "id": "ACT-SEARCH-PLANS",
-      "name": "查询计划",
+      "id": "ACT-LOAD-TASKS",
+      "name": "加载待办",
       "type": "API",
-      "apiId": "API-PLAN-LIST",
+      "apiId": "API-TASK-LIST",
       "httpMethod": "GET",
-      "requestMapping": {
-        "queryParameters": {
-          "filters": "form"
-        }
-      },
-      "confirm": {
-        "enabled": false
-      },
-      "success": {
-        "behavior": "REFRESH_COMPONENT",
-        "targetComponentId": "PLAN-DATA-TABLE"
-      },
-      "failure": {
-        "behavior": "SHOW_MESSAGE",
-        "message": "查询失败，请检查条件后重试。"
-      }
+      "description": "加载当前用户消息、待办和最近计划。",
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "HOME-TASK-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "待办加载失败，请稍后重试。"}
     },
     {
-      "id": "ACT-LOAD-PLAN",
-      "name": "加载计划详情",
+      "id": "ACT-LOAD-DEPARTMENT",
+      "name": "加载部门计划",
       "type": "API",
       "apiId": "API-PLAN-GET",
       "httpMethod": "GET",
-      "requestMapping": {
-        "pathParameters": {
-          "id": "route.id"
-        }
-      },
-      "success": {
-        "behavior": "REFRESH_COMPONENT",
-        "targetComponentId": "PLAN-BASIC-FORM"
-      },
-      "failure": {
-        "behavior": "SHOW_MESSAGE",
-        "message": "加载计划详情失败，请稍后重试。"
-      }
+      "requestMapping": {"pathParameters": {"id": "route.id"}},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "DEPARTMENT-WORKBOOK"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "计划加载失败或无权访问。"}
     },
     {
-      "id": "ACT-SAVE-PLAN",
-      "name": "保存草稿",
+      "id": "ACT-SAVE-DEPARTMENT",
+      "name": "保存部门预估",
       "type": "API",
-      "apiId": "API-PLAN-CREATE",
-      "httpMethod": "POST",
-      "requestMapping": {
-        "body": "event.plan"
-      },
-      "confirm": {
-        "enabled": false
-      },
-      "success": {
-        "behavior": "NAVIGATE",
-        "targetPageId": "PLAN-DETAIL",
-        "parameterMapping": {
-          "id": "response.id"
-        },
-        "message": "保存成功。"
-      },
-      "failure": {
-        "behavior": "SHOW_MESSAGE",
-        "message": "保存失败，请检查输入内容。"
-      }
-    },
-    {
-      "id": "ACT-UPDATE-PLAN",
-      "name": "更新计划草稿",
-      "type": "API",
-      "apiId": "API-PLAN-UPDATE",
+      "apiId": "API-PLAN-DEPARTMENT-SAVE",
       "httpMethod": "PUT",
       "requestMapping": {
-        "pathParameters": {
-          "id": "route.id"
-        },
-        "body": "event.plan"
+        "pathParameters": {"id": "route.id"},
+        "body": "event.forecast"
       },
-      "confirm": {
-        "enabled": false
-      },
-      "success": {
-        "behavior": "SHOW_MESSAGE",
-        "message": "保存成功。"
-      },
-      "failure": {
-        "behavior": "SHOW_MESSAGE",
-        "message": "保存失败，请检查输入内容。"
-      }
+      "confirm": {"enabled": false},
+      "success": {"behavior": "SHOW_MESSAGE", "message": "部门预估已保存。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "保存失败，请检查差异说明、数据权限和版本。"}
     },
     {
-      "id": "ACT-LOAD-APPROVAL-TASKS",
-      "name": "加载审批待办",
+      "id": "ACT-SUBMIT-DEPARTMENT",
+      "name": "提交部门预估",
       "type": "API",
-      "apiId": "API-PLAN-APPROVAL-TASKS",
-      "httpMethod": "GET",
-      "success": {
-        "behavior": "REFRESH_COMPONENT",
-        "targetComponentId": "PLAN-APPROVAL-TASK-TABLE"
+      "apiId": "API-PLAN-DEPARTMENT-SUBMIT",
+      "httpMethod": "POST",
+      "requestMapping": {
+        "pathParameters": {"id": "route.id"},
+        "body": "event.submission"
       },
-      "failure": {
-        "behavior": "SHOW_MESSAGE",
-        "message": "加载审批待办失败，请稍后重试。"
-      }
+      "confirm": {"enabled": true, "message": "提交后部门普通编辑将锁定，确定提交审核吗？"},
+      "success": {"behavior": "NAVIGATE", "targetPageId": "HOME", "parameterMapping": {}, "message": "部门预估已提交。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "提交失败，请检查必填数据和差异说明。"}
     },
     {
-      "id": "ACT-LOAD-PLAN-APPROVAL",
-      "name": "加载计划审批详情",
+      "id": "ACT-EXPORT-DEPARTMENT",
+      "name": "导出部门计划",
+      "type": "API",
+      "apiId": "API-PLAN-EXPORT",
+      "httpMethod": "GET",
+      "requestMapping": {"pathParameters": {"id": "route.id"}},
+      "success": {"behavior": "NONE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "导出失败，请稍后重试。"}
+    },
+    {
+      "id": "ACT-LOAD-REVIEW",
+      "name": "加载审核计划",
       "type": "API",
       "apiId": "API-PLAN-GET",
       "httpMethod": "GET",
-      "requestMapping": {
-        "pathParameters": {
-          "id": "route.id"
-        }
-      },
-      "success": {
-        "behavior": "REFRESH_COMPONENT",
-        "targetComponentId": "PLAN-APPROVAL-SUMMARY"
-      },
-      "failure": {
-        "behavior": "SHOW_MESSAGE",
-        "message": "加载计划详情失败，请稍后重试。"
-      }
+      "requestMapping": {"pathParameters": {"id": "route.id"}},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "PLAN-REVIEW-SUMMARY"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "审核数据加载失败，请稍后重试。"}
     },
     {
-      "id": "ACT-APPROVE-PLAN",
-      "name": "批准计划",
+      "id": "ACT-APPROVE-REVIEW",
+      "name": "审核通过",
       "type": "API",
-      "apiId": "API-PLAN-APPROVE",
+      "apiId": "API-PLAN-REVIEW-APPROVE",
       "httpMethod": "POST",
       "requestMapping": {
-        "pathParameters": {
-          "id": "route.id"
-        }
+        "pathParameters": {"id": "route.id"},
+        "body": "event.review"
       },
-      "confirm": {
-        "enabled": true,
-        "message": "确定批准该计划吗？"
-      },
-      "success": {
-        "behavior": "NAVIGATE",
-        "targetPageId": "PLAN-APPROVAL-WORKSPACE",
-        "message": "计划已批准。"
-      },
-      "failure": {
-        "behavior": "SHOW_MESSAGE",
-        "message": "批准失败，请稍后重试。"
-      }
+      "confirm": {"enabled": true, "message": "确定审核通过该部门计划吗？"},
+      "success": {"behavior": "NAVIGATE", "targetPageId": "HOME", "parameterMapping": {}, "message": "审核已通过。"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "审核失败，请检查任务归属和计划状态。"}
     },
     {
-      "id": "ACT-SUBMIT-PLAN",
-      "name": "提交审批",
+      "id": "ACT-RETURN-REVIEW",
+      "name": "退回部门修改",
       "type": "API",
-      "apiId": "API-PLAN-SUBMIT",
+      "apiId": "API-PLAN-REVIEW-RETURN",
       "httpMethod": "POST",
       "requestMapping": {
-        "pathParameters": {
-          "id": "route.id"
-        }
+        "pathParameters": {"id": "route.id"},
+        "body": "event.returnRequest"
       },
-      "confirm": {
-        "enabled": true,
-        "message": "确定提交该计划进行审批吗？"
-      },
-      "success": {
-        "behavior": "NAVIGATE",
-        "targetPageId": "PLAN-WORKSPACE",
-        "message": "计划已提交。"
-      },
-      "failure": {
-        "behavior": "SHOW_MESSAGE",
-        "message": "提交失败，请稍后重试。"
-      }
+      "confirm": {"enabled": true, "message": "确定退回该部门计划吗？退回原因将通知部门。"},
+      "success": {"behavior": "NAVIGATE", "targetPageId": "HOME", "parameterMapping": {}, "message": "计划已退回。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "退回失败，退回原因必填。"}
     },
     {
-      "id": "ACT-REJECT-PLAN",
-      "name": "驳回计划",
+      "id": "ACT-ADMIN-UPDATE-REVIEW",
+      "name": "管理员最终修改",
       "type": "API",
-      "apiId": "API-PLAN-REJECT",
+      "apiId": "API-PLAN-ADMIN-UPDATE",
+      "httpMethod": "PUT",
+      "requestMapping": {
+        "pathParameters": {"id": "route.id"},
+        "body": "event.adminUpdate"
+      },
+      "confirm": {"enabled": true, "message": "确定保存管理员修改吗？修改前后值将记录审计。"},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "PLAN-REVIEW-SUMMARY", "message": "修改已保存。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "修改失败，请填写理由并检查输入。"}
+    },
+    {
+      "id": "ACT-CREATE-BATCH",
+      "name": "批量生成并发起计划",
+      "type": "API",
+      "apiId": "API-PLAN-BATCH-CREATE",
+      "httpMethod": "POST",
+      "requestMapping": {"body": "event.batch"},
+      "confirm": {"enabled": true, "message": "将为所选部门生成计划并启动流程，确定继续吗？"},
+      "success": {"behavior": "NAVIGATE", "targetPageId": "HOME", "parameterMapping": {}, "message": "计划已生成并分派。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "计划生成失败，请检查部门、年度、批次和模板。"}
+    },
+    {
+      "id": "ACT-LOAD-RECRUITMENT",
+      "name": "加载招聘汇总",
+      "type": "API",
+      "apiId": "API-RECRUITMENT-BATCH-GET",
+      "httpMethod": "GET",
+      "requestMapping": {"pathParameters": {"batchId": "route.batchId"}},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "RECRUITMENT-WORKBOOK"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "招聘汇总加载失败或尚未进入招聘环节。"}
+    },
+    {
+      "id": "ACT-SAVE-RECRUITMENT",
+      "name": "保存招聘预估",
+      "type": "API",
+      "apiId": "API-RECRUITMENT-BATCH-SAVE",
+      "httpMethod": "PUT",
+      "requestMapping": {
+        "pathParameters": {"batchId": "route.batchId"},
+        "body": "event.batch"
+      },
+      "confirm": {"enabled": false},
+      "success": {"behavior": "SHOW_MESSAGE", "message": "招聘预估已保存。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "保存失败，请检查版本、可行性调整和数据权限。"}
+    },
+    {
+      "id": "ACT-COMPLETE-RECRUITMENT",
+      "name": "完成招聘预估",
+      "type": "API",
+      "apiId": "API-RECRUITMENT-BATCH-COMPLETE",
       "httpMethod": "POST",
       "requestMapping": {
-        "pathParameters": {
-          "id": "route.id"
-        },
+        "pathParameters": {"batchId": "route.batchId"},
+        "body": "event.completion"
+      },
+      "confirm": {"enabled": true, "message": "完成后本批次计划将归档为只读，确定继续吗？"},
+      "success": {"behavior": "NAVIGATE", "targetPageId": "HOME", "parameterMapping": {}, "message": "招聘预估已完成。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "完成失败，请检查必填数据和版本。"}
+    },
+    {
+      "id": "ACT-SEARCH-HISTORY",
+      "name": "查询历史计划",
+      "type": "API",
+      "apiId": "API-PLAN-HISTORY",
+      "httpMethod": "GET",
+      "requestMapping": {"queryParameters": {"filters": "form"}},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "PLAN-HISTORY-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "历史计划查询失败。"}
+    },
+    {
+      "id": "ACT-EXPORT-HISTORY",
+      "name": "导出历史计划",
+      "type": "API",
+      "apiId": "API-PLAN-HISTORY-EXPORT",
+      "httpMethod": "GET",
+      "requestMapping": {"queryParameters": {"filters": "form"}},
+      "success": {"behavior": "NONE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "历史计划导出失败。"}
+    },
+    {
+      "id": "ACT-SEARCH-REPORT",
+      "name": "查询报表",
+      "type": "API",
+      "apiId": "API-REPORT-HEADCOUNT",
+      "httpMethod": "GET",
+      "requestMapping": {"queryParameters": {"filters": "form"}},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "HEADCOUNT-REPORT-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "报表查询失败。"}
+    },
+    {
+      "id": "ACT-EXPORT-REPORT",
+      "name": "导出报表",
+      "type": "API",
+      "apiId": "API-REPORT-EXPORT",
+      "httpMethod": "GET",
+      "requestMapping": {"queryParameters": {"filters": "form"}},
+      "success": {"behavior": "NONE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "报表导出失败。"}
+    },
+    {
+      "id": "ACT-LOAD-TEMPLATES",
+      "name": "加载模板",
+      "type": "API",
+      "apiId": "API-TEMPLATE-LIST",
+      "httpMethod": "GET",
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "TEMPLATE-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "模板加载失败。"}
+    },
+    {
+      "id": "ACT-CREATE-TEMPLATE",
+      "name": "创建模板版本",
+      "type": "API",
+      "apiId": "API-TEMPLATE-CREATE",
+      "httpMethod": "POST",
+      "requestMapping": {"body": "event.template"},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "TEMPLATE-TABLE", "message": "模板版本已创建。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "模板创建失败，请检查配置。"}
+    },
+    {
+      "id": "ACT-UPDATE-TEMPLATE",
+      "name": "保存模板版本",
+      "type": "API",
+      "apiId": "API-TEMPLATE-UPDATE",
+      "httpMethod": "PUT",
+      "requestMapping": {
+        "pathParameters": {"id": "event.template.id"},
+        "body": "event.template"
+      },
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "TEMPLATE-TABLE", "message": "模板已保存。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "模板保存失败。"}
+    },
+    {
+      "id": "ACT-LOAD-ORGS",
+      "name": "加载组织",
+      "type": "API",
+      "apiId": "API-ORG-LIST",
+      "httpMethod": "GET",
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "ORG-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "组织加载失败。"}
+    },
+    {
+      "id": "ACT-CREATE-ORG",
+      "name": "创建本地组织",
+      "type": "API",
+      "apiId": "API-ORG-CREATE",
+      "httpMethod": "POST",
+      "requestMapping": {"body": "event.organization"},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "ORG-TABLE", "message": "本地组织已创建。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "组织创建失败，请检查编码、上级和有效期。"}
+    },
+    {
+      "id": "ACT-UPDATE-ORG",
+      "name": "更新本地组织",
+      "type": "API",
+      "apiId": "API-ORG-UPDATE",
+      "httpMethod": "PUT",
+      "requestMapping": {
+        "pathParameters": {"id": "event.organization.id"},
+        "body": "event.organization"
+      },
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "ORG-TABLE", "message": "组织已更新。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "组织更新失败；SF 来源组织仅可查看。"}
+    },
+    {
+      "id": "ACT-EXPORT-ORGS",
+      "name": "导出组织",
+      "type": "API",
+      "apiId": "API-ORG-EXPORT",
+      "httpMethod": "GET",
+      "success": {"behavior": "NONE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "组织导出失败。"}
+    },
+    {
+      "id": "ACT-SEARCH-PERSONS",
+      "name": "查询人员",
+      "type": "API",
+      "apiId": "API-PERSON-LIST",
+      "httpMethod": "GET",
+      "requestMapping": {"queryParameters": {"filters": "form"}},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "PERSON-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "人员查询失败。"}
+    },
+    {
+      "id": "ACT-EXPORT-PERSONS",
+      "name": "导出人员",
+      "type": "API",
+      "apiId": "API-PERSON-EXPORT",
+      "httpMethod": "GET",
+      "requestMapping": {"queryParameters": {"filters": "form"}},
+      "success": {"behavior": "NONE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "人员导出失败。"}
+    },
+    {
+      "id": "ACT-LOAD-TITLES",
+      "name": "加载职衔",
+      "type": "API",
+      "apiId": "API-TITLE-LIST",
+      "httpMethod": "GET",
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "JOB-TITLE-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "职衔加载失败。"}
+    },
+    {
+      "id": "ACT-CREATE-TITLE",
+      "name": "创建职衔",
+      "type": "API",
+      "apiId": "API-TITLE-CREATE",
+      "httpMethod": "POST",
+      "requestMapping": {"body": "event.jobTitle"},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "JOB-TITLE-TABLE", "message": "职衔已创建。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "职衔创建失败，请检查代码和有效期。"}
+    },
+    {
+      "id": "ACT-UPDATE-TITLE",
+      "name": "更新职衔",
+      "type": "API",
+      "apiId": "API-TITLE-UPDATE",
+      "httpMethod": "PUT",
+      "requestMapping": {
+        "pathParameters": {"id": "event.jobTitle.id"},
+        "body": "event.jobTitle"
+      },
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "JOB-TITLE-TABLE", "message": "职衔已更新。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "职衔更新失败。"}
+    },
+    {
+      "id": "ACT-LOAD-MAPPINGS",
+      "name": "加载组织职衔映射",
+      "type": "API",
+      "apiId": "API-MAPPING-LIST",
+      "httpMethod": "GET",
+      "requestMapping": {"queryParameters": {"organizationId": "event.organizationId"}},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "MAPPING-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "组织职衔映射加载失败。"}
+    },
+    {
+      "id": "ACT-UPDATE-MAPPINGS",
+      "name": "保存组织职衔映射",
+      "type": "API",
+      "apiId": "API-MAPPING-UPDATE",
+      "httpMethod": "PUT",
+      "requestMapping": {
+        "pathParameters": {"organizationId": "event.mapping.organizationId"},
+        "body": "event.mapping"
+      },
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "MAPPING-TABLE", "message": "映射已保存。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "映射保存失败，请检查职衔和有效期。"}
+    },
+    {
+      "id": "ACT-LOAD-USERS",
+      "name": "加载用户",
+      "type": "API",
+      "apiId": "API-USER-LIST",
+      "httpMethod": "GET",
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "USER-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "用户加载失败。"}
+    },
+    {
+      "id": "ACT-UPDATE-USER-STATUS",
+      "name": "更新用户状态",
+      "type": "API",
+      "apiId": "API-USER-STATUS",
+      "httpMethod": "PATCH",
+      "requestMapping": {
+        "pathParameters": {"id": "event.userId"},
         "body": "event"
       },
-      "confirm": {
-        "enabled": true,
-        "message": "确定驳回该计划吗？"
+      "confirm": {"enabled": true, "message": "确定修改该用户的登录状态吗？"},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "USER-TABLE", "message": "用户状态已更新。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "用户状态更新失败，请填写原因。"}
+    },
+    {
+      "id": "ACT-LOAD-ROLES",
+      "name": "加载角色",
+      "type": "API",
+      "apiId": "API-ROLE-LIST",
+      "httpMethod": "GET",
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "ROLE-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "角色加载失败。"}
+    },
+    {
+      "id": "ACT-UPDATE-ROLE-PERMISSIONS",
+      "name": "保存角色权限",
+      "type": "API",
+      "apiId": "API-ROLE-UPDATE",
+      "httpMethod": "PUT",
+      "requestMapping": {
+        "pathParameters": {"id": "event.role.id"},
+        "body": "event.permissions"
       },
-      "success": {
-        "behavior": "NAVIGATE",
-        "targetPageId": "PLAN-APPROVAL-WORKSPACE",
-        "message": "计划已驳回。"
+      "confirm": {"enabled": true, "message": "确定保存角色权限和数据范围吗？"},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "ROLE-TABLE", "message": "角色权限已保存。"},
+      "failure": {"behavior": "SHOW_VALIDATION", "message": "角色权限保存失败。"}
+    },
+    {
+      "id": "ACT-LOAD-ACCESS-LOGS",
+      "name": "加载访问日志",
+      "type": "API",
+      "apiId": "API-ACCESS-LOG-LIST",
+      "httpMethod": "GET",
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "ACCESS-LOG-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "访问日志加载失败。"}
+    },
+    {
+      "id": "ACT-LOAD-AUDIT-LOGS",
+      "name": "加载审计日志",
+      "type": "API",
+      "apiId": "API-AUDIT-LIST",
+      "httpMethod": "GET",
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "AUDIT-LOG-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "审计日志加载失败。"}
+    },
+    {
+      "id": "ACT-LOAD-SYNC-JOBS",
+      "name": "加载同步任务",
+      "type": "API",
+      "apiId": "API-SYNC-LIST",
+      "httpMethod": "GET",
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "SYNC-JOB-TABLE"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "同步任务加载失败。"}
+    },
+    {
+      "id": "ACT-START-SYNC",
+      "name": "启动同步",
+      "type": "API",
+      "apiId": "API-SYNC-START",
+      "httpMethod": "POST",
+      "requestMapping": {
+        "pathParameters": {"systemCode": "event.systemCode"},
+        "body": "event"
       },
-      "failure": {
-        "behavior": "SHOW_MESSAGE",
-        "message": "驳回失败，请稍后重试。"
-      }
+      "confirm": {"enabled": true, "message": "确定立即启动同步吗？"},
+      "success": {"behavior": "REFRESH_COMPONENT", "targetComponentId": "SYNC-JOB-TABLE", "message": "同步任务已启动。"},
+      "failure": {"behavior": "SHOW_MESSAGE", "message": "同步启动失败，请检查目标系统配置或运行中任务。"}
     }
   ]
 }

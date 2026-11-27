@@ -3,35 +3,79 @@
   "module": {
     "id": "person",
     "name": "人员管理",
-    "description": "负责人员管理相关业务能力。"
+    "description": "维护 SuccessFactors 同步的人员在职、组织、职位、职衔和 HCP 统计标志，提供指定日期人数快照。"
   },
-  "purpose": "负责人员管理相关业务能力。",
+  "purpose": "以可追溯的历史有效人员在岗数据支撑当前人数和部门当前人数列。",
   "dependencies": [
     "organization",
-    "account"
+    "position"
   ],
   "requirements": [
     {
       "id": "PER-001",
-      "title": "人员档案",
-      "description": "维护人员基础信息及组织归属。",
+      "title": "人员数据同步",
+      "description": "通过接口从 SuccessFactors 获取工号、姓名、生效日期、事件原因、组织层级、职位、职衔和 HCP 统计标志。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "人员标识唯一"
+        "同步字段可映射到人员历史记录",
+        "同一人员可保留多段生效历史",
+        "接口失败记录原因和时间"
+      ],
+      "status": "TBD",
+      "openQuestion": "SF 目标租户实体、字段 API 名称及事件原因取值需以 $metadata 确认。"
+    },
+    {
+      "id": "PER-002",
+      "title": "HCP 统计排除",
+      "description": "SuccessFactors EC 中“是否参与HCP”为否的人员不进入当前人数统计。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "同步或统计时排除标志为否的人员",
+        "标志缺失时按待确认缺失值规则处理",
+        "排除规则可在统计审计中解释"
+      ],
+      "status": "TBD",
+      "openQuestion": "SF 中该字段的准确 ID、缺失值和变更生效规则尚未确认。"
+    },
+    {
+      "id": "PER-003",
+      "title": "人工触发同步",
+      "description": "管理员可人工触发组织与人员接口同步并查看结果。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "同一资源类型存在运行中任务时阻止重复提交",
+        "记录同步来源、操作者、开始/结束时间、数量和错误摘要",
+        "失败可重试"
       ],
       "status": "CONFIRMED",
       "openQuestion": null
     },
     {
-      "id": "PER-002",
-      "title": "外部数据同步",
-      "description": "从 SuccessFactors 获取约定的人事数据。",
+      "id": "PER-004",
+      "title": "指定日期人数口径",
+      "description": "按年度基本预算和季度批次规定的截止日计算当前人数。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "记录同步成功/失败及时间"
+        "基本预算采用当年8月31日",
+        "第一次至第四次预估分别采用当年5月31日、8月31日、11月30日和次年1月31日",
+        "截止日当日最后工作的人员计入",
+        "次日离职生效可被正确解释"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PER-005",
+      "title": "人员管理页面",
+      "description": "管理员可查询人员当前及历史信息、查看组织/职位/职衔快照并导出。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "支持工号、姓名、组织、职位、职衔和生效日期筛选",
+        "导出遵守敏感信息脱敏和权限要求",
+        "人员页面不表示可无限期保留个人信息"
       ],
       "status": "TBD",
-      "openQuestion": "需依据目标租户 SuccessFactors OData 元数据确认实体与字段"
+      "openQuestion": "个人信息脱敏、查询字段和保留期限未确认。"
     }
   ]
 }

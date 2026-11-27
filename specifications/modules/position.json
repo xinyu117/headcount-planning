@@ -2,36 +2,65 @@
   "schemaVersion": "1.1",
   "module": {
     "id": "position",
-    "name": "职务与职位管理",
-    "description": "负责职务与职位管理相关业务能力。"
+    "name": "职务与职衔管理",
+    "description": "维护职位、职衔以及组织与职衔的排序映射，供计划模板行和人数汇总使用。"
   },
-  "purpose": "负责职务与职位管理相关业务能力。",
+  "purpose": "提供计划表单中稳定的职位/职衔维度和显示顺序。",
   "dependencies": [
     "organization"
   ],
   "requirements": [
     {
       "id": "POS-001",
-      "title": "职位维护",
-      "description": "维护职位编码、名称、所属组织和有效期。",
+      "title": "职衔维护",
+      "description": "管理员在 HCP 创建和维护 DSCN 职衔，包括生效日期、名称、代码、状态、创建时间和创建人。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "职位编码唯一",
-        "组织引用有效"
+        "职衔代码唯一或按生效版本唯一",
+        "职衔名称支持多语言显示",
+        "修改保留审计日志"
       ],
       "status": "CONFIRMED",
       "openQuestion": null
     },
     {
       "id": "POS-002",
-      "title": "编制关联",
-      "description": "职位关联计划编制数据。",
+      "title": "组织与职衔映射",
+      "description": "一个组织可配置多个职衔，按职衔代码排序并用于计划表单展示。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "计划明细可引用有效职位"
+        "同一组织可维护多条子记录",
+        "映射按职衔代码升序输出",
+        "计划行不引用组织未配置的职衔，除非显式例外规则"
       ],
       "status": "CONFIRMED",
       "openQuestion": null
+    },
+    {
+      "id": "POS-003",
+      "title": "映射有效期与继承",
+      "description": "组织职衔映射支持生效日期和后续组织版本。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "按计划当前业务日期解析有效映射",
+        "历史计划保留创建时映射行快照",
+        "变更记录可追踪"
+      ],
+      "status": "TBD",
+      "openQuestion": "组织职衔映射是否继承到下级组织以及父组织变更时如何处理尚未明确。"
+    },
+    {
+      "id": "POS-004",
+      "title": "职位主数据",
+      "description": "使用 SuccessFactors 人员与职位数据中的职位代码、名称和所属组织，不凭空创建未确认字段。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "外部职位字段映射经目标租户元数据确认",
+        "职位代码和名称可保留历史版本",
+        "计划汇总可关联职位与职衔"
+      ],
+      "status": "TBD",
+      "openQuestion": "SuccessFactors 职位实体和职衔字段映射未确认。"
     }
   ]
 }

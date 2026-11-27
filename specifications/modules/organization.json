@@ -3,30 +3,59 @@
   "module": {
     "id": "organization",
     "name": "组织管理",
-    "description": "负责组织管理相关业务能力。"
+    "description": "维护 SuccessFactors 同步组织及 HCP 本地补充组织，支持当前和未来有效期视图。"
   },
-  "purpose": "负责组织管理相关业务能力。",
+  "purpose": "为计划分派、当前人数统计、数据权限和招聘汇总提供一致的组织主数据。",
   "dependencies": [],
   "requirements": [
     {
       "id": "ORG-001",
-      "title": "组织层级",
-      "description": "维护多层级组织结构。",
+      "title": "SuccessFactors 组织同步",
+      "description": "通过接口从 SuccessFactors 获取组织层级、有效期和组织负责人等数据，并标记来源为 SF。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "组织编码唯一",
-        "禁止父子循环"
+        "同步当前和未来组织版本",
+        "保留组织1至5级及上级关系",
+        "同步失败产生可见记录且不破坏上一次成功数据"
+      ],
+      "status": "TBD",
+      "openQuestion": "SuccessFactors 目标租户 OData 实体、字段、认证、分页和增量机制需以 $metadata 与 API 权限确认。"
+    },
+    {
+      "id": "ORG-002",
+      "title": "HCP 本地组织",
+      "description": "对 SuccessFactors 中不存在的组织，管理员可在 HCP 创建并标记来源为 HCP。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "本地组织编码唯一",
+        "来源为 HCP 的组织不会因 SF 同步被覆盖",
+        "本地组织引用上级组织时禁止循环"
       ],
       "status": "CONFIRMED",
       "openQuestion": null
     },
     {
-      "id": "ORG-002",
-      "title": "组织有效期",
-      "description": "维护组织生效和失效日期。",
+      "id": "ORG-003",
+      "title": "组织字段与层级",
+      "description": "维护组织名称、代码、生效日期、状态、负责人、上级组织和组织层级。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "可按日期还原组织结构"
+        "组织层级由上级关系计算而非手工录入",
+        "组织负责人可用于计划分派和流程任务候选人",
+        "同一代码的版本按生效日期查询"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "ORG-004",
+      "title": "组织有效期与历史",
+      "description": "查询任一业务日期下的组织结构和组织负责人。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "支持当前和未来数据",
+        "历史计划使用创建时快照，不因主数据变化自动改写",
+        "组织变更保留操作日志"
       ],
       "status": "CONFIRMED",
       "openQuestion": null

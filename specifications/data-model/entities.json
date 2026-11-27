@@ -2,198 +2,385 @@
   "schemaVersion": "1.1",
   "entities": [
     {
-      "id": "Plan",
-      "tableName": "hc_plan",
+      "id": "PlanTemplate",
+      "tableName": "hc_plan_template",
       "moduleId": "plan",
-      "description": "计划主表",
+      "description": "编制模板及版本配置。",
       "fields": [
-        {
-          "name": "id",
-          "type": "BIGINT",
-          "nullable": false,
-          "primaryKey": true,
-          "reference": null
-        },
-        {
-          "name": "plan_code",
-          "type": "VARCHAR(64)",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": null
-        },
-        {
-          "name": "period",
-          "type": "VARCHAR(20)",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": null
-        },
-        {
-          "name": "status",
-          "type": "VARCHAR(20)",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": null
-        }
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "template_code", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "template_name", "type": "VARCHAR(200)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "plan_type", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "language_code", "type": "VARCHAR(16)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "configuration_json", "type": "JSON", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "version_no", "type": "INT", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "status", "type": "VARCHAR(20)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_start_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "created_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "created_by", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null}
       ]
     },
     {
-      "id": "PlanItem",
-      "tableName": "hc_plan_item",
+      "id": "PlanBatch",
+      "tableName": "hc_plan_batch",
       "moduleId": "plan",
-      "description": "计划明细",
+      "description": "一次批量发起形成的计划集合，承载年度、类型、批次和表头颜色。",
       "fields": [
-        {
-          "name": "id",
-          "type": "BIGINT",
-          "nullable": false,
-          "primaryKey": true,
-          "reference": null
-        },
-        {
-          "name": "plan_id",
-          "type": "BIGINT",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": "Plan"
-        },
-        {
-          "name": "organization_id",
-          "type": "BIGINT",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": "Organization"
-        },
-        {
-          "name": "position_id",
-          "type": "BIGINT",
-          "nullable": true,
-          "primaryKey": false,
-          "reference": "Position"
-        },
-        {
-          "name": "planned_headcount",
-          "type": "DECIMAL(12,2)",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": null
-        }
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "batch_code", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "plan_year", "type": "INT", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "plan_type", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "batch_no", "type": "INT", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "department_header_color", "type": "VARCHAR(16)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "recruitment_header_color", "type": "VARCHAR(16)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "notes", "type": "VARCHAR(2000)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "status", "type": "VARCHAR(24)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "created_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "created_by", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "Plan",
+      "tableName": "hc_plan",
+      "moduleId": "plan",
+      "description": "按部门生成的部门编制计划及流程状态。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "batch_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "PlanBatch"},
+        {"name": "template_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "PlanTemplate"},
+        {"name": "plan_code", "type": "VARCHAR(96)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "plan_name", "type": "VARCHAR(240)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "organization_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Organization"},
+        {"name": "organization_code_snapshot", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "organization_name_snapshot", "type": "VARCHAR(240)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "plan_year", "type": "INT", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "plan_type", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "batch_no", "type": "INT", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "status", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "assigned_account_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Account"},
+        {"name": "language_code", "type": "VARCHAR(16)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "headcount_cutoff_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "row_version", "type": "INT", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "submitted_at", "type": "DATETIME", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "completed_at", "type": "DATETIME", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "created_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "created_by", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "PlanRow",
+      "tableName": "hc_plan_row",
+      "moduleId": "plan",
+      "description": "计划中的正式员工、contractor 或汇总行快照。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "plan_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Plan"},
+        {"name": "organization_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Organization"},
+        {"name": "job_title_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "JobTitle"},
+        {"name": "position_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Position"},
+        {"name": "row_type", "type": "VARCHAR(20)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "title_code_snapshot", "type": "VARCHAR(64)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "title_name_snapshot", "type": "VARCHAR(240)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "sort_order", "type": "INT", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "row_version", "type": "INT", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "PlanPeriodValue",
+      "tableName": "hc_plan_period_value",
+      "moduleId": "plan",
+      "description": "计划行在月份/季度以及不同指标和来源下的数值。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "plan_row_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "PlanRow"},
+        {"name": "period_code", "type": "VARCHAR(24)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "period_start_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "period_end_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "metric_code", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "value_source", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "numeric_value", "type": "DECIMAL(18,4)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "updated_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "updated_by", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "PlanDifference",
+      "tableName": "hc_plan_difference",
+      "moduleId": "plan",
+      "description": "计划年度差异及差异说明。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "plan_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Plan"},
+        {"name": "metric_code", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "difference_value", "type": "DECIMAL(18,4)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "explanation", "type": "VARCHAR(2000)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "updated_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "updated_by", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "PlanSummaryRule",
+      "tableName": "hc_plan_summary_rule",
+      "moduleId": "plan",
+      "description": "特定计划汇总行规则。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "organization_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Organization"},
+        {"name": "rule_name", "type": "VARCHAR(200)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "source_title_codes_json", "type": "JSON", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "metric_code", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "status", "type": "VARCHAR(20)", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "PlanLanguageRule",
+      "tableName": "hc_plan_language_rule",
+      "moduleId": "plan",
+      "description": "计划表单语言规则。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "organization_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Organization"},
+        {"name": "language_code", "type": "VARCHAR(16)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_start_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_end_date", "type": "DATE", "nullable": true, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "PlanOrgSplitRule",
+      "tableName": "hc_plan_org_split_rule",
+      "moduleId": "plan",
+      "description": "父组织拆分为多个下级组织分别生成计划的规则。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "parent_organization_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Organization"},
+        {"name": "child_organization_ids_json", "type": "JSON", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "condition_expression", "type": "VARCHAR(1000)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "status", "type": "VARCHAR(20)", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "RecruitmentAssessment",
+      "tableName": "hc_recruitment_assessment",
+      "moduleId": "plan",
+      "description": "招聘团队对部门需求的可行性结论和调整记录。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "plan_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Plan"},
+        {"name": "conclusion", "type": "VARCHAR(32)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "department_requested_headcount", "type": "DECIMAL(18,4)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "recruitment_approved_headcount", "type": "DECIMAL(18,4)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "adjustment_reason", "type": "VARCHAR(2000)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "updated_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "updated_by", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null}
       ]
     },
     {
       "id": "Organization",
       "tableName": "hc_organization",
       "moduleId": "organization",
-      "description": "组织节点",
+      "description": "组织版本，来源为 SF 或 HCP。",
       "fields": [
-        {
-          "name": "id",
-          "type": "BIGINT",
-          "nullable": false,
-          "primaryKey": true,
-          "reference": null
-        },
-        {
-          "name": "org_code",
-          "type": "VARCHAR(64)",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": null
-        },
-        {
-          "name": "parent_id",
-          "type": "BIGINT",
-          "nullable": true,
-          "primaryKey": false,
-          "reference": null
-        }
-      ]
-    },
-    {
-      "id": "Position",
-      "tableName": "hc_position",
-      "moduleId": "position",
-      "description": "职位",
-      "fields": [
-        {
-          "name": "id",
-          "type": "BIGINT",
-          "nullable": false,
-          "primaryKey": true,
-          "reference": null
-        },
-        {
-          "name": "position_code",
-          "type": "VARCHAR(64)",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": null
-        },
-        {
-          "name": "organization_id",
-          "type": "BIGINT",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": "Organization"
-        }
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "org_code", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "org_name", "type": "VARCHAR(240)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "parent_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Organization"},
+        {"name": "manager_person_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Person"},
+        {"name": "org_level", "type": "INT", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_start_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_end_date", "type": "DATE", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "status", "type": "VARCHAR(20)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "data_source", "type": "VARCHAR(16)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "source_record_key", "type": "VARCHAR(128)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "updated_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null}
       ]
     },
     {
       "id": "Person",
       "tableName": "hc_person",
       "moduleId": "person",
-      "description": "人员档案",
+      "description": "人员稳定身份，任职历史存放在人员任职记录中。",
       "fields": [
-        {
-          "name": "id",
-          "type": "BIGINT",
-          "nullable": false,
-          "primaryKey": true,
-          "reference": null
-        },
-        {
-          "name": "person_code",
-          "type": "VARCHAR(64)",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": null
-        },
-        {
-          "name": "organization_id",
-          "type": "BIGINT",
-          "nullable": true,
-          "primaryKey": false,
-          "reference": "Organization"
-        }
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "employee_no", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "display_name", "type": "VARCHAR(200)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "data_source", "type": "VARCHAR(16)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "source_record_key", "type": "VARCHAR(128)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "updated_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "PersonEmployment",
+      "tableName": "hc_person_employment",
+      "moduleId": "person",
+      "description": "人员按生效日期管理的事件、组织和职位任职历史。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "person_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Person"},
+        {"name": "effective_start_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_end_date", "type": "DATE", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "event_reason", "type": "VARCHAR(80)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "organization_l1_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Organization"},
+        {"name": "organization_l2_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Organization"},
+        {"name": "organization_l3_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Organization"},
+        {"name": "organization_l4_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Organization"},
+        {"name": "organization_l5_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Organization"},
+        {"name": "position_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Position"},
+        {"name": "job_title_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "JobTitle"},
+        {"name": "participates_hcp", "type": "BOOLEAN", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "last_working_date", "type": "DATE", "nullable": true, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "Position",
+      "tableName": "hc_position",
+      "moduleId": "position",
+      "description": "职位主数据及有效期。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "position_code", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "position_name", "type": "VARCHAR(240)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "organization_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Organization"},
+        {"name": "effective_start_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_end_date", "type": "DATE", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "data_source", "type": "VARCHAR(16)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "source_record_key", "type": "VARCHAR(128)", "nullable": true, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "JobTitle",
+      "tableName": "hc_job_title",
+      "moduleId": "position",
+      "description": "HCP 管理的中英文职衔。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "title_code", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "title_name_zh", "type": "VARCHAR(240)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "title_name_en", "type": "VARCHAR(240)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "effective_start_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_end_date", "type": "DATE", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "status", "type": "VARCHAR(20)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "created_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "created_by", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "OrganizationTitleMapping",
+      "tableName": "hc_organization_title_mapping",
+      "moduleId": "position",
+      "description": "组织与职衔的多行排序映射。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "organization_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Organization"},
+        {"name": "job_title_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "JobTitle"},
+        {"name": "sort_order", "type": "INT", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_start_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_end_date", "type": "DATE", "nullable": true, "primaryKey": false, "reference": null}
       ]
     },
     {
       "id": "Account",
       "tableName": "hc_account",
       "moduleId": "account",
-      "description": "登录账号",
+      "description": "外部身份映射及账号状态，不保存本地密码。",
       "fields": [
-        {
-          "name": "id",
-          "type": "BIGINT",
-          "nullable": false,
-          "primaryKey": true,
-          "reference": null
-        },
-        {
-          "name": "username",
-          "type": "VARCHAR(128)",
-          "nullable": false,
-          "primaryKey": false,
-          "reference": null
-        },
-        {
-          "name": "person_id",
-          "type": "BIGINT",
-          "nullable": true,
-          "primaryKey": false,
-          "reference": "Person"
-        }
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "external_subject", "type": "VARCHAR(200)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "username", "type": "VARCHAR(200)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "person_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Person"},
+        {"name": "status", "type": "VARCHAR(20)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "last_login_at", "type": "DATETIME", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "locked_reason", "type": "VARCHAR(500)", "nullable": true, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "Role",
+      "tableName": "hc_role",
+      "moduleId": "security",
+      "description": "系统角色。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "role_code", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "role_name", "type": "VARCHAR(200)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "status", "type": "VARCHAR(20)", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "UserRole",
+      "tableName": "hc_user_role",
+      "moduleId": "security",
+      "description": "账号与角色的绑定。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "account_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Account"},
+        {"name": "role_id", "type": "BIGINT", "nullable": false, "primaryKey": false, "reference": "Role"},
+        {"name": "organization_scope_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Organization"},
+        {"name": "effective_start_date", "type": "DATE", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "effective_end_date", "type": "DATE", "nullable": true, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "PermissionPolicy",
+      "tableName": "hc_permission_policy",
+      "moduleId": "security",
+      "description": "jCasbin 策略的业务管理映射。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "subject_type", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "subject_id", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "object_code", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "action_code", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "scope_type", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "scope_value", "type": "VARCHAR(240)", "nullable": true, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "AccessLog",
+      "tableName": "hc_access_log",
+      "moduleId": "account",
+      "description": "登录和访问日志。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "account_id", "type": "BIGINT", "nullable": true, "primaryKey": false, "reference": "Account"},
+        {"name": "username", "type": "VARCHAR(200)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "ip_address", "type": "VARCHAR(64)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "result", "type": "VARCHAR(20)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "occurred_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "failure_reason", "type": "VARCHAR(500)", "nullable": true, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "IntegrationSyncJob",
+      "tableName": "hc_integration_sync_job",
+      "moduleId": "organization",
+      "description": "SuccessFactors 人工同步任务和结果。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "system_code", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "resource_type", "type": "VARCHAR(32)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "status", "type": "VARCHAR(20)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "started_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "finished_at", "type": "DATETIME", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "processed_count", "type": "INT", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "error_count", "type": "INT", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "error_summary", "type": "VARCHAR(4000)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "triggered_by", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null}
+      ]
+    },
+    {
+      "id": "AuditLog",
+      "tableName": "hc_audit_log",
+      "moduleId": "security",
+      "description": "业务、权限、导出和主数据变更审计。",
+      "fields": [
+        {"name": "id", "type": "BIGINT", "nullable": false, "primaryKey": true, "reference": null},
+        {"name": "entity_type", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "entity_id", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "action_code", "type": "VARCHAR(64)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "before_json", "type": "JSON", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "after_json", "type": "JSON", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "reason", "type": "VARCHAR(2000)", "nullable": true, "primaryKey": false, "reference": null},
+        {"name": "actor", "type": "VARCHAR(128)", "nullable": false, "primaryKey": false, "reference": null},
+        {"name": "occurred_at", "type": "DATETIME", "nullable": false, "primaryKey": false, "reference": null}
       ]
     }
   ]

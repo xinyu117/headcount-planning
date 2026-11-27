@@ -2,10 +2,10 @@
   "schemaVersion": "1.1",
   "module": {
     "id": "account",
-    "name": "账号管理",
-    "description": "负责账号管理相关业务能力。"
+    "name": "账号与会话管理",
+    "description": "通过 SuccessFactors 或 Azure AD 单点登录建立会话，维护用户状态、角色绑定和登录日志。"
   },
-  "purpose": "负责账号管理相关业务能力。",
+  "purpose": "在不保存本地密码的前提下提供认证身份映射、锁定/解锁和访问追踪。",
   "dependencies": [
     "person",
     "security"
@@ -13,25 +13,55 @@
   "requirements": [
     {
       "id": "ACC-001",
-      "title": "账号生命周期",
-      "description": "管理员创建、停用和启用账号。",
+      "title": "单点登录",
+      "description": "用户从 SuccessFactors 链接进入 HCP，并使用 Azure AD 身份完成单点登录。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "停用账号不能建立新会话"
+        "HCP 不要求单独账号密码",
+        "认证成功后映射到唯一系统身份",
+        "认证失败不创建业务会话"
+      ],
+      "status": "TBD",
+      "openQuestion": "方案同时描述从 SF 直接登录和 Azure AD 登录，需确认 SF 到 HCP 的信任方式、回跳地址、用户标识和登出联动。"
+    },
+    {
+      "id": "ACC-002",
+      "title": "账号状态管理",
+      "description": "管理员可查看用户登录状态、角色权限并锁定或解锁用户。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "锁定用户不能建立新会话",
+        "已有会话按确认的失效策略处理",
+        "锁定和解锁记录操作者与原因"
       ],
       "status": "CONFIRMED",
       "openQuestion": null
     },
     {
-      "id": "ACC-002",
-      "title": "人员关联",
-      "description": "账号关联人员档案。",
+      "id": "ACC-003",
+      "title": "用户身份关联",
+      "description": "系统身份关联人员工号和组织归属，支持兼任及多角色。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "人员存在且关联唯一"
+        "外部身份到人员的映射唯一且可审计",
+        "多角色按权限策略合并",
+        "无法映射的用户被拒绝访问"
       ],
-      "status": "CONFIRMED",
-      "openQuestion": null
+      "status": "TBD",
+      "openQuestion": "多角色合并、拒绝优先级和跨组织兼任的数据范围策略未确认。"
+    },
+    {
+      "id": "ACC-004",
+      "title": "登录用户/IP日志",
+      "description": "记录登录用户、结果、IP 和时间供管理员查询。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "记录成功和失败登录",
+        "日志支持按用户、时间、IP 和结果筛选",
+        "日志保留与脱敏期限待确认"
+      ],
+      "status": "TBD",
+      "openQuestion": "日志保留期限、个人信息脱敏和代理/负载均衡场景下的真实 IP 获取规则未确认。"
     }
   ]
 }

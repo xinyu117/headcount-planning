@@ -6,16 +6,68 @@
       "name": "SAP SuccessFactors",
       "protocol": "OData API",
       "metadataStatus": "TENANT_VALIDATION_REQUIRED"
+    },
+    {
+      "id": "AZURE_AD",
+      "name": "Microsoft Entra ID / Azure AD",
+      "protocol": "OIDC / SAML",
+      "metadataStatus": "TENANT_VALIDATION_REQUIRED"
+    },
+    {
+      "id": "RECRUITMENT_SYSTEM",
+      "name": "DSCN 招聘系统",
+      "protocol": "TBD",
+      "metadataStatus": "TENANT_VALIDATION_REQUIRED"
     }
   ],
   "dataFlows": [
     {
+      "id": "SF-ORG-SYNC",
+      "source": "SUCCESSFACTORS",
+      "target": "organization",
+      "purpose": "同步当前及未来组织版本、1至5级层级、负责人和有效期。",
+      "fieldMappingStatus": "TBD",
+      "notes": "组织名称、代码、生效日期、状态、负责人、上级组织为业务字段；OData 实体、字段 API 名称、主键、分页和增量策略须以目标租户 $metadata 与 API 权限确认。"
+    },
+    {
       "id": "SF-PERSON-SYNC",
       "source": "SUCCESSFACTORS",
-      "target": "Headcount Planning",
-      "purpose": "同步人员及组织相关主数据",
+      "target": "person",
+      "purpose": "人工触发同步人员、事件原因、组织层级、职位、职衔和 HCP 统计标志。",
       "fieldMappingStatus": "TBD",
-      "notes": "对象、字段、分页、增量机制和认证方式必须依据目标租户 OData $metadata 与 API 权限确认。"
+      "notes": "仅在 EC“是否参与HCP”为是时纳入统计；字段 ID、缺失值、离职最后工作日语义和批量策略须确认。"
+    },
+    {
+      "id": "SF-POSITION-SYNC",
+      "source": "SUCCESSFACTORS",
+      "target": "position",
+      "purpose": "同步人员关联的职位代码、名称和职衔。",
+      "fieldMappingStatus": "TBD",
+      "notes": "不得猜测 SuccessFactors 职位实体和职衔字段；映射须以目标租户元数据确认。"
+    },
+    {
+      "id": "AZURE-AD-SSO",
+      "source": "AZURE_AD",
+      "target": "account",
+      "purpose": "通过 Azure AD 完成 HCP 单点登录和身份映射。",
+      "fieldMappingStatus": "TBD",
+      "notes": "需确认 SF 入口到 HCP 的信任方式、回跳地址、用户唯一标识、登出联动和会话超时。"
+    },
+    {
+      "id": "HCP-PLAN-RESULT-TO-SF",
+      "source": "plan",
+      "target": "SUCCESSFACTORS",
+      "purpose": "将确认后的编制结果与 SuccessFactors 及其下游进行联动。",
+      "fieldMappingStatus": "TBD",
+      "notes": "方案提出结果联动，但未明确回写实体、触发时点、失败补偿和权限；当前不得实现生产回写。"
+    },
+    {
+      "id": "HCP-RECRUITMENT-RESULT",
+      "source": "plan",
+      "target": "RECRUITMENT_SYSTEM",
+      "purpose": "将招聘预估结果提供给招聘系统。",
+      "fieldMappingStatus": "TBD",
+      "notes": "招聘系统名称、接口协议、字段、认证、重试和幂等均待确认。"
     }
   ]
 }

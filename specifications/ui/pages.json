@@ -2,448 +2,447 @@
   "schemaVersion": "1.2",
   "pages": [
     {
-      "id": "PLAN-WORKSPACE",
-      "name": "计划工作台",
+      "id": "HOME",
+      "name": "编制计划首页",
       "moduleId": "plan",
       "pageType": "PAGE",
-      "route": "/plans",
-      "description": "按年度、组织、状态查询和管理人力计划。",
-      "permission": "PLAN_VIEW",
+      "route": "/home",
+      "description": "显示消息、当前用户待办、进行中和已完成计划，并按角色进入部门填报、管理员审核或招聘汇总。",
+      "permission": "PLAN_TASK_VIEW",
       "layout": {
-        "type": "LIST",
+        "type": "DASHBOARD",
         "areas": [
-          {
-            "id": "SEARCH",
-            "type": "SEARCH_FORM",
-            "componentRefs": [
-              "PLAN-SEARCH-FORM"
-            ]
-          },
-          {
-            "id": "TOOLBAR",
-            "type": "TOOLBAR",
-            "componentRefs": [
-              "PLAN-LIST-TOOLBAR"
-            ]
-          },
-          {
-            "id": "DATA_TABLE",
-            "type": "DATA_TABLE",
-            "componentRefs": [
-              "PLAN-DATA-TABLE"
-            ]
-          },
-          {
-            "id": "PAGINATION",
-            "type": "PAGINATION",
-            "componentRefs": []
-          }
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "TASKS", "type": "DATA_TABLE", "componentRefs": ["HOME-TASK-TABLE"]}
         ]
       },
       "functions": [
-        "查询计划",
-        "创建计划",
-        "打开计划详情"
+        "查看消息和待办",
+        "查看编制计划清单",
+        "进入部门填报",
+        "进入管理员审核",
+        "进入招聘预估"
       ],
-      "responsive": {
-        "supported": true,
-        "defaultBreakpoint": "DESKTOP"
-      }
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
     },
     {
-      "id": "PLAN-DETAIL",
-      "name": "计划详情与填报",
+      "id": "PLAN-DEPARTMENT",
+      "name": "部门编制预估填报",
       "moduleId": "plan",
       "pageType": "PAGE",
-      "route": "/plans/:id",
-      "description": "维护计划基本信息、编制明细并提交审批。",
-      "permission": "PLAN_VIEW",
+      "route": "/plans/:id/department",
+      "description": "以 Excel 风格工作簿填写部门编制人数、费用、contractor 和差异说明，并保存、提交或导出。",
+      "permission": "PLAN_DEPARTMENT_EDIT",
       "parameters": [
-        {
-          "name": "id",
-          "type": "string",
-          "required": true,
-          "source": "route"
-        }
+        {"name": "id", "type": "string", "required": true, "source": "route"}
       ],
       "layout": {
-        "type": "DETAIL",
+        "type": "WORKBOOK",
         "areas": [
-          {
-            "id": "HEADER",
-            "type": "PAGE_HEADER",
-            "componentRefs": []
-          },
-          {
-            "id": "BASIC_INFO",
-            "type": "FORM",
-            "componentRefs": [
-              "PLAN-BASIC-FORM"
-            ]
-          },
-          {
-            "id": "HEADCOUNT_LINES",
-            "type": "DATA_TABLE",
-            "componentRefs": [
-              "HEADCOUNT-LINE-TABLE"
-            ]
-          },
-          {
-            "id": "APPROVAL_HISTORY",
-            "type": "TIMELINE",
-            "componentRefs": []
-          },
-          {
-            "id": "FOOTER_ACTIONS",
-            "type": "ACTION_BAR",
-            "componentRefs": [
-              "PLAN-DETAIL-ACTIONS"
-            ]
-          }
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "WORKBOOK", "type": "DATA_TABLE", "componentRefs": ["DEPARTMENT-WORKBOOK"]}
         ]
       },
       "functions": [
-        "编辑计划明细",
-        "保存草稿",
-        "提交审批",
-        "查看审批记录"
+        "查看当前人数和历史预估只读列",
+        "维护部门预估及 contractor",
+        "自动计算年度差异并校验说明",
+        "保存并返回",
+        "提交管理员审核",
+        "导出数据"
       ],
-      "responsive": {
-        "supported": true,
-        "defaultBreakpoint": "DESKTOP"
-      }
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
     },
     {
-      "id": "PLAN-NEW",
-      "name": "新建计划",
+      "id": "PLAN-REVIEW",
+      "name": "部门计划审核",
       "moduleId": "plan",
       "pageType": "PAGE",
-      "route": "/plans/new",
-      "description": "填写计划信息；首次保存时创建计划草稿。",
+      "route": "/plans/:id/review",
+      "description": "编制计划管理员查看部门预估并执行审核通过、退回或最终修改。",
+      "permission": "PLAN_REVIEW",
+      "parameters": [
+        {"name": "id", "type": "string", "required": true, "source": "route"}
+      ],
+      "layout": {
+        "type": "REVIEW",
+        "areas": [
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "SUMMARY", "type": "PROFILE", "componentRefs": ["PLAN-REVIEW-SUMMARY"]},
+          {"id": "ACTIONS", "type": "ACTION_BAR", "componentRefs": ["PLAN-REVIEW-ACTIONS"]}
+        ]
+      },
+      "functions": [
+        "查看部门预估、差异说明和流程历史",
+        "审核通过",
+        "填写原因并退回",
+        "管理员最终修改"
+      ],
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
+    },
+    {
+      "id": "PLAN-BATCH-CREATE",
+      "name": "批量发起编制计划",
+      "moduleId": "plan",
+      "pageType": "PAGE",
+      "route": "/plan-batches/new",
+      "description": "选择单个或多个部门，设置年度、计划类型、批次、模板、表头颜色和备注，批量生成并分派计划。",
       "permission": "PLAN_CREATE",
       "layout": {
-        "type": "DETAIL",
+        "type": "FORM",
         "areas": [
-          {
-            "id": "BASIC_INFO",
-            "type": "FORM",
-            "componentRefs": [
-              "PLAN-NEW-BASIC-FORM"
-            ]
-          },
-          {
-            "id": "HEADCOUNT_LINES",
-            "type": "DATA_TABLE",
-            "componentRefs": [
-              "PLAN-NEW-LINE-TABLE"
-            ]
-          },
-          {
-            "id": "FOOTER_ACTIONS",
-            "type": "ACTION_BAR",
-            "componentRefs": [
-              "PLAN-NEW-ACTIONS"
-            ]
-          }
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "CREATE_FORM", "type": "FORM", "componentRefs": ["BATCH-CREATE-FORM"]}
         ]
       },
       "functions": [
-        "填写计划信息",
-        "维护编制明细",
-        "保存为草稿"
+        "单选或多选部门",
+        "选择年度基本预算或季度预估",
+        "设置年度和批次",
+        "设置部门/招聘预估表头颜色",
+        "批量生成计划并发起流程"
       ],
-      "responsive": {
-        "supported": true,
-        "defaultBreakpoint": "DESKTOP"
-      }
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
     },
     {
-      "id": "ORG-MAINTENANCE",
-      "name": "组织管理",
-      "moduleId": "organization",
-      "pageType": "PAGE",
-      "route": "/admin/organizations",
-      "description": "维护组织层级、有效期及组织属性。",
-      "permission": "ORG_VIEW",
-      "layout": {
-        "type": "MASTER_DETAIL",
-        "areas": [
-          {
-            "id": "ORG_TREE",
-            "type": "TREE",
-            "componentRefs": [
-              "ORG-TREE"
-            ]
-          },
-          {
-            "id": "ORG_DETAIL",
-            "type": "FORM",
-            "componentRefs": [
-              "ORG-DETAIL-FORM"
-            ]
-          }
-        ]
-      },
-      "functions": [
-        "组织树维护",
-        "组织有效期维护"
-      ],
-      "responsive": {
-        "supported": true,
-        "defaultBreakpoint": "DESKTOP"
-      }
-    },
-    {
-      "id": "SECURITY-ROLE",
-      "name": "角色权限管理",
-      "moduleId": "security",
-      "pageType": "PAGE",
-      "route": "/admin/roles",
-      "description": "维护角色、功能权限和数据范围。",
-      "permission": "ROLE_ADMIN",
-      "layout": {
-        "type": "MASTER_DETAIL",
-        "areas": [
-          {
-            "id": "ROLE_LIST",
-            "type": "DATA_TABLE",
-            "componentRefs": []
-          },
-          {
-            "id": "ROLE_PERMISSION",
-            "type": "PERMISSION_MATRIX",
-            "componentRefs": [
-              "ROLE-PERMISSION-MATRIX"
-            ]
-          }
-        ]
-      },
-      "functions": [
-        "角色维护",
-        "功能权限配置",
-        "数据范围配置"
-      ],
-      "responsive": {
-        "supported": true,
-        "defaultBreakpoint": "DESKTOP"
-      }
-    },
-    {
-      "id": "ORG-SELECT-DIALOG",
-      "name": "选择组织",
+      "id": "ORG-MULTI-SELECT-DIALOG",
+      "name": "选择部门",
       "moduleId": "organization",
       "pageType": "DIALOG",
-      "description": "从组织树中选择一个有效组织。",
+      "description": "为批量计划发起选择当前有效组织。",
       "permission": "ORG_VIEW",
       "dialog": {
-        "width": "720px",
-        "height": "600px",
+        "width": "760px",
+        "height": "640px",
         "closeOnBackdrop": false,
         "closeOnEscape": true
       },
       "parameters": [
-        {
-          "name": "selectionMode",
-          "type": "string",
-          "required": false,
-          "default": "SINGLE"
-        }
+        {"name": "selectionMode", "type": "string", "required": false, "default": "MULTI"}
+      ],
+      "returnValues": [
+        {"name": "organizationIds", "type": "array"},
+        {"name": "organizationNames", "type": "array"}
       ],
       "layout": {
         "type": "SELECTOR",
         "areas": [
-          {
-            "id": "ORG_TREE",
-            "type": "TREE",
-            "componentRefs": [
-              "ORG-TREE"
-            ]
-          },
-          {
-            "id": "DIALOG_FOOTER",
-            "type": "ACTION_BAR",
-            "componentRefs": [
-              "ORG-SELECT-ACTIONS"
-            ]
-          }
+          {"id": "TREE", "type": "TREE", "componentRefs": ["ORG-MULTI-SELECT-TREE"]},
+          {"id": "ACTIONS", "type": "ACTION_BAR", "componentRefs": ["ORG-MULTI-SELECT-ACTIONS"]}
         ]
       },
       "functions": [
         "搜索组织",
-        "选择组织",
+        "多选组织",
         "确认选择",
         "取消"
       ],
-      "returnValues": [
-        {
-          "name": "organizationId",
-          "type": "string"
-        },
-        {
-          "name": "organizationName",
-          "type": "string"
-        }
-      ],
       "componentBindings": [
         {
-          "sourceComponentId": "ORG-TREE",
+          "sourceComponentId": "ORG-MULTI-SELECT-TREE",
           "event": "selection-change",
-          "targetComponentId": "ORG-SELECT-ACTIONS",
-          "targetProp": "selectedOrganization",
+          "targetComponentId": "ORG-MULTI-SELECT-ACTIONS",
+          "targetProp": "selectedOrganizations",
           "value": "event"
         }
       ]
     },
     {
-      "id": "PERSON-QUICK-VIEW",
-      "name": "人员快速查看",
-      "moduleId": "person",
-      "pageType": "DRAWER",
-      "description": "从计划明细侧边查看人员摘要。",
-      "permission": "PERSON_VIEW",
-      "drawer": {
-        "placement": "RIGHT",
-        "size": "560px",
-        "modal": true,
-        "closeOnEscape": true
-      },
-      "parameters": [
-        {
-          "name": "personId",
-          "type": "string",
-          "required": true
-        }
-      ],
-      "layout": {
-        "type": "DETAIL",
-        "areas": [
-          {
-            "id": "PERSON_PROFILE",
-            "type": "PROFILE",
-            "componentRefs": []
-          },
-          {
-            "id": "EMPLOYMENT_INFO",
-            "type": "DESCRIPTION_LIST",
-            "componentRefs": []
-          }
-        ]
-      },
-      "functions": [
-        "查看人员基本信息",
-        "查看任职信息"
-      ]
-    },
-    {
-      "id": "PLAN-FILTER-PANEL",
-      "name": "高级筛选",
-      "moduleId": "plan",
-      "pageType": "INLINE_PANEL",
-      "description": "在计划工作台内展开高级筛选条件。",
-      "permission": "PLAN_VIEW",
-      "layout": {
-        "type": "FORM",
-        "areas": [
-          {
-            "id": "ADVANCED_FILTERS",
-            "type": "FORM",
-            "componentRefs": [
-              "PLAN-ADVANCED-FILTERS"
-            ]
-          }
-        ]
-      },
-      "functions": [
-        "设置高级筛选",
-        "应用筛选",
-        "重置筛选"
-      ]
-    },
-    {
-      "id": "PLAN-APPROVAL-WORKSPACE",
-      "name": "计划审批待办",
+      "id": "RECRUITMENT-BATCH",
+      "name": "招聘预估汇总",
       "moduleId": "plan",
       "pageType": "PAGE",
-      "route": "/plans/approvals",
-      "description": "查看当前用户待处理的计划审批任务。",
-      "permission": "PLAN_APPROVE",
+      "route": "/recruitment/batches/:batchId",
+      "description": "招聘团队按批次查看所有已审核部门，填写招聘预估、可行性调整和说明后完成批次。",
+      "permission": "RECRUITMENT_EDIT",
+      "parameters": [
+        {"name": "batchId", "type": "string", "required": true, "source": "route"}
+      ],
+      "layout": {
+        "type": "WORKBOOK",
+        "areas": [
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "RECRUITMENT_WORKBOOK", "type": "DATA_TABLE", "componentRefs": ["RECRUITMENT-WORKBOOK"]}
+        ]
+      },
+      "functions": [
+        "查看已审核部门预估",
+        "查看此前部门与招聘预估只读列",
+        "填写招聘预估和可行性调整",
+        "保存招聘预估",
+        "完成招聘预估并归档"
+      ],
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
+    },
+    {
+      "id": "PLAN-HISTORY",
+      "name": "历史编制计划",
+      "moduleId": "plan",
+      "pageType": "PAGE",
+      "route": "/plans/history",
+      "description": "查询当前用户权限范围内的历史季度/年度编制和招聘计划。",
+      "permission": "PLAN_HISTORY_VIEW",
       "layout": {
         "type": "LIST",
         "areas": [
-          {
-            "id": "APPROVAL_TASKS",
-            "type": "DATA_TABLE",
-            "componentRefs": [
-              "PLAN-APPROVAL-TASK-TABLE"
-            ]
-          }
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "FILTERS", "type": "FORM", "componentRefs": ["PLAN-HISTORY-FILTERS"]},
+          {"id": "RESULTS", "type": "DATA_TABLE", "componentRefs": ["PLAN-HISTORY-TABLE"]}
         ]
       },
       "functions": [
-        "查看待审批计划",
-        "打开审批详情"
+        "按年度、批次、部门、类型和状态查询",
+        "查看历史只读版本",
+        "导出查询结果"
       ],
-      "responsive": {
-        "supported": true,
-        "defaultBreakpoint": "DESKTOP"
-      }
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
     },
     {
-      "id": "PLAN-APPROVAL-DETAIL",
-      "name": "计划审批详情",
+      "id": "HEADCOUNT-REPORT",
+      "name": "编制与招聘报表",
       "moduleId": "plan",
       "pageType": "PAGE",
-      "route": "/plans/:id/approval",
-      "description": "查看计划审批内容并执行驳回操作。",
-      "permission": "PLAN_APPROVE",
-      "parameters": [
-        {
-          "name": "id",
-          "type": "string",
-          "required": true,
-          "source": "route"
-        }
-      ],
+      "route": "/reports/headcount",
+      "description": "按年度、批次、部门和指标查看编制与招聘计划汇总报表。",
+      "permission": "REPORT_VIEW",
       "layout": {
-        "type": "DETAIL",
+        "type": "REPORT",
         "areas": [
-          {
-            "id": "APPROVAL_SUMMARY",
-            "type": "PROFILE",
-            "componentRefs": [
-              "PLAN-APPROVAL-SUMMARY"
-            ]
-          },
-          {
-            "id": "APPROVAL_ACTIONS",
-            "type": "ACTION_BAR",
-            "componentRefs": [
-              "PLAN-APPROVAL-ACTIONS"
-            ]
-          }
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "FILTERS", "type": "FORM", "componentRefs": ["HEADCOUNT-REPORT-FILTERS"]},
+          {"id": "RESULTS", "type": "DATA_TABLE", "componentRefs": ["HEADCOUNT-REPORT-TABLE"]}
         ]
       },
       "functions": [
-        "查看待审批计划",
-        "批准计划",
-        "驳回计划并填写意见"
+        "查询编制和招聘报表",
+        "查看授权范围内全公司或组织视图",
+        "导出报表"
       ],
-      "parameterBindings": [
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
+    },
+    {
+      "id": "TEMPLATE-ADMIN",
+      "name": "编制模板管理",
+      "moduleId": "plan",
+      "pageType": "PAGE",
+      "route": "/admin/plan-templates",
+      "description": "维护年度基本预算和季度预估模板版本、列结构、语言和表头颜色。",
+      "permission": "TEMPLATE_EDIT",
+      "layout": {
+        "type": "MASTER_DETAIL",
+        "areas": [
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "TEMPLATES", "type": "DATA_TABLE", "componentRefs": ["TEMPLATE-TABLE"]},
+          {"id": "EDITOR", "type": "FORM", "componentRefs": ["TEMPLATE-EDITOR"]}
+        ]
+      },
+      "functions": [
+        "查询模板版本",
+        "创建模板版本",
+        "编辑模板配置",
+        "选择部门/招聘预估表头颜色"
+      ],
+      "componentBindings": [
         {
-          "parameter": "id",
-          "targetComponentId": "PLAN-APPROVAL-SUMMARY",
-          "targetProp": "id"
-        },
-        {
-          "parameter": "id",
-          "targetComponentId": "PLAN-APPROVAL-ACTIONS",
-          "targetProp": "id"
+          "sourceComponentId": "TEMPLATE-TABLE",
+          "event": "selection-change",
+          "targetComponentId": "TEMPLATE-EDITOR",
+          "targetProp": "modelValue",
+          "value": "event.template"
         }
       ],
-      "responsive": {
-        "supported": true,
-        "defaultBreakpoint": "DESKTOP"
-      }
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
+    },
+    {
+      "id": "ORG-ADMIN",
+      "name": "组织管理",
+      "moduleId": "organization",
+      "pageType": "PAGE",
+      "route": "/admin/organizations",
+      "description": "查询 SuccessFactors 同步组织并维护 HCP 本地补充组织。",
+      "permission": "ORG_EDIT",
+      "layout": {
+        "type": "MASTER_DETAIL",
+        "areas": [
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "ORGANIZATIONS", "type": "DATA_TABLE", "componentRefs": ["ORG-TABLE"]},
+          {"id": "EDITOR", "type": "FORM", "componentRefs": ["ORG-EDITOR"]}
+        ]
+      },
+      "functions": [
+        "查询当前、历史和未来组织",
+        "查看组织来源和层级",
+        "创建 HCP 本地组织",
+        "编辑 HCP 本地组织",
+        "导出组织"
+      ],
+      "componentBindings": [
+        {
+          "sourceComponentId": "ORG-TABLE",
+          "event": "selection-change",
+          "targetComponentId": "ORG-EDITOR",
+          "targetProp": "modelValue",
+          "value": "event.organization"
+        }
+      ],
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
+    },
+    {
+      "id": "PERSON-ADMIN",
+      "name": "人员管理",
+      "moduleId": "person",
+      "pageType": "PAGE",
+      "route": "/admin/persons",
+      "description": "查询权限范围内人员当前及历史任职信息，并导出。",
+      "permission": "PERSON_VIEW",
+      "layout": {
+        "type": "LIST",
+        "areas": [
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "FILTERS", "type": "FORM", "componentRefs": ["PERSON-FILTERS"]},
+          {"id": "RESULTS", "type": "DATA_TABLE", "componentRefs": ["PERSON-TABLE"]}
+        ]
+      },
+      "functions": [
+        "查询人员",
+        "查看组织1至5级、职位和职衔",
+        "查看生效日期和事件原因",
+        "导出人员"
+      ],
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
+    },
+    {
+      "id": "TITLE-ADMIN",
+      "name": "职衔管理",
+      "moduleId": "position",
+      "pageType": "PAGE",
+      "route": "/admin/job-titles",
+      "description": "创建和维护 HCP 职衔及有效期。",
+      "permission": "TITLE_EDIT",
+      "layout": {
+        "type": "MASTER_DETAIL",
+        "areas": [
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "TITLES", "type": "DATA_TABLE", "componentRefs": ["JOB-TITLE-TABLE"]},
+          {"id": "EDITOR", "type": "FORM", "componentRefs": ["JOB-TITLE-EDITOR"]}
+        ]
+      },
+      "functions": [
+        "查询职衔",
+        "创建职衔",
+        "维护中英文职衔名称和有效期"
+      ],
+      "componentBindings": [
+        {
+          "sourceComponentId": "JOB-TITLE-TABLE",
+          "event": "selection-change",
+          "targetComponentId": "JOB-TITLE-EDITOR",
+          "targetProp": "modelValue",
+          "value": "event.jobTitle"
+        }
+      ],
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
+    },
+    {
+      "id": "MAPPING-ADMIN",
+      "name": "组织与职衔映射管理",
+      "moduleId": "position",
+      "pageType": "PAGE",
+      "route": "/admin/org-title-mappings",
+      "description": "为组织维护多个职衔子记录，并按职衔代码排序用于计划表单。",
+      "permission": "ORG_TITLE_MAPPING_EDIT",
+      "layout": {
+        "type": "MASTER_DETAIL",
+        "areas": [
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "ORG_SELECT", "type": "FORM", "componentRefs": ["MAPPING-ORG-FORM"]},
+          {"id": "MAPPINGS", "type": "DATA_TABLE", "componentRefs": ["MAPPING-TABLE"]},
+          {"id": "EDITOR", "type": "FORM", "componentRefs": ["MAPPING-EDITOR"]}
+        ]
+      },
+      "functions": [
+        "选择组织",
+        "查看组织职衔映射",
+        "维护多个职衔和排序",
+        "按职衔代码顺序输出到计划"
+      ],
+      "componentBindings": [
+        {
+          "sourceComponentId": "MAPPING-TABLE",
+          "event": "selection-change",
+          "targetComponentId": "MAPPING-EDITOR",
+          "targetProp": "modelValue",
+          "value": "event.mapping"
+        }
+      ],
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
+    },
+    {
+      "id": "SECURITY-ADMIN",
+      "name": "用户、角色与权限管理",
+      "moduleId": "security",
+      "pageType": "PAGE",
+      "route": "/admin/security",
+      "description": "维护用户状态、角色功能权限和组织数据范围，并查询登录与审计日志。",
+      "permission": "ROLE_PERMISSION_EDIT",
+      "layout": {
+        "type": "TABS",
+        "areas": [
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "USERS", "type": "DATA_TABLE", "componentRefs": ["USER-TABLE", "USER-ACTION-BAR"]},
+          {"id": "ROLES", "type": "MASTER_DETAIL", "componentRefs": ["ROLE-TABLE", "ROLE-EDITOR"]},
+          {"id": "ACCESS_LOGS", "type": "DATA_TABLE", "componentRefs": ["ACCESS-LOG-TABLE"]},
+          {"id": "AUDIT_LOGS", "type": "DATA_TABLE", "componentRefs": ["AUDIT-LOG-TABLE"]}
+        ]
+      },
+      "functions": [
+        "查询用户登录状态和角色",
+        "锁定或解锁用户",
+        "维护角色、用户组和功能权限",
+        "维护组织数据范围",
+        "查询登录用户/IP日志",
+        "查询权限和业务审计"
+      ],
+      "componentBindings": [
+        {
+          "sourceComponentId": "USER-TABLE",
+          "event": "selection-change",
+          "targetComponentId": "USER-ACTION-BAR",
+          "targetProp": "selection",
+          "value": "event.user"
+        },
+        {
+          "sourceComponentId": "ROLE-TABLE",
+          "event": "selection-change",
+          "targetComponentId": "ROLE-EDITOR",
+          "targetProp": "modelValue",
+          "value": "event.role"
+        }
+      ],
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
+    },
+    {
+      "id": "INTEGRATION-ADMIN",
+      "name": "数据集成监控",
+      "moduleId": "organization",
+      "pageType": "PAGE",
+      "route": "/admin/integrations",
+      "description": "人工触发 SuccessFactors 组织和人员同步，查看任务结果和错误摘要。",
+      "permission": "INTEGRATION_VIEW",
+      "layout": {
+        "type": "MONITOR",
+        "areas": [
+          {"id": "NAV", "type": "MENU", "componentRefs": ["GLOBAL-MENU"]},
+          {"id": "TOOLBAR", "type": "TOOLBAR", "componentRefs": ["SYNC-TOOLBAR"]},
+          {"id": "JOBS", "type": "DATA_TABLE", "componentRefs": ["SYNC-JOB-TABLE"]}
+        ]
+      },
+      "functions": [
+        "触发组织同步",
+        "触发人员同步",
+        "查看同步任务、数量和错误摘要"
+      ],
+      "responsive": {"supported": true, "defaultBreakpoint": "DESKTOP"}
     }
   ]
 }

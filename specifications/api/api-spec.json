@@ -2,97 +2,399 @@
   "schemaVersion": "1.1",
   "apis": [
     {
+      "id": "API-TASK-LIST",
+      "method": "GET",
+      "path": "/api/planning/tasks",
+      "moduleId": "plan",
+      "description": "查询当前用户编制计划待办及消息。",
+      "authorization": "PLAN_TASK_VIEW",
+      "requestSchema": null,
+      "responseSchema": "PlanningTaskPage",
+      "responseFields": ["taskId", "planId", "batchId", "taskType"]
+    },
+    {
       "id": "API-PLAN-LIST",
       "method": "GET",
       "path": "/api/plans",
       "moduleId": "plan",
-      "description": "分页查询计划",
+      "description": "分页查询当前用户数据范围内的计划。",
       "authorization": "PLAN_VIEW",
       "requestSchema": null,
       "responseSchema": "PlanPage"
-    },
-    {
-      "id": "API-PLAN-CREATE",
-      "method": "POST",
-      "path": "/api/plans",
-      "moduleId": "plan",
-      "description": "创建计划草稿",
-      "authorization": "PLAN_CREATE",
-      "requestSchema": "PlanCreateRequest",
-      "responseSchema": "Plan",
-      "responseFields": [
-        "id"
-      ]
-    },
-    {
-      "id": "API-PLAN-UPDATE",
-      "method": "PUT",
-      "path": "/api/plans/{id}",
-      "moduleId": "plan",
-      "description": "更新已有计划草稿及其编制明细",
-      "authorization": "PLAN_EDIT",
-      "requestSchema": "PlanUpdateRequest",
-      "responseSchema": "Plan",
-      "responseFields": [
-        "id"
-      ]
     },
     {
       "id": "API-PLAN-GET",
       "method": "GET",
       "path": "/api/plans/{id}",
       "moduleId": "plan",
-      "description": "查询计划详情",
+      "description": "查询计划详情、行列、历史预估、差异和可用操作。",
       "authorization": "PLAN_VIEW",
       "requestSchema": null,
-      "responseSchema": "Plan",
-      "responseFields": [
-        "id",
-        "items"
-      ]
+      "responseSchema": "PlanDetail",
+      "responseFields": ["id", "status", "version"]
     },
     {
-      "id": "API-PLAN-APPROVAL-TASKS",
+      "id": "API-PLAN-HISTORY",
       "method": "GET",
-      "path": "/api/plans/approval-tasks",
+      "path": "/api/plans/history",
       "moduleId": "plan",
-      "description": "查询当前用户可处理的计划审批任务",
-      "authorization": "PLAN_APPROVE",
+      "description": "按权限查询历史季度/年度编制和招聘计划。",
+      "authorization": "PLAN_HISTORY_VIEW",
       "requestSchema": null,
-      "responseSchema": "WorkflowTaskPage",
-      "responseFields": [
-        "planId"
-      ]
+      "responseSchema": "PlanHistoryPage"
     },
     {
-      "id": "API-PLAN-APPROVE",
-      "method": "POST",
-      "path": "/api/plans/{id}/approve",
+      "id": "API-PLAN-HISTORY-EXPORT",
+      "method": "GET",
+      "path": "/api/plans/history/export",
       "moduleId": "plan",
-      "description": "批准计划并完成当前审批任务",
-      "authorization": "PLAN_APPROVE",
+      "description": "按历史计划查询条件导出授权范围内的计划结果。",
+      "authorization": "PLAN_EXPORT",
       "requestSchema": null,
-      "responseSchema": "Plan"
+      "responseSchema": "BinaryFile"
     },
     {
-      "id": "API-PLAN-SUBMIT",
+      "id": "API-PLAN-BATCH-CREATE",
       "method": "POST",
-      "path": "/api/plans/{id}/submit",
+      "path": "/api/plan-batches",
       "moduleId": "plan",
-      "description": "提交计划审批",
-      "authorization": "PLAN_SUBMIT",
-      "requestSchema": null,
-      "responseSchema": "WorkflowTask"
+      "description": "按所选部门批量生成年度基本预算或季度计划并启动流程。",
+      "authorization": "PLAN_CREATE",
+      "requestSchema": "PlanBatchCreateRequest",
+      "responseSchema": "PlanBatch",
+      "responseFields": ["id", "batchCode", "planIds"]
     },
     {
-      "id": "API-PLAN-REJECT",
-      "method": "POST",
-      "path": "/api/plans/{id}/reject",
+      "id": "API-RECRUITMENT-BATCH-GET",
+      "method": "GET",
+      "path": "/api/recruitment-batches/{batchId}",
       "moduleId": "plan",
-      "description": "驳回计划并填写意见",
-      "authorization": "PLAN_APPROVE",
-      "requestSchema": "RejectRequest",
-      "responseSchema": "Plan"
+      "description": "查询批次下所有已审核部门计划及招聘预估汇总。",
+      "authorization": "RECRUITMENT_EDIT",
+      "requestSchema": null,
+      "responseSchema": "RecruitmentBatchDetail",
+      "responseFields": ["batchId", "version", "rows"]
+    },
+    {
+      "id": "API-PLAN-DEPARTMENT-SAVE",
+      "method": "PUT",
+      "path": "/api/plans/{id}/department-forecast",
+      "moduleId": "plan",
+      "description": "保存部门预估，校验行版本、差异说明和数据权限。",
+      "authorization": "PLAN_DEPARTMENT_EDIT",
+      "requestSchema": "DepartmentForecastSaveRequest",
+      "responseSchema": "PlanDetail",
+      "responseFields": ["id", "status", "version"]
+    },
+    {
+      "id": "API-PLAN-DEPARTMENT-SUBMIT",
+      "method": "POST",
+      "path": "/api/plans/{id}/department-submit",
+      "moduleId": "plan",
+      "description": "提交部门预估并生成计划管理员审核任务。",
+      "authorization": "PLAN_DEPARTMENT_SUBMIT",
+      "requestSchema": "PlanVersionRequest",
+      "responseSchema": "PlanDetail"
+    },
+    {
+      "id": "API-PLAN-REVIEW-APPROVE",
+      "method": "POST",
+      "path": "/api/plans/{id}/review/approve",
+      "moduleId": "plan",
+      "description": "审核通过部门计划；批次必备部门全部通过后进入招聘环节。",
+      "authorization": "PLAN_REVIEW",
+      "requestSchema": "PlanVersionRequest",
+      "responseSchema": "PlanDetail"
+    },
+    {
+      "id": "API-PLAN-REVIEW-RETURN",
+      "method": "POST",
+      "path": "/api/plans/{id}/review/return",
+      "moduleId": "plan",
+      "description": "退回部门计划，退回原因必填。",
+      "authorization": "PLAN_REVIEW",
+      "requestSchema": "PlanReturnRequest",
+      "responseSchema": "PlanDetail"
+    },
+    {
+      "id": "API-PLAN-ADMIN-UPDATE",
+      "method": "PUT",
+      "path": "/api/plans/{id}",
+      "moduleId": "plan",
+      "description": "编制计划管理员最终修改计划数据并记录修改理由。",
+      "authorization": "PLAN_ADMIN_EDIT",
+      "requestSchema": "PlanAdminUpdateRequest",
+      "responseSchema": "PlanDetail"
+    },
+    {
+      "id": "API-RECRUITMENT-BATCH-SAVE",
+      "method": "PUT",
+      "path": "/api/recruitment-batches/{batchId}",
+      "moduleId": "plan",
+      "description": "保存批次招聘预估和可行性调整。",
+      "authorization": "RECRUITMENT_EDIT",
+      "requestSchema": "RecruitmentBatchSaveRequest",
+      "responseSchema": "RecruitmentBatchDetail"
+    },
+    {
+      "id": "API-RECRUITMENT-BATCH-COMPLETE",
+      "method": "POST",
+      "path": "/api/recruitment-batches/{batchId}/complete",
+      "moduleId": "plan",
+      "description": "提交招聘预估、完成相关计划并归档最终版本。",
+      "authorization": "RECRUITMENT_SUBMIT",
+      "requestSchema": "BatchVersionRequest",
+      "responseSchema": "RecruitmentBatchDetail"
+    },
+    {
+      "id": "API-PLAN-EXPORT",
+      "method": "GET",
+      "path": "/api/plans/{id}/export",
+      "moduleId": "plan",
+      "description": "按模板导出一个部门计划的 Excel 文件。",
+      "authorization": "PLAN_EXPORT",
+      "requestSchema": null,
+      "responseSchema": "BinaryFile"
+    },
+    {
+      "id": "API-REPORT-HEADCOUNT",
+      "method": "GET",
+      "path": "/api/reports/headcount",
+      "moduleId": "plan",
+      "description": "查询编制和招聘计划报表。",
+      "authorization": "REPORT_VIEW",
+      "requestSchema": null,
+      "responseSchema": "HeadcountReportPage"
+    },
+    {
+      "id": "API-REPORT-EXPORT",
+      "method": "GET",
+      "path": "/api/reports/headcount/export",
+      "moduleId": "plan",
+      "description": "导出编制和招聘计划报表。",
+      "authorization": "REPORT_EXPORT",
+      "requestSchema": null,
+      "responseSchema": "BinaryFile"
+    },
+    {
+      "id": "API-TEMPLATE-LIST",
+      "method": "GET",
+      "path": "/api/plan-templates",
+      "moduleId": "plan",
+      "description": "查询编制模板版本。",
+      "authorization": "TEMPLATE_VIEW",
+      "requestSchema": null,
+      "responseSchema": "PlanTemplatePage"
+    },
+    {
+      "id": "API-TEMPLATE-CREATE",
+      "method": "POST",
+      "path": "/api/plan-templates",
+      "moduleId": "plan",
+      "description": "创建编制模板版本。",
+      "authorization": "TEMPLATE_EDIT",
+      "requestSchema": "PlanTemplateRequest",
+      "responseSchema": "PlanTemplate"
+    },
+    {
+      "id": "API-TEMPLATE-UPDATE",
+      "method": "PUT",
+      "path": "/api/plan-templates/{id}",
+      "moduleId": "plan",
+      "description": "更新草稿编制模板版本。",
+      "authorization": "TEMPLATE_EDIT",
+      "requestSchema": "PlanTemplateRequest",
+      "responseSchema": "PlanTemplate"
+    },
+    {
+      "id": "API-ORG-LIST",
+      "method": "GET",
+      "path": "/api/organizations",
+      "moduleId": "organization",
+      "description": "查询组织当前、历史或未来版本。",
+      "authorization": "ORG_VIEW",
+      "requestSchema": null,
+      "responseSchema": "OrganizationPage"
+    },
+    {
+      "id": "API-ORG-CREATE",
+      "method": "POST",
+      "path": "/api/organizations",
+      "moduleId": "organization",
+      "description": "创建来源为 HCP 的本地组织。",
+      "authorization": "ORG_EDIT",
+      "requestSchema": "OrganizationRequest",
+      "responseSchema": "Organization"
+    },
+    {
+      "id": "API-ORG-UPDATE",
+      "method": "PUT",
+      "path": "/api/organizations/{id}",
+      "moduleId": "organization",
+      "description": "更新 HCP 本地组织。",
+      "authorization": "ORG_EDIT",
+      "requestSchema": "OrganizationRequest",
+      "responseSchema": "Organization"
+    },
+    {
+      "id": "API-ORG-EXPORT",
+      "method": "GET",
+      "path": "/api/organizations/export",
+      "moduleId": "organization",
+      "description": "导出组织列表。",
+      "authorization": "ORG_EXPORT",
+      "requestSchema": null,
+      "responseSchema": "BinaryFile"
+    },
+    {
+      "id": "API-PERSON-LIST",
+      "method": "GET",
+      "path": "/api/persons",
+      "moduleId": "person",
+      "description": "查询人员及其有效任职和组织/职位/职衔信息。",
+      "authorization": "PERSON_VIEW",
+      "requestSchema": null,
+      "responseSchema": "PersonPage"
+    },
+    {
+      "id": "API-PERSON-EXPORT",
+      "method": "GET",
+      "path": "/api/persons/export",
+      "moduleId": "person",
+      "description": "导出授权范围内人员数据。",
+      "authorization": "PERSON_EXPORT",
+      "requestSchema": null,
+      "responseSchema": "BinaryFile"
+    },
+    {
+      "id": "API-TITLE-LIST",
+      "method": "GET",
+      "path": "/api/job-titles",
+      "moduleId": "position",
+      "description": "查询职衔及有效期。",
+      "authorization": "TITLE_VIEW",
+      "requestSchema": null,
+      "responseSchema": "JobTitlePage"
+    },
+    {
+      "id": "API-TITLE-CREATE",
+      "method": "POST",
+      "path": "/api/job-titles",
+      "moduleId": "position",
+      "description": "创建 HCP 职衔。",
+      "authorization": "TITLE_EDIT",
+      "requestSchema": "JobTitleRequest",
+      "responseSchema": "JobTitle"
+    },
+    {
+      "id": "API-TITLE-UPDATE",
+      "method": "PUT",
+      "path": "/api/job-titles/{id}",
+      "moduleId": "position",
+      "description": "更新 HCP 职衔。",
+      "authorization": "TITLE_EDIT",
+      "requestSchema": "JobTitleRequest",
+      "responseSchema": "JobTitle"
+    },
+    {
+      "id": "API-MAPPING-LIST",
+      "method": "GET",
+      "path": "/api/org-title-mappings",
+      "moduleId": "position",
+      "description": "查询组织职衔映射。",
+      "authorization": "ORG_TITLE_MAPPING_VIEW",
+      "requestSchema": null,
+      "responseSchema": "OrganizationTitleMappingPage"
+    },
+    {
+      "id": "API-MAPPING-UPDATE",
+      "method": "PUT",
+      "path": "/api/org-title-mappings/{organizationId}",
+      "moduleId": "position",
+      "description": "更新一个组织的完整职衔映射和排序。",
+      "authorization": "ORG_TITLE_MAPPING_EDIT",
+      "requestSchema": "OrganizationTitleMappingRequest",
+      "responseSchema": "OrganizationTitleMapping"
+    },
+    {
+      "id": "API-USER-LIST",
+      "method": "GET",
+      "path": "/api/users",
+      "moduleId": "account",
+      "description": "查询用户身份、登录状态、角色和最近登录时间。",
+      "authorization": "USER_VIEW",
+      "requestSchema": null,
+      "responseSchema": "UserPage"
+    },
+    {
+      "id": "API-USER-STATUS",
+      "method": "PATCH",
+      "path": "/api/users/{id}/status",
+      "moduleId": "account",
+      "description": "锁定或解锁用户并记录原因。",
+      "authorization": "USER_STATUS_EDIT",
+      "requestSchema": "UserStatusRequest",
+      "responseSchema": "User"
+    },
+    {
+      "id": "API-ROLE-LIST",
+      "method": "GET",
+      "path": "/api/roles",
+      "moduleId": "security",
+      "description": "查询角色及权限策略。",
+      "authorization": "ROLE_VIEW",
+      "requestSchema": null,
+      "responseSchema": "RolePage"
+    },
+    {
+      "id": "API-ROLE-UPDATE",
+      "method": "PUT",
+      "path": "/api/roles/{id}/permissions",
+      "moduleId": "security",
+      "description": "更新角色功能权限和组织数据范围。",
+      "authorization": "ROLE_PERMISSION_EDIT",
+      "requestSchema": "RolePermissionRequest",
+      "responseSchema": "Role"
+    },
+    {
+      "id": "API-SYNC-LIST",
+      "method": "GET",
+      "path": "/api/integrations/sync-jobs",
+      "moduleId": "organization",
+      "description": "查询 SuccessFactors 和外部集成同步任务。",
+      "authorization": "INTEGRATION_VIEW",
+      "requestSchema": null,
+      "responseSchema": "SyncJobPage"
+    },
+    {
+      "id": "API-SYNC-START",
+      "method": "POST",
+      "path": "/api/integrations/{systemCode}/sync-jobs",
+      "moduleId": "organization",
+      "description": "人工触发指定系统资源类型的同步任务。",
+      "authorization": "INTEGRATION_SYNC",
+      "requestSchema": "SyncStartRequest",
+      "responseSchema": "IntegrationSyncJob"
+    },
+    {
+      "id": "API-AUDIT-LIST",
+      "method": "GET",
+      "path": "/api/audit-logs",
+      "moduleId": "security",
+      "description": "查询权限、业务、导出和主数据变更审计。",
+      "authorization": "AUDIT_VIEW",
+      "requestSchema": null,
+      "responseSchema": "AuditLogPage"
+    },
+    {
+      "id": "API-ACCESS-LOG-LIST",
+      "method": "GET",
+      "path": "/api/access-logs",
+      "moduleId": "account",
+      "description": "查询用户登录和 IP 日志。",
+      "authorization": "ACCESS_LOG_VIEW",
+      "requestSchema": null,
+      "responseSchema": "AccessLogPage"
     }
   ]
 }

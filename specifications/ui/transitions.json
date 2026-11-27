@@ -2,152 +2,121 @@
   "schemaVersion": "1.2",
   "transitions": [
     {
-      "id": "NAV-PLAN-DETAIL",
-      "from": "PLAN-WORKSPACE",
-      "to": "PLAN-DETAIL",
-      "trigger": {
-        "type": "ROW_CLICK",
-        "source": "PLAN-DATA-TABLE",
-        "event": "row-click"
-      },
-      "openMode": "SAME_TAB",
-      "parameterMapping": {
-        "id": "event.row.id"
-      }
-    },
-    {
-      "id": "NAV-PLAN-CREATE",
-      "from": "PLAN-WORKSPACE",
-      "to": "PLAN-NEW",
-      "trigger": {
-        "type": "ACTION",
-        "actionId": "ACT-CREATE-PLAN"
-      },
+      "id": "NAV-MENU-BATCH-CREATE",
+      "from": "HOME",
+      "to": "PLAN-BATCH-CREATE",
+      "trigger": {"type": "ACTION", "actionId": "ACT-MENU-BATCH-CREATE"},
       "openMode": "SAME_TAB",
       "parameterMapping": {}
     },
     {
-      "id": "NAV-PLAN-NEW-TAB",
-      "from": "PLAN-WORKSPACE",
-      "to": "PLAN-DETAIL",
-      "trigger": {
-        "type": "ACTION",
-        "actionId": "ACT-OPEN-PLAN-NEW-TAB"
-      },
-      "openMode": "NEW_TAB",
-      "parameterMapping": {
-        "id": "event.row.id"
-      }
+      "id": "NAV-MENU-HISTORY",
+      "from": "HOME",
+      "to": "PLAN-HISTORY",
+      "trigger": {"type": "ACTION", "actionId": "ACT-MENU-HISTORY"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
     },
     {
-      "id": "NAV-ORG-PICKER",
-      "from": "PLAN-DETAIL",
-      "to": "ORG-SELECT-DIALOG",
-      "trigger": {
-        "type": "ACTION",
-        "actionId": "ACT-SELECT-ORG"
-      },
+      "id": "NAV-MENU-REPORTS",
+      "from": "HOME",
+      "to": "HEADCOUNT-REPORT",
+      "trigger": {"type": "ACTION", "actionId": "ACT-MENU-REPORTS"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-MENU-TEMPLATES",
+      "from": "HOME",
+      "to": "TEMPLATE-ADMIN",
+      "trigger": {"type": "ACTION", "actionId": "ACT-MENU-TEMPLATES"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-MENU-ORGS",
+      "from": "HOME",
+      "to": "ORG-ADMIN",
+      "trigger": {"type": "ACTION", "actionId": "ACT-MENU-ORGS"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-MENU-PERSONS",
+      "from": "HOME",
+      "to": "PERSON-ADMIN",
+      "trigger": {"type": "ACTION", "actionId": "ACT-MENU-PERSONS"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-MENU-TITLES",
+      "from": "HOME",
+      "to": "TITLE-ADMIN",
+      "trigger": {"type": "ACTION", "actionId": "ACT-MENU-TITLES"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-MENU-MAPPINGS",
+      "from": "HOME",
+      "to": "MAPPING-ADMIN",
+      "trigger": {"type": "ACTION", "actionId": "ACT-MENU-MAPPINGS"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-MENU-SECURITY",
+      "from": "HOME",
+      "to": "SECURITY-ADMIN",
+      "trigger": {"type": "ACTION", "actionId": "ACT-MENU-SECURITY"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-MENU-INTEGRATIONS",
+      "from": "HOME",
+      "to": "INTEGRATION-ADMIN",
+      "trigger": {"type": "ACTION", "actionId": "ACT-MENU-INTEGRATIONS"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-OPEN-DEPARTMENT",
+      "from": "HOME",
+      "to": "PLAN-DEPARTMENT",
+      "trigger": {"type": "ACTION", "actionId": "ACT-OPEN-DEPARTMENT"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {"id": "event.planId"}
+    },
+    {
+      "id": "NAV-OPEN-REVIEW",
+      "from": "HOME",
+      "to": "PLAN-REVIEW",
+      "trigger": {"type": "ACTION", "actionId": "ACT-OPEN-REVIEW"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {"id": "event.planId"}
+    },
+    {
+      "id": "NAV-OPEN-RECRUITMENT",
+      "from": "HOME",
+      "to": "RECRUITMENT-BATCH",
+      "trigger": {"type": "ACTION", "actionId": "ACT-OPEN-RECRUITMENT"},
+      "openMode": "SAME_TAB",
+      "parameterMapping": {"batchId": "event.batchId"}
+    },
+    {
+      "id": "NAV-OPEN-ORG-MULTI-SELECT",
+      "from": "PLAN-BATCH-CREATE",
+      "to": "ORG-MULTI-SELECT-DIALOG",
+      "trigger": {"type": "ACTION", "actionId": "ACT-OPEN-ORG-MULTI-SELECT"},
       "openMode": "MODAL",
-      "parameterMapping": {
-        "selectionMode": "'SINGLE'"
-      },
+      "parameterMapping": {"selectionMode": "'MULTI'"},
       "returnMapping": {
-        "organizationId": "event.organizationId",
-        "organizationName": "event.organizationName"
+        "organizationIds": "event.organizationIds",
+        "organizationNames": "event.organizationNames"
       },
       "returnEvent": "confirm"
-    },
-    {
-      "id": "NAV-ORG-PICKER-NEW",
-      "from": "PLAN-NEW",
-      "to": "ORG-SELECT-DIALOG",
-      "trigger": {
-        "type": "ACTION",
-        "actionId": "ACT-SELECT-ORG-NEW"
-      },
-      "openMode": "MODAL",
-      "parameterMapping": {
-        "selectionMode": "'SINGLE'"
-      },
-      "returnMapping": {
-        "organizationId": "event.organizationId",
-        "organizationName": "event.organizationName"
-      },
-      "returnEvent": "confirm"
-    },
-    {
-      "id": "NAV-PERSON-QUICK-VIEW",
-      "from": "PLAN-DETAIL",
-      "to": "PERSON-QUICK-VIEW",
-      "trigger": {
-        "type": "ACTION",
-        "actionId": "ACT-VIEW-PERSON"
-      },
-      "openMode": "DRAWER",
-      "parameterMapping": {
-        "personId": "event.personId"
-      }
-    },
-    {
-      "id": "NAV-ADVANCED-FILTERS",
-      "from": "PLAN-WORKSPACE",
-      "to": "PLAN-FILTER-PANEL",
-      "trigger": {
-        "type": "ACTION",
-        "actionId": "ACT-TOGGLE-ADVANCED-FILTERS"
-      },
-      "openMode": "INLINE",
-      "parameterMapping": {}
-    },
-    {
-      "id": "NAV-ORG-MAINTENANCE",
-      "from": "PLAN-WORKSPACE",
-      "to": "ORG-MAINTENANCE",
-      "trigger": {
-        "type": "MENU_ITEM",
-        "source": "ADMIN-MENU",
-        "event": "organizations"
-      },
-      "openMode": "SAME_TAB",
-      "parameterMapping": {}
-    },
-    {
-      "id": "NAV-ROLE-SECURITY",
-      "from": "ORG-MAINTENANCE",
-      "to": "SECURITY-ROLE",
-      "trigger": {
-        "type": "MENU_ITEM",
-        "source": "ADMIN-MENU",
-        "event": "roles"
-      },
-      "openMode": "SAME_TAB",
-      "parameterMapping": {}
-    },
-    {
-      "id": "NAV-PLAN-APPROVAL-WORKSPACE",
-      "from": "PLAN-WORKSPACE",
-      "to": "PLAN-APPROVAL-WORKSPACE",
-      "trigger": {
-        "type": "MENU_ITEM",
-        "source": "ADMIN-MENU",
-        "event": "approvals"
-      },
-      "openMode": "SAME_TAB",
-      "parameterMapping": {}
-    },
-    {
-      "id": "NAV-PLAN-APPROVAL-DETAIL",
-      "from": "PLAN-APPROVAL-WORKSPACE",
-      "to": "PLAN-APPROVAL-DETAIL",
-      "trigger": {
-        "type": "ROW_CLICK",
-        "source": "PLAN-APPROVAL-TASK-TABLE",
-        "event": "row-click"
-      },
-      "openMode": "SAME_TAB",
-      "parameterMapping": {
-        "id": "event.row.planId"
-      }
     }
   ]
 }

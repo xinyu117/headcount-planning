@@ -2,514 +2,671 @@
   "schemaVersion": "1.2",
   "components": [
     {
-      "id": "PLAN-SEARCH-FORM",
-      "name": "计划查询表单",
-      "category": "FORM",
-      "description": "计划年度、组织、状态等查询条件。",
-      "props": [
-        {
-          "name": "modelValue",
-          "type": "object",
-          "required": true
-        }
-      ],
-      "events": [
-        "search",
-        "reset"
-      ],
-      "actionBindings": [
-        {
-          "event": "search",
-          "actionId": "ACT-SEARCH-PLANS"
-        }
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "PlanSearchForm.vue"
-      }
-    },
-    {
-      "id": "PLAN-ADVANCED-FILTERS",
-      "name": "计划高级筛选",
-      "category": "FORM",
-      "description": "扩展筛选条件区域。",
-      "props": [
-        {
-          "name": "modelValue",
-          "type": "object",
-          "required": true
-        }
-      ],
-      "events": [
-        "apply",
-        "reset"
-      ],
-      "actionBindings": [
-        {
-          "event": "apply",
-          "actionId": "ACT-SEARCH-PLANS"
-        }
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "PlanAdvancedFilters.vue"
-      }
-    },
-    {
-      "id": "PLAN-LIST-TOOLBAR",
-      "name": "计划列表工具栏",
-      "category": "TOOLBAR",
-      "description": "创建计划及列表级操作。",
-      "props": [],
-      "events": [
-        "create",
-        "toggle-advanced-filters"
-      ],
-      "actionBindings": [
-        {
-          "event": "create",
-          "actionId": "ACT-CREATE-PLAN"
-        },
-        {
-          "event": "toggle-advanced-filters",
-          "actionId": "ACT-TOGGLE-ADVANCED-FILTERS"
-        }
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "PlanListToolbar.vue"
-      }
-    },
-    {
-      "id": "PLAN-DATA-TABLE",
-      "name": "计划数据表格",
-      "category": "DATA_TABLE",
-      "description": "展示计划列表；支持行点击查看和行级新标签页打开。",
-      "props": [
-        {
-          "name": "rows",
-          "type": "array",
-          "required": true
-        }
-      ],
-      "events": [
-        "row-click",
-        "open-in-new-tab",
-        "selection-change"
-      ],
-      "eventPayloads": {
-        "row-click": [
-          "row.id"
-        ],
-        "open-in-new-tab": [
-          "row.id"
-        ]
-      },
-      "actionBindings": [
-        {
-          "event": "open-in-new-tab",
-          "actionId": "ACT-OPEN-PLAN-NEW-TAB"
-        }
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "PlanDataTable.vue"
-      }
-    },
-    {
-      "id": "PLAN-BASIC-FORM",
-      "name": "计划基本信息表单",
-      "category": "FORM",
-      "description": "维护计划年度、组织、负责人等字段。",
-      "props": [
-        {
-          "name": "modelValue",
-          "type": "object",
-          "required": true
-        }
-      ],
-      "events": [
-        "update:modelValue",
-        "change",
-        "load-existing",
-        "select-organization"
-      ],
-      "actionBindings": [
-        {
-          "event": "load-existing",
-          "actionId": "ACT-LOAD-PLAN"
-        },
-        {
-          "event": "select-organization",
-          "actionId": "ACT-SELECT-ORG"
-        }
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "PlanBasicForm.vue"
-      }
-    },
-    {
-      "id": "PLAN-NEW-BASIC-FORM",
-      "name": "新计划基本信息表单",
-      "category": "FORM",
-      "description": "维护新计划年度、组织、负责人等字段。",
-      "props": [
-        {
-          "name": "modelValue",
-          "type": "object",
-          "required": true
-        }
-      ],
-      "events": [
-        "update:modelValue",
-        "change",
-        "select-organization"
-      ],
-      "actionBindings": [
-        {
-          "event": "select-organization",
-          "actionId": "ACT-SELECT-ORG-NEW"
-        }
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "PlanBasicForm.vue"
-      }
-    },
-    {
-      "id": "HEADCOUNT-LINE-TABLE",
-      "name": "编制明细表格",
-      "category": "DATA_TABLE",
-      "description": "维护职位、人数、FTE、预算等计划明细。",
-      "props": [
-        {
-          "name": "rows",
-          "type": "array",
-          "required": true
-        }
-      ],
-      "events": [
-        "add",
-        "edit",
-        "delete",
-        "view-person"
-      ],
-      "eventPayloads": {
-        "view-person": [
-          "personId"
-        ]
-      },
-      "actionBindings": [
-        {
-          "event": "view-person",
-          "actionId": "ACT-VIEW-PERSON"
-        }
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "HeadcountLineTable.vue"
-      }
-    },
-    {
-      "id": "PLAN-NEW-LINE-TABLE",
-      "name": "新计划编制明细表格",
-      "category": "DATA_TABLE",
-      "description": "维护新计划的职位、人数、FTE、预算等编制明细。",
-      "props": [
-        {
-          "name": "rows",
-          "type": "array",
-          "required": true
-        }
-      ],
-      "events": [
-        "add",
-        "edit",
-        "delete"
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "HeadcountLineTable.vue"
-      }
-    },
-    {
-      "id": "PLAN-DETAIL-ACTIONS",
-      "name": "计划详情操作栏",
-      "category": "ACTION_BAR",
-      "description": "保存计划及编制明细、提交审批等操作。",
-      "props": [
-        {
-          "name": "status",
-          "type": "string",
-          "required": true
-        },
-        {
-          "name": "plan",
-          "type": "object",
-          "required": true
-        }
-      ],
-      "events": [
-        "save-existing",
-        "submit"
-      ],
-      "eventPayloads": {
-        "save-existing": [
-          "plan"
-        ]
-      },
-      "actionBindings": [
-        {
-          "event": "save-existing",
-          "actionId": "ACT-UPDATE-PLAN"
-        },
-        {
-          "event": "submit",
-          "actionId": "ACT-SUBMIT-PLAN"
-        }
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "PlanDetailActions.vue"
-      }
-    },
-    {
-      "id": "PLAN-NEW-ACTIONS",
-      "name": "新计划操作栏",
-      "category": "ACTION_BAR",
-      "description": "保存新建计划及其编制明细。",
-      "props": [
-        {
-          "name": "plan",
-          "type": "object",
-          "required": true
-        }
-      ],
-      "events": [
-        "save"
-      ],
-      "eventPayloads": {
-        "save": [
-          "plan"
-        ]
-      },
-      "actionBindings": [
-        {
-          "event": "save",
-          "actionId": "ACT-SAVE-PLAN"
-        }
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "PlanNewActions.vue"
-      }
-    },
-    {
-      "id": "ORG-TREE",
-      "name": "组织树",
-      "category": "TREE",
-      "description": "展示可选组织层级。",
-      "props": [
-        {
-          "name": "selectable",
-          "type": "boolean",
-          "required": false
-        }
-      ],
-      "events": [
-        "node-click",
-        "selection-change"
-      ],
-      "eventPayloads": {
-        "selection-change": [
-          "organizationId",
-          "organizationName"
-        ]
-      },
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "OrganizationTree.vue"
-      }
-    },
-    {
-      "id": "ORG-SELECT-ACTIONS",
-      "name": "组织选择对话框操作栏",
-      "category": "ACTION_BAR",
-      "description": "确认或取消组织选择。",
-      "props": [
-        {
-          "name": "selectedOrganization",
-          "type": "object",
-          "required": true
-        }
-      ],
-      "events": [
-        "confirm",
-        "cancel"
-      ],
-      "eventPayloads": {
-        "confirm": [
-          "organizationId",
-          "organizationName"
-        ]
-      },
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "OrganizationSelectActions.vue"
-      }
-    },
-    {
-      "id": "ORG-DETAIL-FORM",
-      "name": "组织详情表单",
-      "category": "FORM",
-      "description": "组织属性及有效期维护。",
-      "props": [
-        {
-          "name": "modelValue",
-          "type": "object",
-          "required": true
-        }
-      ],
-      "events": [
-        "save",
-        "cancel"
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "OrganizationDetailForm.vue"
-      }
-    },
-    {
-      "id": "ROLE-PERMISSION-MATRIX",
-      "name": "角色权限矩阵",
-      "category": "CUSTOM",
-      "description": "按角色配置功能权限和数据范围。",
-      "props": [
-        {
-          "name": "roleId",
-          "type": "string",
-          "required": true
-        }
-      ],
-      "events": [
-        "change",
-        "save"
-      ],
-      "implementation": {
-        "framework": "Vue 3",
-        "component": "RolePermissionMatrix.vue"
-      }
-    },
-    {
-      "id": "ADMIN-MENU",
-      "name": "管理导航菜单",
+      "id": "GLOBAL-MENU",
+      "name": "全局导航菜单",
       "category": "MENU",
-      "description": "应用级导航菜单，提供组织管理、角色权限管理和审批待办入口。",
+      "description": "按后端权限呈现编制发起、历史、报表及系统管理入口。",
       "props": [],
       "events": [
+        "batch-create",
+        "history",
+        "reports",
+        "templates",
         "organizations",
-        "roles",
-        "approvals"
+        "persons",
+        "titles",
+        "mappings",
+        "security",
+        "integrations"
       ],
       "scope": "GLOBAL",
+      "actionBindings": [
+        {"event": "batch-create", "actionId": "ACT-MENU-BATCH-CREATE"},
+        {"event": "history", "actionId": "ACT-MENU-HISTORY"},
+        {"event": "reports", "actionId": "ACT-MENU-REPORTS"},
+        {"event": "templates", "actionId": "ACT-MENU-TEMPLATES"},
+        {"event": "organizations", "actionId": "ACT-MENU-ORGS"},
+        {"event": "persons", "actionId": "ACT-MENU-PERSONS"},
+        {"event": "titles", "actionId": "ACT-MENU-TITLES"},
+        {"event": "mappings", "actionId": "ACT-MENU-MAPPINGS"},
+        {"event": "security", "actionId": "ACT-MENU-SECURITY"},
+        {"event": "integrations", "actionId": "ACT-MENU-INTEGRATIONS"}
+      ],
       "implementation": {
         "framework": "Vue 3",
-        "component": "AdminMenu.vue"
+        "component": "GlobalNavigationMenu.vue"
       }
     },
     {
-      "id": "PLAN-APPROVAL-TASK-TABLE",
-      "name": "计划审批待办表格",
+      "id": "HOME-TASK-TABLE",
+      "name": "首页待办与计划表格",
       "category": "DATA_TABLE",
-      "description": "展示当前用户可处理的计划审批任务；加载事件触发待办查询。",
+      "description": "展示消息、角色相关待办及已完成/进行中计划，支持进入部门填报、管理员审核或招聘汇总。",
       "props": [
-        {
-          "name": "rows",
-          "type": "array",
-          "required": true
-        }
+        {"name": "rows", "type": "array", "required": true},
+        {"name": "taskType", "type": "string", "required": false}
       ],
       "events": [
         "load",
-        "row-click"
+        "open-department",
+        "open-review",
+        "open-recruitment"
       ],
       "eventPayloads": {
-        "row-click": [
-          "row.planId"
-        ]
+        "open-department": ["planId"],
+        "open-review": ["planId"],
+        "open-recruitment": ["batchId"]
       },
       "actionBindings": [
-        {
-          "event": "load",
-          "actionId": "ACT-LOAD-APPROVAL-TASKS"
-        }
+        {"event": "load", "actionId": "ACT-LOAD-TASKS"},
+        {"event": "open-department", "actionId": "ACT-OPEN-DEPARTMENT"},
+        {"event": "open-review", "actionId": "ACT-OPEN-REVIEW"},
+        {"event": "open-recruitment", "actionId": "ACT-OPEN-RECRUITMENT"}
       ],
       "implementation": {
         "framework": "Vue 3",
-        "component": "PlanApprovalTaskTable.vue"
+        "component": "HomeTaskTable.vue"
       }
     },
     {
-      "id": "PLAN-APPROVAL-SUMMARY",
-      "name": "计划审批摘要",
-      "category": "CUSTOM",
-      "description": "展示待审批计划及其编制信息。",
+      "id": "DEPARTMENT-WORKBOOK",
+      "name": "部门预估工作簿",
+      "category": "DATA_TABLE",
+      "description": "Excel 风格部门填报表格，包含期间列、历史只读列、当前人数、人数/费用、contractor 和差异说明。",
       "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "required": true
-        }
+        {"name": "plan", "type": "object", "required": true},
+        {"name": "readonly", "type": "boolean", "required": true}
       ],
       "events": [
-        "load"
+        "load",
+        "refresh",
+        "save",
+        "submit",
+        "export"
       ],
+      "eventPayloads": {
+        "save": ["forecast"],
+        "submit": ["submission"]
+      },
       "actionBindings": [
-        {
-          "event": "load",
-          "actionId": "ACT-LOAD-PLAN-APPROVAL"
-        }
+        {"event": "load", "actionId": "ACT-LOAD-DEPARTMENT"},
+        {"event": "refresh", "actionId": "ACT-LOAD-DEPARTMENT"},
+        {"event": "save", "actionId": "ACT-SAVE-DEPARTMENT"},
+        {"event": "submit", "actionId": "ACT-SUBMIT-DEPARTMENT"},
+        {"event": "export", "actionId": "ACT-EXPORT-DEPARTMENT"}
       ],
       "implementation": {
         "framework": "Vue 3",
-        "component": "PlanApprovalSummary.vue"
+        "component": "DepartmentForecastWorkbook.vue"
       }
     },
     {
-      "id": "PLAN-APPROVAL-ACTIONS",
-      "name": "计划审批操作栏",
-      "category": "ACTION_BAR",
-      "description": "批准计划或驳回计划并录入驳回意见。",
+      "id": "PLAN-REVIEW-SUMMARY",
+      "name": "部门计划审核摘要",
+      "category": "CUSTOM",
+      "description": "按部门、期间和职衔展示部门预估、当前人数、差异说明、版本和流程记录。",
       "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "required": true
-        }
+        {"name": "plan", "type": "object", "required": true}
+      ],
+      "events": ["load"],
+      "actionBindings": [
+        {"event": "load", "actionId": "ACT-LOAD-REVIEW"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanReviewSummary.vue"
+      }
+    },
+    {
+      "id": "PLAN-REVIEW-ACTIONS",
+      "name": "计划审核操作栏",
+      "category": "ACTION_BAR",
+      "description": "审核通过、退回修改和管理员修改入口。",
+      "props": [
+        {"name": "status", "type": "string", "required": true}
       ],
       "events": [
         "approve",
-        "reject"
+        "return",
+        "admin-save"
       ],
       "eventPayloads": {
-        "reject": [
-          "reason"
-        ]
+        "approve": ["review"],
+        "return": ["returnRequest"],
+        "admin-save": ["adminUpdate"]
       },
       "actionBindings": [
-        {
-          "event": "approve",
-          "actionId": "ACT-APPROVE-PLAN"
-        },
-        {
-          "event": "reject",
-          "actionId": "ACT-REJECT-PLAN"
-        }
+        {"event": "approve", "actionId": "ACT-APPROVE-REVIEW"},
+        {"event": "return", "actionId": "ACT-RETURN-REVIEW"},
+        {"event": "admin-save", "actionId": "ACT-ADMIN-UPDATE-REVIEW"}
       ],
       "implementation": {
         "framework": "Vue 3",
-        "component": "PlanApprovalActions.vue"
+        "component": "PlanReviewActions.vue"
+      }
+    },
+    {
+      "id": "BATCH-CREATE-FORM",
+      "name": "批量创建计划表单",
+      "category": "FORM",
+      "description": "选择部门、计划年度、类型、批次、模板、表头颜色和备注。",
+      "props": [
+        {"name": "modelValue", "type": "object", "required": true},
+        {"name": "selectedOrganizations", "type": "array", "required": false}
+      ],
+      "events": [
+        "create",
+        "select-organizations"
+      ],
+      "eventPayloads": {
+        "create": ["batch"]
+      },
+      "actionBindings": [
+        {"event": "create", "actionId": "ACT-CREATE-BATCH"},
+        {"event": "select-organizations", "actionId": "ACT-OPEN-ORG-MULTI-SELECT"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanBatchCreateForm.vue"
+      }
+    },
+    {
+      "id": "ORG-MULTI-SELECT-TREE",
+      "name": "多选组织树",
+      "category": "TREE",
+      "description": "选择当前有效组织，可多选并校验企划总部特殊拆分规则。",
+      "props": [
+        {"name": "selectable", "type": "boolean", "required": false}
+      ],
+      "events": ["selection-change"],
+      "eventPayloads": {
+        "selection-change": ["organizationIds", "organizationNames"]
+      },
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "OrganizationMultiSelectTree.vue"
+      }
+    },
+    {
+      "id": "ORG-MULTI-SELECT-ACTIONS",
+      "name": "组织多选操作栏",
+      "category": "ACTION_BAR",
+      "description": "确认或取消组织选择。",
+      "props": [
+        {"name": "selectedOrganizations", "type": "object", "required": true}
+      ],
+      "events": ["confirm", "cancel"],
+      "eventPayloads": {
+        "confirm": ["organizationIds", "organizationNames"]
+      },
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "OrganizationMultiSelectActions.vue"
+      }
+    },
+    {
+      "id": "RECRUITMENT-WORKBOOK",
+      "name": "招聘预估汇总工作簿",
+      "category": "DATA_TABLE",
+      "description": "按批次汇总已审核部门，左侧为招聘预估，右侧为部门及历史预估；支持可行性调整。",
+      "props": [
+        {"name": "batch", "type": "object", "required": true},
+        {"name": "readonly", "type": "boolean", "required": true}
+      ],
+      "events": [
+        "load",
+        "save",
+        "complete"
+      ],
+      "eventPayloads": {
+        "save": ["batch"],
+        "complete": ["completion"]
+      },
+      "actionBindings": [
+        {"event": "load", "actionId": "ACT-LOAD-RECRUITMENT"},
+        {"event": "save", "actionId": "ACT-SAVE-RECRUITMENT"},
+        {"event": "complete", "actionId": "ACT-COMPLETE-RECRUITMENT"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "RecruitmentForecastWorkbook.vue"
+      }
+    },
+    {
+      "id": "PLAN-HISTORY-FILTERS",
+      "name": "历史计划查询条件",
+      "category": "FORM",
+      "description": "按年度、类型、批次、部门、状态和关键词查询历史计划。",
+      "props": [
+        {"name": "modelValue", "type": "object", "required": true}
+      ],
+      "events": ["search", "export"],
+      "actionBindings": [
+        {"event": "search", "actionId": "ACT-SEARCH-HISTORY"},
+        {"event": "export", "actionId": "ACT-EXPORT-HISTORY"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanHistoryFilters.vue"
+      }
+    },
+    {
+      "id": "PLAN-HISTORY-TABLE",
+      "name": "历史计划表格",
+      "category": "DATA_TABLE",
+      "description": "只读展示历史计划版本、状态、部门和完成时间。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": ["row-click"],
+      "eventPayloads": {
+        "row-click": ["row.planId"]
+      },
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanHistoryTable.vue"
+      }
+    },
+    {
+      "id": "HEADCOUNT-REPORT-FILTERS",
+      "name": "编制报表查询条件",
+      "category": "FORM",
+      "description": "设置年度、批次、部门、指标和视图维度。",
+      "props": [
+        {"name": "modelValue", "type": "object", "required": true}
+      ],
+      "events": ["search", "export"],
+      "actionBindings": [
+        {"event": "search", "actionId": "ACT-SEARCH-REPORT"},
+        {"event": "export", "actionId": "ACT-EXPORT-REPORT"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "HeadcountReportFilters.vue"
+      }
+    },
+    {
+      "id": "HEADCOUNT-REPORT-TABLE",
+      "name": "编制报表表格",
+      "category": "DATA_TABLE",
+      "description": "展示授权范围内的全公司或组织汇总视图。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": [],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "HeadcountReportTable.vue"
+      }
+    },
+    {
+      "id": "TEMPLATE-TABLE",
+      "name": "编制模板列表",
+      "category": "DATA_TABLE",
+      "description": "按计划类型和语言展示模板版本及状态。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": ["load", "selection-change"],
+      "eventPayloads": {
+        "selection-change": ["template"]
+      },
+      "actionBindings": [
+        {"event": "load", "actionId": "ACT-LOAD-TEMPLATES"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanTemplateTable.vue"
+      }
+    },
+    {
+      "id": "TEMPLATE-EDITOR",
+      "name": "模板编辑器",
+      "category": "FORM",
+      "description": "维护模板名称、类型、语言、列结构、颜色和版本状态。",
+      "props": [
+        {"name": "modelValue", "type": "object", "required": true}
+      ],
+      "events": ["create", "save"],
+      "eventPayloads": {
+        "create": ["template", "template.id"],
+        "save": ["template", "template.id"]
+      },
+      "actionBindings": [
+        {"event": "create", "actionId": "ACT-CREATE-TEMPLATE"},
+        {"event": "save", "actionId": "ACT-UPDATE-TEMPLATE"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanTemplateEditor.vue"
+      }
+    },
+    {
+      "id": "ORG-TABLE",
+      "name": "组织列表",
+      "category": "DATA_TABLE",
+      "description": "展示当前、历史或未来组织版本、来源、负责人和层级。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": [
+        "load",
+        "selection-change",
+        "export"
+      ],
+      "eventPayloads": {
+        "selection-change": ["organization"]
+      },
+      "actionBindings": [
+        {"event": "load", "actionId": "ACT-LOAD-ORGS"},
+        {"event": "export", "actionId": "ACT-EXPORT-ORGS"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "OrganizationTable.vue"
+      }
+    },
+    {
+      "id": "ORG-EDITOR",
+      "name": "组织编辑表单",
+      "category": "FORM",
+      "description": "维护 HCP 本地组织字段和有效期；SF 来源字段只读。",
+      "props": [
+        {"name": "modelValue", "type": "object", "required": true}
+      ],
+      "events": ["create", "save"],
+      "eventPayloads": {
+        "create": ["organization", "organization.id"],
+        "save": ["organization", "organization.id"]
+      },
+      "actionBindings": [
+        {"event": "create", "actionId": "ACT-CREATE-ORG"},
+        {"event": "save", "actionId": "ACT-UPDATE-ORG"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "OrganizationEditor.vue"
+      }
+    },
+    {
+      "id": "PERSON-FILTERS",
+      "name": "人员查询条件",
+      "category": "FORM",
+      "description": "按工号、姓名、组织、职位、职衔、生效日期和 HCP 参与标志筛选。",
+      "props": [
+        {"name": "modelValue", "type": "object", "required": true}
+      ],
+      "events": ["search", "export"],
+      "actionBindings": [
+        {"event": "search", "actionId": "ACT-SEARCH-PERSONS"},
+        {"event": "export", "actionId": "ACT-EXPORT-PERSONS"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PersonFilters.vue"
+      }
+    },
+    {
+      "id": "PERSON-TABLE",
+      "name": "人员表格",
+      "category": "DATA_TABLE",
+      "description": "展示人员、组织1至5级、职位、职衔、生效日期和事件原因。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": [],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PersonTable.vue"
+      }
+    },
+    {
+      "id": "JOB-TITLE-TABLE",
+      "name": "职衔列表",
+      "category": "DATA_TABLE",
+      "description": "展示职衔代码、中英文名称、有效期、状态和创建信息。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": ["load", "selection-change"],
+      "eventPayloads": {
+        "selection-change": ["jobTitle"]
+      },
+      "actionBindings": [
+        {"event": "load", "actionId": "ACT-LOAD-TITLES"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "JobTitleTable.vue"
+      }
+    },
+    {
+      "id": "JOB-TITLE-EDITOR",
+      "name": "职衔编辑表单",
+      "category": "FORM",
+      "description": "维护职衔代码、中英文名称、状态和有效期。",
+      "props": [
+        {"name": "modelValue", "type": "object", "required": true}
+      ],
+      "events": ["create", "save"],
+      "eventPayloads": {
+        "create": ["jobTitle", "jobTitle.id"],
+        "save": ["jobTitle", "jobTitle.id"]
+      },
+      "actionBindings": [
+        {"event": "create", "actionId": "ACT-CREATE-TITLE"},
+        {"event": "save", "actionId": "ACT-UPDATE-TITLE"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "JobTitleEditor.vue"
+      }
+    },
+    {
+      "id": "MAPPING-ORG-FORM",
+      "name": "映射组织选择",
+      "category": "FORM",
+      "description": "选择组织并触发其有效职衔映射查询。",
+      "props": [
+        {"name": "organizations", "type": "array", "required": true},
+        {"name": "organizationId", "type": "string", "required": false}
+      ],
+      "events": ["organization-change"],
+      "eventPayloads": {
+        "organization-change": ["organizationId"]
+      },
+      "actionBindings": [
+        {"event": "organization-change", "actionId": "ACT-LOAD-MAPPINGS"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "MappingOrganizationForm.vue"
+      }
+    },
+    {
+      "id": "MAPPING-TABLE",
+      "name": "组织职衔映射表",
+      "category": "DATA_TABLE",
+      "description": "按职衔代码顺序展示组织映射子记录。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": ["selection-change"],
+      "eventPayloads": {
+        "selection-change": ["mapping"]
+      },
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "OrganizationTitleMappingTable.vue"
+      }
+    },
+    {
+      "id": "MAPPING-EDITOR",
+      "name": "组织职衔映射编辑器",
+      "category": "FORM",
+      "description": "选择多个职衔并按代码排序，维护映射有效期。",
+      "props": [
+        {"name": "modelValue", "type": "object", "required": true}
+      ],
+      "events": ["save"],
+      "eventPayloads": {
+        "save": ["mapping", "mapping.organizationId"]
+      },
+      "actionBindings": [
+        {"event": "save", "actionId": "ACT-UPDATE-MAPPINGS"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "OrganizationTitleMappingEditor.vue"
+      }
+    },
+    {
+      "id": "USER-TABLE",
+      "name": "用户列表",
+      "category": "DATA_TABLE",
+      "description": "展示用户身份、人员关联、状态、角色和最近登录时间。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": ["load", "selection-change"],
+      "eventPayloads": {
+        "selection-change": ["user"]
+      },
+      "actionBindings": [
+        {"event": "load", "actionId": "ACT-LOAD-USERS"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "SecurityUserTable.vue"
+      }
+    },
+    {
+      "id": "USER-ACTION-BAR",
+      "name": "用户状态操作栏",
+      "category": "ACTION_BAR",
+      "description": "锁定或解锁所选用户并录入原因。",
+      "props": [
+        {"name": "selection", "type": "object", "required": true}
+      ],
+      "events": ["status-change"],
+      "eventPayloads": {
+        "status-change": ["userId", "status", "reason"]
+      },
+      "actionBindings": [
+        {"event": "status-change", "actionId": "ACT-UPDATE-USER-STATUS"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "UserStatusActionBar.vue"
+      }
+    },
+    {
+      "id": "ROLE-TABLE",
+      "name": "角色列表",
+      "category": "DATA_TABLE",
+      "description": "展示角色及当前功能权限、组织范围摘要。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": ["load", "selection-change"],
+      "eventPayloads": {
+        "selection-change": ["role"]
+      },
+      "actionBindings": [
+        {"event": "load", "actionId": "ACT-LOAD-ROLES"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "SecurityRoleTable.vue"
+      }
+    },
+    {
+      "id": "ROLE-EDITOR",
+      "name": "角色权限编辑器",
+      "category": "FORM",
+      "description": "配置角色功能权限、组织数据范围和用户组成员。",
+      "props": [
+        {"name": "modelValue", "type": "object", "required": true}
+      ],
+      "events": ["save"],
+      "eventPayloads": {
+        "save": ["permissions", "role", "role.id"]
+      },
+      "actionBindings": [
+        {"event": "save", "actionId": "ACT-UPDATE-ROLE-PERMISSIONS"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "RolePermissionEditor.vue"
+      }
+    },
+    {
+      "id": "ACCESS-LOG-TABLE",
+      "name": "访问日志表格",
+      "category": "DATA_TABLE",
+      "description": "展示登录用户、IP、结果、失败原因和时间。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": ["load"],
+      "actionBindings": [
+        {"event": "load", "actionId": "ACT-LOAD-ACCESS-LOGS"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "AccessLogTable.vue"
+      }
+    },
+    {
+      "id": "AUDIT-LOG-TABLE",
+      "name": "审计日志表格",
+      "category": "DATA_TABLE",
+      "description": "展示业务、权限、导出和主数据修改审计。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": ["load"],
+      "actionBindings": [
+        {"event": "load", "actionId": "ACT-LOAD-AUDIT-LOGS"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "AuditLogTable.vue"
+      }
+    },
+    {
+      "id": "SYNC-JOB-TABLE",
+      "name": "集成同步任务表格",
+      "category": "DATA_TABLE",
+      "description": "展示组织和人员同步任务、数量、错误摘要和操作者。",
+      "props": [
+        {"name": "rows", "type": "array", "required": true}
+      ],
+      "events": ["load"],
+      "actionBindings": [
+        {"event": "load", "actionId": "ACT-LOAD-SYNC-JOBS"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "IntegrationSyncJobTable.vue"
+      }
+    },
+    {
+      "id": "SYNC-TOOLBAR",
+      "name": "同步操作栏",
+      "category": "TOOLBAR",
+      "description": "人工触发组织和人员同步。",
+      "props": [],
+      "events": ["sync"],
+      "eventPayloads": {
+        "sync": ["systemCode", "resourceType"]
+      },
+      "actionBindings": [
+        {"event": "sync", "actionId": "ACT-START-SYNC"}
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "IntegrationSyncToolbar.vue"
       }
     }
   ]

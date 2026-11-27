@@ -2,8 +2,8 @@
   "schemaVersion": "1.2",
   "project": {
     "id": "HEADCOUNT-PLANNING",
-    "name": "人力预算与编制计划管理系统",
-    "description": "基于 SAP SuccessFactors 相关人事数据扩展的人力预算、编制计划及审批系统。",
+    "name": "DSCN 人力预算与编制计划管理系统",
+    "description": "基于 SAP SuccessFactors 组织、人员、职位和职衔主数据，覆盖模板配置、部门季度/年度填报、编制计划管理员审核、招聘团队评估、历史查询和报表导出的 Headcount Planning 系统。业务依据为《功能设计方案》V2.1。",
     "architecture": "modular-monolith"
   },
   "technology": {
@@ -16,7 +16,7 @@
   "modules": [
     {
       "id": "plan",
-      "name": "计划管理"
+      "name": "编制计划管理"
     },
     {
       "id": "organization",
@@ -28,11 +28,11 @@
     },
     {
       "id": "position",
-      "name": "职务与职位管理"
+      "name": "职务与职衔管理"
     },
     {
       "id": "account",
-      "name": "账号管理"
+      "name": "账号与会话管理"
     },
     {
       "id": "security",

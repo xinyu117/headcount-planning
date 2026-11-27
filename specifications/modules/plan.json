@@ -2,73 +2,281 @@
   "schemaVersion": "1.1",
   "module": {
     "id": "plan",
-    "name": "计划管理",
-    "description": "管理年度/期间人力预算与 Headcount 计划，支持填报、提交、审批、驳回修改及版本追踪。"
+    "name": "编制计划管理",
+    "description": "负责计划模板、期间与批次、部门预估、招聘预估、差异校验、审核退回、查询、报表和导出。"
   },
-  "purpose": "管理年度/期间人力预算与 Headcount 计划，支持填报、提交、审批、驳回修改及版本追踪。",
+  "purpose": "将线下 Excel 编制流程转为可配置、可追踪、可审核的 Headcount Planning 流程。",
   "dependencies": [
     "organization",
-    "position",
     "person",
+    "position",
     "security"
   ],
   "requirements": [
     {
       "id": "PLAN-001",
-      "title": "创建计划",
-      "description": "创建指定期间和组织范围的人力计划。",
+      "title": "配置编制模板",
+      "description": "HR 编制规划团队可配置季度/年度编制计划模板及部门、招聘预估表头颜色。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "计划编号唯一",
-        "保存为草稿"
+        "模板支持年度基本预算和第一至第四次季度预估",
+        "模板至少包含部门预估、招聘预估、人数、费用、contractor 和差异说明区域",
+        "模板配置修改保留审计记录"
       ],
-      "status": "CONFIRMED",
-      "openQuestion": null
+      "status": "TBD",
+      "openQuestion": "模板可配置粒度、字段数据源、公式和版本发布规则未在方案中定义。"
     },
     {
       "id": "PLAN-002",
-      "title": "计划填报",
-      "description": "按组织和职位维护计划人数、预算及说明。",
+      "title": "批量生成计划",
+      "description": "编制计划管理员选择单个或多个部门，按年度基本预算或指定年度/批次一次性生成计划。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "保存后可重新打开",
-        "修改记录可追踪"
+        "每个选中部门生成一条可独立分派的计划",
+        "年度基本预算不要求预算批次",
+        "年度季度预估必须选择批次",
+        "批量操作有唯一请求标识并支持幂等"
       ],
       "status": "CONFIRMED",
       "openQuestion": null
     },
     {
       "id": "PLAN-003",
-      "title": "提交审批",
-      "description": "计划制定者提交计划进入审批流程。",
+      "title": "计划编码与名称规则",
+      "description": "系统按年份、部门编码、部门名称和批次生成计划编码与名称。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "状态变为审批中",
-        "生成待办任务"
+        "年度基本预算编码为 年份-部门编码",
+        "季度预估编码为 年份-部门编码-批次",
+        "同一部门、年度、类型和批次不得重复生成有效计划"
       ],
       "status": "CONFIRMED",
       "openQuestion": null
     },
     {
       "id": "PLAN-004",
-      "title": "驳回后修改",
-      "description": "驳回后返回申请人修改并可再次提交。",
+      "title": "任务与快照口径",
+      "description": "按计划类型和批次确定填报月份跨度，并按指定截止日统计当前人数。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "驳回意见必填",
-        "申请人可重新提交"
+        "第一次预估覆盖当年6月至次年3月",
+        "第二次预估覆盖当年9月至次年3月",
+        "第三次预估覆盖当年12月至次年3月",
+        "第四次预估覆盖次年2月至次年3月",
+        "当前人数包含截止日当天仍有效、最后工作日为截止日的员工"
       ],
       "status": "CONFIRMED",
       "openQuestion": null
     },
     {
       "id": "PLAN-005",
-      "title": "审批计划",
-      "description": "审批人批准计划并完成当前审批任务。",
+      "title": "年度基本预算特殊口径",
+      "description": "年度基本预算当前人数取当年8月31日快照，并展示历史预估最后一个月人数。",
       "priority": "MUST",
       "acceptanceCriteria": [
-        "计划状态变为已批准",
-        "当前审批任务完成"
+        "基本预算默认展示三年规划列结构",
+        "前两年按12个月、最后一年按4个季度展示",
+        "第二次及后续预估人数按方案规定的左右顺序插入",
+        "历史预估列为只读"
+      ],
+      "status": "TBD",
+      "openQuestion": "方案写“一般为3年”，需确认计划年度切换、跨年项目列数及非标准年度的配置规则。"
+    },
+    {
+      "id": "PLAN-006",
+      "title": "部门预估填报",
+      "description": "部门负责人或总助在 Excel 风格界面填写被分派计划的部门人数、费用、contractor 和说明。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "部门用户只能访问其数据范围内的计划",
+        "部门填报时不显示招聘预估",
+        "单元格支持横向、纵向填充类似 Excel 的交互",
+        "保存后可重新打开且数据不丢失"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-007",
+      "title": "预估历史与差异控制",
+      "description": "季度预估展示年度基本预算和此前各批次预估，并自动计算与上一期间的年度差异。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "第四次预估按第四次、第三次、第二次、第一次、年度基本预算从左到右展示",
+        "差异取本期最后月份与上一可比期间最后月份之差",
+        "差异不为0时差异说明必填",
+        "保存或提交校验失败时返回字段级提示"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-008",
+      "title": "汇总行与 contractor",
+      "description": "支持特定部门的逻辑汇总行，并单独维护 contractor 人数和费用。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "汇总行按配置规则计算且不允许直接覆盖",
+        "contractor 与正式员工数据分开存储并可汇总展示",
+        "未配置规则的部门不显示无效汇总行"
+      ],
+      "status": "TBD",
+      "openQuestion": "除销售 MR 汇总外，其余汇总部门、纳入职衔及计算公式尚未提供。"
+    },
+    {
+      "id": "PLAN-009",
+      "title": "部门语言与特殊拆分",
+      "description": "按部门配置中文或英文表单，并对当前企划总部特殊组织拆分到三个下级组织分别分派。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "药物安全、制药技术、内审仅显示英文",
+        "语言配置可扩展至其他部门",
+        "82000020 当前按 83000064、83000065、83000066 分别生成和分派，不重复生成父级填写任务"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-010",
+      "title": "部门导出与提交",
+      "description": "部门用户可导出当前计划数据，但不得导入；完成填报后提交管理员审核。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "导出文件包含当前计划可见列和数据权限范围",
+        "部门页面不提供导入入口",
+        "提交后生成管理员审核待办并锁定部门普通编辑"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-011",
+      "title": "管理员审核与退回",
+      "description": "编制计划管理员审核部门填写内容，通过后进入招聘环节，发现问题时退回部门修改。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "审核待办展示计划、部门、批次、提交人和提交时间",
+        "退回意见必填且部门可基于保留数据重新提交",
+        "审核通过后招聘团队可以填写招聘预估",
+        "后端校验任务归属和计划状态"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-012",
+      "title": "管理员最终修改",
+      "description": "编制计划管理员可按权限修改计划数据，所有修改保留前后值和操作者。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "修改不受普通部门锁定的限制但受后端授权限制",
+        "修改记录包含字段、原值、新值、理由、操作者和时间",
+        "关键金额或人数修改不得丢失审计链"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-013",
+      "title": "招聘预估汇总填写",
+      "description": "招聘专员或经理在部门填报和审核完成后，按年度/批次填写跨部门汇总招聘预估。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "招聘页面展示已审核部门及既有部门预估",
+        "招聘预估显示在部门预估左侧",
+        "第二至第四次招聘预估带出此前部门预估、招聘预估和年度基本预算数据",
+        "只有授权招聘角色可编辑招聘预估"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-014",
+      "title": "招聘可行性评估",
+      "description": "招聘团队根据部门提交的需求评估可行性，并可在招聘预估中调整。",
+      "priority": "SHOULD",
+      "acceptanceCriteria": [
+        "招聘人员可记录评估结论和调整数量",
+        "原部门需求与招聘调整值同时保留",
+        "最终值及调整原因可查询"
+      ],
+      "status": "TBD",
+      "openQuestion": "可行性结论枚举、调整审批、调整是否覆盖部门需求及差异原因格式尚未确认。"
+    },
+    {
+      "id": "PLAN-015",
+      "title": "流程通知与待办",
+      "description": "在生成、提交、退回、审核通过和招聘完成等阶段提供待办和通知能力。",
+      "priority": "SHOULD",
+      "acceptanceCriteria": [
+        "首页可查看当前用户待办和消息",
+        "流程状态变更可追踪",
+        "通知失败不回滚已提交的业务数据"
+      ],
+      "status": "TBD",
+      "openQuestion": "通用需求要求流程每阶段自动通知，但 3.4/3.6 允许线下提醒且邮件规则待定，需确认系统邮件范围和时间点。"
+    },
+    {
+      "id": "PLAN-016",
+      "title": "历史计划查询",
+      "description": "各业务角色可查询其权限范围内的历史季度/年度编制和招聘计划。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "按年度、批次、部门、计划类型和状态筛选",
+        "历史数据只读并保留当时版本",
+        "查询结果遵守组织数据权限"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-017",
+      "title": "报表与导出",
+      "description": "提供编制和招聘计划相关报表及 Excel 导出。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "导出保持模板列顺序、表头和期间",
+        "报表数据与计划详情一致",
+        "导出操作记录审计日志"
+      ],
+      "status": "TBD",
+      "openQuestion": "方案未定义报表目录、统计维度、汇总公式、刷新频率和全公司统一视图字段。"
+    },
+    {
+      "id": "PLAN-018",
+      "title": "CSV/Excel 批量导入",
+      "description": "按项目通用需求提供 CSV 或 Excel 导入与校验。",
+      "priority": "COULD",
+      "acceptanceCriteria": [
+        "导入前执行模板、必填、枚举和引用校验",
+        "错误行返回明确错误信息",
+        "导入不绕过期间锁定、数据权限或差异说明规则"
+      ],
+      "status": "TBD",
+      "openQuestion": "通用需求要求导入，但部门与招聘章节明确禁止导入；需确认可导入角色、业务对象和生效阶段。"
+    },
+    {
+      "id": "PLAN-019",
+      "title": "招聘汇总性能",
+      "description": "招聘汇总页面在真实数据规模下保持可接受的加载和保存性能。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "以目标租户实际行数完成性能测试",
+        "保存采用并发版本校验并只提交变更",
+        "性能指标经业务和项目组确认后纳入验收"
+      ],
+      "status": "TBD",
+      "openQuestion": "实际部门数、人员行数、历史列数及可接受的加载/保存响应时间尚未提供。"
+    },
+    {
+      "id": "PLAN-020",
+      "title": "流程完成",
+      "description": "招聘团队提交招聘预估后结束当前计划流程并归档最终版本。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "招聘提交后计划状态变为已完成",
+        "已完成计划普通用户只读",
+        "完成动作生成最终版本和审计记录"
       ],
       "status": "CONFIRMED",
       "openQuestion": null
