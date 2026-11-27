@@ -1,10 +1,18 @@
 # AI Agent 开发规则（规格包 V1.2）
 
+## 新项目初始化（尚无 `specifications/project.json`）
+- 先读取用户提供的需求文档、`README.md`、相关 `schemas/`、`architecture/` 和 `ai-development/` 文档；不存在的既有规格文件不作为阻塞项。
+- 以需求文档及其验收标准为业务来源，按适用 Schema 生成 `specifications/` 草案；只创建项目范围及当前垂直切片需要的规格，不一次编造整个系统。
+- Schema 只约束规格的结构和字段，不代表业务规则；不得从 Schema、技术惯例或示例数据推断未写明的业务行为。
+- 对需求缺失、歧义或冲突的关键规则，先提出问题；可将未决项记录为 `TBD` / open question，但不得把假设写成已确认规格，也不得据此实现受影响行为。
+- 建立需求追踪，使每个已确认需求能关联到适用的模块、数据模型、API、工作流、页面/动作及测试；不适用的规格类型无需强行创建关联。
+- 初始规格草案形成后，运行 `node scripts/validate_specs.mjs`；修复 Schema 和跨文件引用错误后，再按“工作规则”进入代码实施。
+
 ## 任务开始前必须读取
-1. `README.md`、`specifications/project.json`、`specifications/open-questions.md`、`specifications/traceability.json`。
-2. 任务涉及模块的 `specifications/modules/*.json`，以及其 `dependencies` 指向的模块。
+1. 已有项目读取 `README.md`、`specifications/project.json`、`specifications/open-questions.md`、`specifications/traceability.json`；新项目初始化按上节执行。
+2. 读取任务涉及模块的 `specifications/modules/*.json`，以及其 `dependencies` 指向的模块。
 3. 涉及流程时读取 `specifications/workflows/`；数据库读取 `specifications/data-model/`；接口读取 `specifications/api/`；页面任务必须同时读取 `specifications/ui/pages.json`、`transitions.json`、`actions.json`、`components.json` 和 `architecture/ui-design.md`；外部数据读取 `specifications/integration/`。
-4. 读取相关 `architecture/` 和 `ai-development/` 文档。
+4. 读取相关 `schemas/`、`architecture/` 和 `ai-development/` 文档；新项目应先读取计划生成规格所对应的 Schema。
 
 ## 工作规则
 - 需求文档是业务依据；TBD、冲突或缺少关键规则时先提问，不得猜测。
