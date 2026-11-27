@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "1.2",
+  "actions": [
+    {
+      "id": "ACT-CREATE-PLAN",
+      "name": "创建计划",
+      "type": "NAVIGATION",
+      "transitionId": "NAV-PLAN-DETAIL",
+      "description": "打开计划详情页创建新草稿。"
+    },
+    {
+      "id": "ACT-OPEN-PLAN-NEW-TAB",
+      "name": "新标签页打开计划",
+      "type": "NAVIGATION",
+      "transitionId": "NAV-PLAN-NEW-TAB"
+    },
+    {
+      "id": "ACT-SELECT-ORG",
+      "name": "选择组织",
+      "type": "NAVIGATION",
+      "transitionId": "NAV-ORG-PICKER"
+    },
+    {
+      "id": "ACT-VIEW-PERSON",
+      "name": "查看人员",
+      "type": "NAVIGATION",
+      "transitionId": "NAV-PERSON-QUICK-VIEW"
+    },
+    {
+      "id": "ACT-TOGGLE-ADVANCED-FILTERS",
+      "name": "高级筛选",
+      "type": "NAVIGATION",
+      "transitionId": "NAV-ADVANCED-FILTERS"
+    },
+    {
+      "id": "ACT-SEARCH-PLANS",
+      "name": "查询计划",
+      "type": "API",
+      "apiId": "API-PLAN-LIST",
+      "httpMethod": "GET",
+      "confirm": {
+        "enabled": false
+      },
+      "success": {
+        "behavior": "REFRESH_COMPONENT",
+        "targetComponentId": "PLAN-DATA-TABLE"
+      },
+      "failure": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "查询失败，请检查条件后重试。"
+      }
+    },
+    {
+      "id": "ACT-SAVE-PLAN",
+      "name": "保存草稿",
+      "type": "API",
+      "apiId": "API-PLAN-CREATE",
+      "confirm": {
+        "enabled": false
+      },
+      "success": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "保存成功。"
+      },
+      "failure": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "保存失败，请检查输入内容。"
+      }
+    },
+    {
+      "id": "ACT-SUBMIT-PLAN",
+      "name": "提交审批",
+      "type": "API",
+      "apiId": "API-PLAN-SUBMIT",
+      "confirm": {
+        "enabled": true,
+        "message": "确定提交该计划进行审批吗？"
+      },
+      "success": {
+        "behavior": "NAVIGATE",
+        "targetPageId": "PLAN-WORKSPACE",
+        "message": "计划已提交。"
+      },
+      "failure": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "提交失败，请稍后重试。"
+      }
+    },
+    {
+      "id": "ACT-REJECT-PLAN",
+      "name": "驳回计划",
+      "type": "API",
+      "apiId": "API-PLAN-REJECT",
+      "confirm": {
+        "enabled": true,
+        "message": "确定驳回该计划吗？"
+      },
+      "success": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "计划已驳回。"
+      },
+      "failure": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "驳回失败，请稍后重试。"
+      }
+    }
+  ]
+}

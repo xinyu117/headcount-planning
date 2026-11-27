@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.1",
+  "module": {
+    "id": "position",
+    "name": "职务与职位管理",
+    "description": "负责职务与职位管理相关业务能力。"
+  },
+  "purpose": "负责职务与职位管理相关业务能力。",
+  "dependencies": [
+    "organization"
+  ],
+  "requirements": [
+    {
+      "id": "POS-001",
+      "title": "职位维护",
+      "description": "维护职位编码、名称、所属组织和有效期。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "职位编码唯一",
+        "组织引用有效"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "POS-002",
+      "title": "编制关联",
+      "description": "职位关联计划编制数据。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "计划明细可引用有效职位"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    }
+  ]
+}

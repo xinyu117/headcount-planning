@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.2",
+  "documents": {
+    "pages": "pages.json",
+    "transitions": "transitions.json",
+    "actions": "actions.json",
+    "components": "components.json"
+  }
+}

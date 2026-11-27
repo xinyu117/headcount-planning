@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "project",
+    "technology",
+    "modules",
+    "documentRefs"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.2"
+    },
+    "project": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "description",
+        "architecture"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "HEADCOUNT-PLANNING"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "architecture": {
+          "const": "modular-monolith"
+        }
+      }
+    },
+    "technology": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "required": [
+        "backend",
+        "frontend",
+        "database",
+        "workflow",
+        "authorization"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "backend": {
+          "const": "Java 21 + Spring Boot 3"
+        },
+        "frontend": {
+          "const": "Vue 3 + TypeScript + Element Plus"
+        },
+        "database": {
+          "const": "MySQL 8"
+        },
+        "workflow": {
+          "const": "Flowable"
+        },
+        "authorization": {
+          "const": "Spring Security + jCasbin"
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "documentRefs": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "required": [
+        "workflow",
+        "dataModel",
+        "api",
+        "ui",
+        "integration"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "workflow": {
+          "type": "string"
+        },
+        "dataModel": {
+          "type": "string"
+        },
+        "api": {
+          "type": "string"
+        },
+        "ui": {
+          "type": "string"
+        },
+        "integration": {
+          "type": "string"
+        },
+        "uiPages": {
+          "type": "string"
+        },
+        "uiTransitions": {
+          "type": "string"
+        },
+        "uiActions": {
+          "type": "string"
+        },
+        "uiComponents": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

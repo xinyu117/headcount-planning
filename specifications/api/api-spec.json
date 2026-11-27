@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.1",
+  "apis": [
+    {
+      "id": "API-PLAN-LIST",
+      "method": "GET",
+      "path": "/api/plans",
+      "moduleId": "plan",
+      "description": "分页查询计划",
+      "authorization": "PLAN_VIEW",
+      "requestSchema": null,
+      "responseSchema": "PlanPage"
+    },
+    {
+      "id": "API-PLAN-CREATE",
+      "method": "POST",
+      "path": "/api/plans",
+      "moduleId": "plan",
+      "description": "创建计划草稿",
+      "authorization": "PLAN_CREATE",
+      "requestSchema": "PlanCreateRequest",
+      "responseSchema": "Plan"
+    },
+    {
+      "id": "API-PLAN-SUBMIT",
+      "method": "POST",
+      "path": "/api/plans/{id}/submit",
+      "moduleId": "plan",
+      "description": "提交计划审批",
+      "authorization": "PLAN_SUBMIT",
+      "requestSchema": null,
+      "responseSchema": "WorkflowTask"
+    },
+    {
+      "id": "API-PLAN-REJECT",
+      "method": "POST",
+      "path": "/api/plans/{id}/reject",
+      "moduleId": "plan",
+      "description": "驳回计划并填写意见",
+      "authorization": "PLAN_APPROVE",
+      "requestSchema": "RejectRequest",
+      "responseSchema": "Plan"
+    }
+  ]
+}

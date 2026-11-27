@@ -1,0 +1,200 @@
+{
+  "schemaVersion": "1.1",
+  "entities": [
+    {
+      "id": "Plan",
+      "tableName": "hc_plan",
+      "moduleId": "plan",
+      "description": "计划主表",
+      "fields": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primaryKey": true,
+          "reference": null
+        },
+        {
+          "name": "plan_code",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": null
+        },
+        {
+          "name": "period",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": null
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": null
+        }
+      ]
+    },
+    {
+      "id": "PlanItem",
+      "tableName": "hc_plan_item",
+      "moduleId": "plan",
+      "description": "计划明细",
+      "fields": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primaryKey": true,
+          "reference": null
+        },
+        {
+          "name": "plan_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": "Plan"
+        },
+        {
+          "name": "organization_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": "Organization"
+        },
+        {
+          "name": "position_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primaryKey": false,
+          "reference": "Position"
+        },
+        {
+          "name": "planned_headcount",
+          "type": "DECIMAL(12,2)",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": null
+        }
+      ]
+    },
+    {
+      "id": "Organization",
+      "tableName": "hc_organization",
+      "moduleId": "organization",
+      "description": "组织节点",
+      "fields": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primaryKey": true,
+          "reference": null
+        },
+        {
+          "name": "org_code",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": null
+        },
+        {
+          "name": "parent_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primaryKey": false,
+          "reference": null
+        }
+      ]
+    },
+    {
+      "id": "Position",
+      "tableName": "hc_position",
+      "moduleId": "position",
+      "description": "职位",
+      "fields": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primaryKey": true,
+          "reference": null
+        },
+        {
+          "name": "position_code",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": null
+        },
+        {
+          "name": "organization_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": "Organization"
+        }
+      ]
+    },
+    {
+      "id": "Person",
+      "tableName": "hc_person",
+      "moduleId": "person",
+      "description": "人员档案",
+      "fields": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primaryKey": true,
+          "reference": null
+        },
+        {
+          "name": "person_code",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": null
+        },
+        {
+          "name": "organization_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primaryKey": false,
+          "reference": "Organization"
+        }
+      ]
+    },
+    {
+      "id": "Account",
+      "tableName": "hc_account",
+      "moduleId": "account",
+      "description": "登录账号",
+      "fields": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primaryKey": true,
+          "reference": null
+        },
+        {
+          "name": "username",
+          "type": "VARCHAR(128)",
+          "nullable": false,
+          "primaryKey": false,
+          "reference": null
+        },
+        {
+          "name": "person_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primaryKey": false,
+          "reference": "Person"
+        }
+      ]
+    }
+  ]
+}

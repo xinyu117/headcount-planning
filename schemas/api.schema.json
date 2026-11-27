@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "apis"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.1"
+    },
+    "apis": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "required": [
+          "id",
+          "method",
+          "path",
+          "moduleId",
+          "description",
+          "authorization",
+          "requestSchema",
+          "responseSchema"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^API-[A-Z0-9-]+$"
+          },
+          "method": {
+            "enum": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "moduleId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "authorization": {
+            "type": "string"
+          },
+          "requestSchema": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "responseSchema": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

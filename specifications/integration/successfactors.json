@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.1",
+  "systems": [
+    {
+      "id": "SUCCESSFACTORS",
+      "name": "SAP SuccessFactors",
+      "protocol": "OData API",
+      "metadataStatus": "TENANT_VALIDATION_REQUIRED"
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "SF-PERSON-SYNC",
+      "source": "SUCCESSFACTORS",
+      "target": "Headcount Planning",
+      "purpose": "同步人员及组织相关主数据",
+      "fieldMappingStatus": "TBD",
+      "notes": "对象、字段、分页、增量机制和认证方式必须依据目标租户 OData $metadata 与 API 权限确认。"
+    }
+  ]
+}

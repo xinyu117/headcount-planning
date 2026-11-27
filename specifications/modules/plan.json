@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.1",
+  "module": {
+    "id": "plan",
+    "name": "计划管理",
+    "description": "管理年度/期间人力预算与 Headcount 计划，支持填报、提交、审批、驳回修改及版本追踪。"
+  },
+  "purpose": "管理年度/期间人力预算与 Headcount 计划，支持填报、提交、审批、驳回修改及版本追踪。",
+  "dependencies": [
+    "organization",
+    "position",
+    "person",
+    "security"
+  ],
+  "requirements": [
+    {
+      "id": "PLAN-001",
+      "title": "创建计划",
+      "description": "创建指定期间和组织范围的人力计划。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "计划编号唯一",
+        "保存为草稿"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-002",
+      "title": "计划填报",
+      "description": "按组织和职位维护计划人数、预算及说明。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "保存后可重新打开",
+        "修改记录可追踪"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-003",
+      "title": "提交审批",
+      "description": "计划制定者提交计划进入审批流程。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "状态变为审批中",
+        "生成待办任务"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PLAN-004",
+      "title": "驳回后修改",
+      "description": "驳回后返回申请人修改并可再次提交。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "驳回意见必填",
+        "申请人可重新提交"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    }
+  ]
+}

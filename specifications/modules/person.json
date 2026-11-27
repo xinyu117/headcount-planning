@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.1",
+  "module": {
+    "id": "person",
+    "name": "人员管理",
+    "description": "负责人员管理相关业务能力。"
+  },
+  "purpose": "负责人员管理相关业务能力。",
+  "dependencies": [
+    "organization",
+    "account"
+  ],
+  "requirements": [
+    {
+      "id": "PER-001",
+      "title": "人员档案",
+      "description": "维护人员基础信息及组织归属。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "人员标识唯一"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "PER-002",
+      "title": "外部数据同步",
+      "description": "从 SuccessFactors 获取约定的人事数据。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "记录同步成功/失败及时间"
+      ],
+      "status": "TBD",
+      "openQuestion": "需依据目标租户 SuccessFactors OData 元数据确认实体与字段"
+    }
+  ]
+}

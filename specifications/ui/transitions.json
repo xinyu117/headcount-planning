@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.2",
+  "transitions": [
+    {
+      "id": "NAV-PLAN-DETAIL",
+      "from": "PLAN-WORKSPACE",
+      "to": "PLAN-DETAIL",
+      "trigger": {
+        "type": "ROW_CLICK",
+        "source": "PLAN-DATA-TABLE",
+        "event": "row-click"
+      },
+      "openMode": "SAME_TAB",
+      "parameterMapping": {
+        "id": "event.row.id"
+      }
+    },
+    {
+      "id": "NAV-PLAN-NEW-TAB",
+      "from": "PLAN-WORKSPACE",
+      "to": "PLAN-DETAIL",
+      "trigger": {
+        "type": "ACTION",
+        "actionId": "ACT-OPEN-PLAN-NEW-TAB"
+      },
+      "openMode": "NEW_TAB",
+      "parameterMapping": {
+        "id": "context.planId"
+      }
+    },
+    {
+      "id": "NAV-ORG-PICKER",
+      "from": "PLAN-DETAIL",
+      "to": "ORG-SELECT-DIALOG",
+      "trigger": {
+        "type": "ACTION",
+        "actionId": "ACT-SELECT-ORG"
+      },
+      "openMode": "MODAL",
+      "parameterMapping": {
+        "selectionMode": "'SINGLE'"
+      },
+      "returnMapping": {
+        "organizationId": "form.organizationId",
+        "organizationName": "form.organizationName"
+      },
+      "returnEvent": "CONFIRM"
+    },
+    {
+      "id": "NAV-PERSON-QUICK-VIEW",
+      "from": "PLAN-DETAIL",
+      "to": "PERSON-QUICK-VIEW",
+      "trigger": {
+        "type": "ACTION",
+        "actionId": "ACT-VIEW-PERSON"
+      },
+      "openMode": "DRAWER",
+      "parameterMapping": {
+        "personId": "context.personId"
+      }
+    },
+    {
+      "id": "NAV-ADVANCED-FILTERS",
+      "from": "PLAN-WORKSPACE",
+      "to": "PLAN-FILTER-PANEL",
+      "trigger": {
+        "type": "ACTION",
+        "actionId": "ACT-TOGGLE-ADVANCED-FILTERS"
+      },
+      "openMode": "INLINE",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-ORG-MAINTENANCE",
+      "from": "PLAN-WORKSPACE",
+      "to": "ORG-MAINTENANCE",
+      "trigger": {
+        "type": "MENU_ITEM",
+        "source": "ADMIN_MENU"
+      },
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-ROLE-SECURITY",
+      "from": "ORG-MAINTENANCE",
+      "to": "SECURITY-ROLE",
+      "trigger": {
+        "type": "MENU_ITEM",
+        "source": "ADMIN_MENU"
+      },
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UI Action Specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "actions"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.2"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "API",
+              "NAVIGATION",
+              "LOCAL",
+              "WORKFLOW"
+            ]
+          },
+          "apiId": {
+            "type": "string"
+          },
+          "httpMethod": {
+            "enum": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          },
+          "transitionId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "confirm": {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "enabled"
+            ],
+            "additionalProperties": false
+          },
+          "success": {
+            "type": "object",
+            "properties": {
+              "behavior": {
+                "enum": [
+                  "NONE",
+                  "SHOW_MESSAGE",
+                  "NAVIGATE",
+                  "REFRESH_PAGE",
+                  "REFRESH_COMPONENT",
+                  "CLOSE_OVERLAY",
+                  "RETURN_DATA"
+                ]
+              },
+              "targetPageId": {
+                "type": "string"
+              },
+              "targetComponentId": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "behavior"
+            ],
+            "additionalProperties": false
+          },
+          "failure": {
+            "type": "object",
+            "properties": {
+              "behavior": {
+                "enum": [
+                  "SHOW_MESSAGE",
+                  "SHOW_VALIDATION",
+                  "NONE"
+                ]
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "behavior"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  }
+}

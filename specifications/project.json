@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.2",
+  "project": {
+    "id": "HEADCOUNT-PLANNING",
+    "name": "人力预算与编制计划管理系统",
+    "description": "基于 SAP SuccessFactors 相关人事数据扩展的人力预算、编制计划及审批系统。",
+    "architecture": "modular-monolith"
+  },
+  "technology": {
+    "backend": "Java 21 + Spring Boot 3",
+    "frontend": "Vue 3 + TypeScript + Element Plus",
+    "database": "MySQL 8",
+    "workflow": "Flowable",
+    "authorization": "Spring Security + jCasbin"
+  },
+  "modules": [
+    {
+      "id": "plan",
+      "name": "计划管理"
+    },
+    {
+      "id": "organization",
+      "name": "组织管理"
+    },
+    {
+      "id": "person",
+      "name": "人员管理"
+    },
+    {
+      "id": "position",
+      "name": "职务与职位管理"
+    },
+    {
+      "id": "account",
+      "name": "账号管理"
+    },
+    {
+      "id": "security",
+      "name": "权限与角色管理"
+    }
+  ],
+  "documentRefs": {
+    "workflow": "workflows/headcount-approval.json",
+    "dataModel": "data-model/entities.json",
+    "api": "api/api-spec.json",
+    "ui": "ui/ui-index.json",
+    "integration": "integration/successfactors.json",
+    "uiPages": "ui/pages.json",
+    "uiTransitions": "ui/transitions.json",
+    "uiActions": "ui/actions.json",
+    "uiComponents": "ui/components.json"
+  }
+}

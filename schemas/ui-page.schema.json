@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UI Page Specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "pages"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.2"
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "moduleId",
+          "pageType",
+          "layout",
+          "functions"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "moduleId": {
+            "type": "string"
+          },
+          "pageType": {
+            "enum": [
+              "PAGE",
+              "DIALOG",
+              "DRAWER",
+              "INLINE_PANEL"
+            ]
+          },
+          "route": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "permission": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "type",
+                "required"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "required": {
+                  "type": "boolean"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "default": {}
+              },
+              "additionalProperties": false
+            }
+          },
+          "returnValues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "dialog": {
+            "type": "object",
+            "properties": {
+              "width": {
+                "type": "string"
+              },
+              "height": {
+                "type": "string"
+              },
+              "closeOnBackdrop": {
+                "type": "boolean"
+              },
+              "closeOnEscape": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          },
+          "drawer": {
+            "type": "object",
+            "properties": {
+              "placement": {
+                "enum": [
+                  "LEFT",
+                  "RIGHT",
+                  "TOP",
+                  "BOTTOM"
+                ]
+              },
+              "size": {
+                "type": "string"
+              },
+              "modal": {
+                "type": "boolean"
+              },
+              "closeOnEscape": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          },
+          "layout": {
+            "type": "object",
+            "required": [
+              "type",
+              "areas"
+            ],
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "areas": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "type",
+                    "componentRefs"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "componentRefs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "responsive": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

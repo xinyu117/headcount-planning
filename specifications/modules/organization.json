@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.1",
+  "module": {
+    "id": "organization",
+    "name": "组织管理",
+    "description": "负责组织管理相关业务能力。"
+  },
+  "purpose": "负责组织管理相关业务能力。",
+  "dependencies": [],
+  "requirements": [
+    {
+      "id": "ORG-001",
+      "title": "组织层级",
+      "description": "维护多层级组织结构。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "组织编码唯一",
+        "禁止父子循环"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "ORG-002",
+      "title": "组织有效期",
+      "description": "维护组织生效和失效日期。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "可按日期还原组织结构"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    }
+  ]
+}

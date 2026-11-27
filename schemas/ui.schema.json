@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UI Specification Bundle Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "documents"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.2"
+    },
+    "documents": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pages",
+        "transitions",
+        "actions",
+        "components"
+      ],
+      "properties": {
+        "pages": {
+          "type": "string"
+        },
+        "transitions": {
+          "type": "string"
+        },
+        "actions": {
+          "type": "string"
+        },
+        "components": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

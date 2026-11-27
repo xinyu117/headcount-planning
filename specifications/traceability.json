@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.1",
+  "items": [
+    {
+      "requirementId": "PLAN-001",
+      "module": "plan",
+      "apiIds": [
+        "API-PLAN-CREATE"
+      ],
+      "uiPageIds": [
+        "PLAN-WORKSPACE"
+      ],
+      "testIds": [
+        "TC-PLAN-001-001"
+      ]
+    },
+    {
+      "requirementId": "PLAN-003",
+      "module": "plan",
+      "apiIds": [
+        "API-PLAN-SUBMIT"
+      ],
+      "uiPageIds": [
+        "PLAN-DETAIL"
+      ],
+      "testIds": [
+        "TC-PLAN-003-001"
+      ]
+    },
+    {
+      "requirementId": "PLAN-004",
+      "module": "plan",
+      "apiIds": [
+        "API-PLAN-REJECT"
+      ],
+      "uiPageIds": [
+        "PLAN-DETAIL"
+      ],
+      "testIds": [
+        "TC-PLAN-004-001"
+      ]
+    }
+  ]
+}

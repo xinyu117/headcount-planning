@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UI Transition Specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "transitions"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.2"
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "from",
+          "to",
+          "trigger",
+          "openMode",
+          "parameterMapping"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "trigger": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "ACTION",
+                  "ROW_CLICK",
+                  "BUTTON_CLICK",
+                  "MENU_ITEM",
+                  "LINK_CLICK",
+                  "CUSTOM_EVENT"
+                ]
+              },
+              "actionId": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "event": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "openMode": {
+            "enum": [
+              "SAME_TAB",
+              "NEW_TAB",
+              "MODAL",
+              "DRAWER",
+              "INLINE"
+            ]
+          },
+          "parameterMapping": {
+            "type": "object"
+          },
+          "returnMapping": {
+            "type": "object"
+          },
+          "returnEvent": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.1",
+  "module": {
+    "id": "security",
+    "name": "权限与角色管理",
+    "description": "负责权限与角色管理相关业务能力。"
+  },
+  "purpose": "负责权限与角色管理相关业务能力。",
+  "dependencies": [
+    "organization",
+    "account"
+  ],
+  "requirements": [
+    {
+      "id": "SEC-001",
+      "title": "角色维护",
+      "description": "Web 页面维护角色与功能权限关系。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "角色权限变更生效"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "SEC-002",
+      "title": "数据范围",
+      "description": "按组织范围限制用户数据访问。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "越权 API 请求被拒绝"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    }
+  ]
+}

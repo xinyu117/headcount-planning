@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "1.2",
+  "components": [
+    {
+      "id": "PLAN-SEARCH-FORM",
+      "name": "计划查询表单",
+      "category": "FORM",
+      "description": "计划年度、组织、状态等查询条件。",
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "object",
+          "required": true
+        }
+      ],
+      "events": [
+        "search",
+        "reset"
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanSearchForm.vue"
+      }
+    },
+    {
+      "id": "PLAN-ADVANCED-FILTERS",
+      "name": "计划高级筛选",
+      "category": "FORM",
+      "description": "扩展筛选条件区域。",
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "object",
+          "required": true
+        }
+      ],
+      "events": [
+        "apply",
+        "reset"
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanAdvancedFilters.vue"
+      }
+    },
+    {
+      "id": "PLAN-LIST-TOOLBAR",
+      "name": "计划列表工具栏",
+      "category": "TOOLBAR",
+      "description": "创建计划及列表级操作。",
+      "props": [],
+      "events": [
+        "create"
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanListToolbar.vue"
+      }
+    },
+    {
+      "id": "PLAN-DATA-TABLE",
+      "name": "计划数据表格",
+      "category": "DATA_TABLE",
+      "description": "展示计划列表并支持行点击。",
+      "props": [
+        {
+          "name": "rows",
+          "type": "array",
+          "required": true
+        }
+      ],
+      "events": [
+        "row-click",
+        "selection-change"
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanDataTable.vue"
+      }
+    },
+    {
+      "id": "PLAN-BASIC-FORM",
+      "name": "计划基本信息表单",
+      "category": "FORM",
+      "description": "维护计划年度、组织、负责人等字段。",
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "object",
+          "required": true
+        }
+      ],
+      "events": [
+        "update:modelValue",
+        "change"
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanBasicForm.vue"
+      }
+    },
+    {
+      "id": "HEADCOUNT-LINE-TABLE",
+      "name": "编制明细表格",
+      "category": "DATA_TABLE",
+      "description": "维护职位、人数、FTE、预算等计划明细。",
+      "props": [
+        {
+          "name": "rows",
+          "type": "array",
+          "required": true
+        }
+      ],
+      "events": [
+        "add",
+        "edit",
+        "delete",
+        "view-person"
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "HeadcountLineTable.vue"
+      }
+    },
+    {
+      "id": "PLAN-DETAIL-ACTIONS",
+      "name": "计划详情操作栏",
+      "category": "ACTION_BAR",
+      "description": "保存、提交审批等操作。",
+      "props": [
+        {
+          "name": "status",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "events": [
+        "save",
+        "submit"
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanDetailActions.vue"
+      }
+    },
+    {
+      "id": "ORG-TREE",
+      "name": "组织树",
+      "category": "TREE",
+      "description": "展示可选组织层级。",
+      "props": [
+        {
+          "name": "selectable",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "events": [
+        "node-click",
+        "selection-change"
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "OrganizationTree.vue"
+      }
+    },
+    {
+      "id": "ORG-DETAIL-FORM",
+      "name": "组织详情表单",
+      "category": "FORM",
+      "description": "组织属性及有效期维护。",
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "object",
+          "required": true
+        }
+      ],
+      "events": [
+        "save",
+        "cancel"
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "OrganizationDetailForm.vue"
+      }
+    },
+    {
+      "id": "ROLE-PERMISSION-MATRIX",
+      "name": "角色权限矩阵",
+      "category": "CUSTOM",
+      "description": "按角色配置功能权限和数据范围。",
+      "props": [
+        {
+          "name": "roleId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "events": [
+        "change",
+        "save"
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "RolePermissionMatrix.vue"
+      }
+    }
+  ]
+}

@@ -1,0 +1,308 @@
+{
+  "schemaVersion": "1.2",
+  "pages": [
+    {
+      "id": "PLAN-WORKSPACE",
+      "name": "计划工作台",
+      "moduleId": "plan",
+      "pageType": "PAGE",
+      "route": "/plans",
+      "description": "按年度、组织、状态查询和管理人力计划。",
+      "permission": "PLAN_VIEW",
+      "layout": {
+        "type": "LIST",
+        "areas": [
+          {
+            "id": "SEARCH",
+            "type": "SEARCH_FORM",
+            "componentRefs": [
+              "PLAN-SEARCH-FORM"
+            ]
+          },
+          {
+            "id": "TOOLBAR",
+            "type": "TOOLBAR",
+            "componentRefs": [
+              "PLAN-LIST-TOOLBAR"
+            ]
+          },
+          {
+            "id": "DATA_TABLE",
+            "type": "DATA_TABLE",
+            "componentRefs": [
+              "PLAN-DATA-TABLE"
+            ]
+          },
+          {
+            "id": "PAGINATION",
+            "type": "PAGINATION",
+            "componentRefs": []
+          }
+        ]
+      },
+      "functions": [
+        "查询计划",
+        "创建计划",
+        "打开计划详情"
+      ],
+      "responsive": {
+        "supported": true,
+        "defaultBreakpoint": "DESKTOP"
+      }
+    },
+    {
+      "id": "PLAN-DETAIL",
+      "name": "计划详情与填报",
+      "moduleId": "plan",
+      "pageType": "PAGE",
+      "route": "/plans/:id",
+      "description": "维护计划基本信息、编制明细并提交审批。",
+      "permission": "PLAN_VIEW",
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "source": "route"
+        }
+      ],
+      "layout": {
+        "type": "DETAIL",
+        "areas": [
+          {
+            "id": "HEADER",
+            "type": "PAGE_HEADER",
+            "componentRefs": []
+          },
+          {
+            "id": "BASIC_INFO",
+            "type": "FORM",
+            "componentRefs": [
+              "PLAN-BASIC-FORM"
+            ]
+          },
+          {
+            "id": "HEADCOUNT_LINES",
+            "type": "DATA_TABLE",
+            "componentRefs": [
+              "HEADCOUNT-LINE-TABLE"
+            ]
+          },
+          {
+            "id": "APPROVAL_HISTORY",
+            "type": "TIMELINE",
+            "componentRefs": []
+          },
+          {
+            "id": "FOOTER_ACTIONS",
+            "type": "ACTION_BAR",
+            "componentRefs": [
+              "PLAN-DETAIL-ACTIONS"
+            ]
+          }
+        ]
+      },
+      "functions": [
+        "编辑计划明细",
+        "保存草稿",
+        "提交审批",
+        "查看审批记录"
+      ],
+      "responsive": {
+        "supported": true,
+        "defaultBreakpoint": "DESKTOP"
+      }
+    },
+    {
+      "id": "ORG-MAINTENANCE",
+      "name": "组织管理",
+      "moduleId": "organization",
+      "pageType": "PAGE",
+      "route": "/admin/organizations",
+      "description": "维护组织层级、有效期及组织属性。",
+      "permission": "ORG_VIEW",
+      "layout": {
+        "type": "MASTER_DETAIL",
+        "areas": [
+          {
+            "id": "ORG_TREE",
+            "type": "TREE",
+            "componentRefs": [
+              "ORG-TREE"
+            ]
+          },
+          {
+            "id": "ORG_DETAIL",
+            "type": "FORM",
+            "componentRefs": [
+              "ORG-DETAIL-FORM"
+            ]
+          }
+        ]
+      },
+      "functions": [
+        "组织树维护",
+        "组织有效期维护"
+      ],
+      "responsive": {
+        "supported": true,
+        "defaultBreakpoint": "DESKTOP"
+      }
+    },
+    {
+      "id": "SECURITY-ROLE",
+      "name": "角色权限管理",
+      "moduleId": "security",
+      "pageType": "PAGE",
+      "route": "/admin/roles",
+      "description": "维护角色、功能权限和数据范围。",
+      "permission": "ROLE_ADMIN",
+      "layout": {
+        "type": "MASTER_DETAIL",
+        "areas": [
+          {
+            "id": "ROLE_LIST",
+            "type": "DATA_TABLE",
+            "componentRefs": []
+          },
+          {
+            "id": "ROLE_PERMISSION",
+            "type": "PERMISSION_MATRIX",
+            "componentRefs": [
+              "ROLE-PERMISSION-MATRIX"
+            ]
+          }
+        ]
+      },
+      "functions": [
+        "角色维护",
+        "功能权限配置",
+        "数据范围配置"
+      ],
+      "responsive": {
+        "supported": true,
+        "defaultBreakpoint": "DESKTOP"
+      }
+    },
+    {
+      "id": "ORG-SELECT-DIALOG",
+      "name": "选择组织",
+      "moduleId": "organization",
+      "pageType": "DIALOG",
+      "description": "从组织树中选择一个有效组织。",
+      "permission": "ORG_VIEW",
+      "dialog": {
+        "width": "720px",
+        "height": "600px",
+        "closeOnBackdrop": false,
+        "closeOnEscape": true
+      },
+      "parameters": [
+        {
+          "name": "selectionMode",
+          "type": "string",
+          "required": false,
+          "default": "SINGLE"
+        }
+      ],
+      "layout": {
+        "type": "SELECTOR",
+        "areas": [
+          {
+            "id": "ORG_TREE",
+            "type": "TREE",
+            "componentRefs": [
+              "ORG-TREE"
+            ]
+          },
+          {
+            "id": "DIALOG_FOOTER",
+            "type": "ACTION_BAR",
+            "componentRefs": []
+          }
+        ]
+      },
+      "functions": [
+        "搜索组织",
+        "选择组织",
+        "确认选择",
+        "取消"
+      ],
+      "returnValues": [
+        {
+          "name": "organizationId",
+          "type": "string"
+        },
+        {
+          "name": "organizationName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "PERSON-QUICK-VIEW",
+      "name": "人员快速查看",
+      "moduleId": "person",
+      "pageType": "DRAWER",
+      "description": "从计划明细侧边查看人员摘要。",
+      "permission": "PERSON_VIEW",
+      "drawer": {
+        "placement": "RIGHT",
+        "size": "560px",
+        "modal": true,
+        "closeOnEscape": true
+      },
+      "parameters": [
+        {
+          "name": "personId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "layout": {
+        "type": "DETAIL",
+        "areas": [
+          {
+            "id": "PERSON_PROFILE",
+            "type": "PROFILE",
+            "componentRefs": []
+          },
+          {
+            "id": "EMPLOYMENT_INFO",
+            "type": "DESCRIPTION_LIST",
+            "componentRefs": []
+          }
+        ]
+      },
+      "functions": [
+        "查看人员基本信息",
+        "查看任职信息"
+      ]
+    },
+    {
+      "id": "PLAN-FILTER-PANEL",
+      "name": "高级筛选",
+      "moduleId": "plan",
+      "pageType": "INLINE_PANEL",
+      "description": "在计划工作台内展开高级筛选条件。",
+      "permission": "PLAN_VIEW",
+      "layout": {
+        "type": "FORM",
+        "areas": [
+          {
+            "id": "ADVANCED_FILTERS",
+            "type": "FORM",
+            "componentRefs": [
+              "PLAN-ADVANCED-FILTERS"
+            ]
+          }
+        ]
+      },
+      "functions": [
+        "设置高级筛选",
+        "应用筛选",
+        "重置筛选"
+      ]
+    }
+  ]
+}

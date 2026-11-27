@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.1",
+  "workflow": {
+    "id": "WF-HEADCOUNT-APPROVAL",
+    "name": "人力计划审批流程",
+    "engine": "Flowable",
+    "description": "提交后进入审批；驳回返回申请人修改并允许再次提交。"
+  },
+  "states": [
+    {
+      "id": "DRAFT",
+      "name": "草稿",
+      "type": "START"
+    },
+    {
+      "id": "IN_REVIEW",
+      "name": "审批中",
+      "type": "TASK"
+    },
+    {
+      "id": "RETURNED",
+      "name": "已驳回",
+      "type": "TASK"
+    },
+    {
+      "id": "APPROVED",
+      "name": "已批准",
+      "type": "END"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "T-SUBMIT",
+      "from": "DRAFT",
+      "to": "IN_REVIEW"
+    },
+    {
+      "id": "T-APPROVE",
+      "from": "IN_REVIEW",
+      "to": "APPROVED"
+    },
+    {
+      "id": "T-REJECT",
+      "from": "IN_REVIEW",
+      "to": "RETURNED"
+    },
+    {
+      "id": "T-RESUBMIT",
+      "from": "RETURNED",
+      "to": "IN_REVIEW"
+    }
+  ],
+  "assignmentRules": [
+    {
+      "id": "AR-APPROVER",
+      "taskId": "IN_REVIEW",
+      "assigneeRule": {
+        "type": "DEPARTMENT_ROLE",
+        "departmentId": "${plan.departmentId}",
+        "roleCode": "PLAN_APPROVER",
+        "fallback": null
+      }
+    }
+  ]
+}

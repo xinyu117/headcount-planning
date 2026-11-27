@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.1",
+  "module": {
+    "id": "account",
+    "name": "账号管理",
+    "description": "负责账号管理相关业务能力。"
+  },
+  "purpose": "负责账号管理相关业务能力。",
+  "dependencies": [
+    "person",
+    "security"
+  ],
+  "requirements": [
+    {
+      "id": "ACC-001",
+      "title": "账号生命周期",
+      "description": "管理员创建、停用和启用账号。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "停用账号不能建立新会话"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    },
+    {
+      "id": "ACC-002",
+      "title": "人员关联",
+      "description": "账号关联人员档案。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "人员存在且关联唯一"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
+    }
+  ]
+}
