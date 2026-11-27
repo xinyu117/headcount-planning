@@ -8,10 +8,25 @@
         "API-PLAN-CREATE"
       ],
       "uiPageIds": [
-        "PLAN-WORKSPACE"
+        "PLAN-WORKSPACE",
+        "PLAN-NEW",
+        "PLAN-DETAIL"
       ],
       "testIds": [
         "TC-PLAN-001-001"
+      ]
+    },
+    {
+      "requirementId": "PLAN-002",
+      "module": "plan",
+      "apiIds": [
+        "API-PLAN-UPDATE"
+      ],
+      "uiPageIds": [
+        "PLAN-DETAIL"
+      ],
+      "testIds": [
+        "TC-PLAN-002-001"
       ]
     },
     {
@@ -21,7 +36,9 @@
         "API-PLAN-SUBMIT"
       ],
       "uiPageIds": [
-        "PLAN-DETAIL"
+        "PLAN-DETAIL",
+        "PLAN-APPROVAL-WORKSPACE",
+        "PLAN-APPROVAL-DETAIL"
       ],
       "testIds": [
         "TC-PLAN-003-001"
@@ -31,13 +48,31 @@
       "requirementId": "PLAN-004",
       "module": "plan",
       "apiIds": [
-        "API-PLAN-REJECT"
+        "API-PLAN-REJECT",
+        "API-PLAN-APPROVAL-TASKS",
+        "API-PLAN-GET"
       ],
       "uiPageIds": [
-        "PLAN-DETAIL"
+        "PLAN-DETAIL",
+        "PLAN-APPROVAL-WORKSPACE",
+        "PLAN-APPROVAL-DETAIL"
       ],
       "testIds": [
         "TC-PLAN-004-001"
+      ]
+    },
+    {
+      "requirementId": "PLAN-005",
+      "module": "plan",
+      "apiIds": [
+        "API-PLAN-APPROVE"
+      ],
+      "uiPageIds": [
+        "PLAN-APPROVAL-WORKSPACE",
+        "PLAN-APPROVAL-DETAIL"
+      ],
+      "testIds": [
+        "TC-PLAN-005-001"
       ]
     }
   ]

@@ -5,8 +5,8 @@
       "id": "ACT-CREATE-PLAN",
       "name": "创建计划",
       "type": "NAVIGATION",
-      "transitionId": "NAV-PLAN-DETAIL",
-      "description": "打开计划详情页创建新草稿。"
+      "transitionId": "NAV-PLAN-CREATE",
+      "description": "打开新建计划页；首次保存时创建草稿。"
     },
     {
       "id": "ACT-OPEN-PLAN-NEW-TAB",
@@ -19,6 +19,12 @@
       "name": "选择组织",
       "type": "NAVIGATION",
       "transitionId": "NAV-ORG-PICKER"
+    },
+    {
+      "id": "ACT-SELECT-ORG-NEW",
+      "name": "新计划选择组织",
+      "type": "NAVIGATION",
+      "transitionId": "NAV-ORG-PICKER-NEW"
     },
     {
       "id": "ACT-VIEW-PERSON",
@@ -38,6 +44,11 @@
       "type": "API",
       "apiId": "API-PLAN-LIST",
       "httpMethod": "GET",
+      "requestMapping": {
+        "queryParameters": {
+          "filters": "form"
+        }
+      },
       "confirm": {
         "enabled": false
       },
@@ -51,10 +62,62 @@
       }
     },
     {
+      "id": "ACT-LOAD-PLAN",
+      "name": "加载计划详情",
+      "type": "API",
+      "apiId": "API-PLAN-GET",
+      "httpMethod": "GET",
+      "requestMapping": {
+        "pathParameters": {
+          "id": "route.id"
+        }
+      },
+      "success": {
+        "behavior": "REFRESH_COMPONENT",
+        "targetComponentId": "PLAN-BASIC-FORM"
+      },
+      "failure": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "加载计划详情失败，请稍后重试。"
+      }
+    },
+    {
       "id": "ACT-SAVE-PLAN",
       "name": "保存草稿",
       "type": "API",
       "apiId": "API-PLAN-CREATE",
+      "httpMethod": "POST",
+      "requestMapping": {
+        "body": "event.plan"
+      },
+      "confirm": {
+        "enabled": false
+      },
+      "success": {
+        "behavior": "NAVIGATE",
+        "targetPageId": "PLAN-DETAIL",
+        "parameterMapping": {
+          "id": "response.id"
+        },
+        "message": "保存成功。"
+      },
+      "failure": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "保存失败，请检查输入内容。"
+      }
+    },
+    {
+      "id": "ACT-UPDATE-PLAN",
+      "name": "更新计划草稿",
+      "type": "API",
+      "apiId": "API-PLAN-UPDATE",
+      "httpMethod": "PUT",
+      "requestMapping": {
+        "pathParameters": {
+          "id": "route.id"
+        },
+        "body": "event.plan"
+      },
       "confirm": {
         "enabled": false
       },
@@ -68,10 +131,76 @@
       }
     },
     {
+      "id": "ACT-LOAD-APPROVAL-TASKS",
+      "name": "加载审批待办",
+      "type": "API",
+      "apiId": "API-PLAN-APPROVAL-TASKS",
+      "httpMethod": "GET",
+      "success": {
+        "behavior": "REFRESH_COMPONENT",
+        "targetComponentId": "PLAN-APPROVAL-TASK-TABLE"
+      },
+      "failure": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "加载审批待办失败，请稍后重试。"
+      }
+    },
+    {
+      "id": "ACT-LOAD-PLAN-APPROVAL",
+      "name": "加载计划审批详情",
+      "type": "API",
+      "apiId": "API-PLAN-GET",
+      "httpMethod": "GET",
+      "requestMapping": {
+        "pathParameters": {
+          "id": "route.id"
+        }
+      },
+      "success": {
+        "behavior": "REFRESH_COMPONENT",
+        "targetComponentId": "PLAN-APPROVAL-SUMMARY"
+      },
+      "failure": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "加载计划详情失败，请稍后重试。"
+      }
+    },
+    {
+      "id": "ACT-APPROVE-PLAN",
+      "name": "批准计划",
+      "type": "API",
+      "apiId": "API-PLAN-APPROVE",
+      "httpMethod": "POST",
+      "requestMapping": {
+        "pathParameters": {
+          "id": "route.id"
+        }
+      },
+      "confirm": {
+        "enabled": true,
+        "message": "确定批准该计划吗？"
+      },
+      "success": {
+        "behavior": "NAVIGATE",
+        "targetPageId": "PLAN-APPROVAL-WORKSPACE",
+        "message": "计划已批准。"
+      },
+      "failure": {
+        "behavior": "SHOW_MESSAGE",
+        "message": "批准失败，请稍后重试。"
+      }
+    },
+    {
       "id": "ACT-SUBMIT-PLAN",
       "name": "提交审批",
       "type": "API",
       "apiId": "API-PLAN-SUBMIT",
+      "httpMethod": "POST",
+      "requestMapping": {
+        "pathParameters": {
+          "id": "route.id"
+        }
+      },
       "confirm": {
         "enabled": true,
         "message": "确定提交该计划进行审批吗？"
@@ -91,12 +220,20 @@
       "name": "驳回计划",
       "type": "API",
       "apiId": "API-PLAN-REJECT",
+      "httpMethod": "POST",
+      "requestMapping": {
+        "pathParameters": {
+          "id": "route.id"
+        },
+        "body": "event"
+      },
       "confirm": {
         "enabled": true,
         "message": "确定驳回该计划吗？"
       },
       "success": {
-        "behavior": "SHOW_MESSAGE",
+        "behavior": "NAVIGATE",
+        "targetPageId": "PLAN-APPROVAL-WORKSPACE",
         "message": "计划已驳回。"
       },
       "failure": {

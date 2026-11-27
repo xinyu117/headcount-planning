@@ -114,6 +114,50 @@
       }
     },
     {
+      "id": "PLAN-NEW",
+      "name": "新建计划",
+      "moduleId": "plan",
+      "pageType": "PAGE",
+      "route": "/plans/new",
+      "description": "填写计划信息；首次保存时创建计划草稿。",
+      "permission": "PLAN_CREATE",
+      "layout": {
+        "type": "DETAIL",
+        "areas": [
+          {
+            "id": "BASIC_INFO",
+            "type": "FORM",
+            "componentRefs": [
+              "PLAN-NEW-BASIC-FORM"
+            ]
+          },
+          {
+            "id": "HEADCOUNT_LINES",
+            "type": "DATA_TABLE",
+            "componentRefs": [
+              "PLAN-NEW-LINE-TABLE"
+            ]
+          },
+          {
+            "id": "FOOTER_ACTIONS",
+            "type": "ACTION_BAR",
+            "componentRefs": [
+              "PLAN-NEW-ACTIONS"
+            ]
+          }
+        ]
+      },
+      "functions": [
+        "填写计划信息",
+        "维护编制明细",
+        "保存为草稿"
+      ],
+      "responsive": {
+        "supported": true,
+        "defaultBreakpoint": "DESKTOP"
+      }
+    },
+    {
       "id": "ORG-MAINTENANCE",
       "name": "组织管理",
       "moduleId": "organization",
@@ -218,7 +262,9 @@
           {
             "id": "DIALOG_FOOTER",
             "type": "ACTION_BAR",
-            "componentRefs": []
+            "componentRefs": [
+              "ORG-SELECT-ACTIONS"
+            ]
           }
         ]
       },
@@ -236,6 +282,15 @@
         {
           "name": "organizationName",
           "type": "string"
+        }
+      ],
+      "componentBindings": [
+        {
+          "sourceComponentId": "ORG-TREE",
+          "event": "selection-change",
+          "targetComponentId": "ORG-SELECT-ACTIONS",
+          "targetProp": "selectedOrganization",
+          "value": "event"
         }
       ]
     },
@@ -303,6 +358,92 @@
         "应用筛选",
         "重置筛选"
       ]
+    },
+    {
+      "id": "PLAN-APPROVAL-WORKSPACE",
+      "name": "计划审批待办",
+      "moduleId": "plan",
+      "pageType": "PAGE",
+      "route": "/plans/approvals",
+      "description": "查看当前用户待处理的计划审批任务。",
+      "permission": "PLAN_APPROVE",
+      "layout": {
+        "type": "LIST",
+        "areas": [
+          {
+            "id": "APPROVAL_TASKS",
+            "type": "DATA_TABLE",
+            "componentRefs": [
+              "PLAN-APPROVAL-TASK-TABLE"
+            ]
+          }
+        ]
+      },
+      "functions": [
+        "查看待审批计划",
+        "打开审批详情"
+      ],
+      "responsive": {
+        "supported": true,
+        "defaultBreakpoint": "DESKTOP"
+      }
+    },
+    {
+      "id": "PLAN-APPROVAL-DETAIL",
+      "name": "计划审批详情",
+      "moduleId": "plan",
+      "pageType": "PAGE",
+      "route": "/plans/:id/approval",
+      "description": "查看计划审批内容并执行驳回操作。",
+      "permission": "PLAN_APPROVE",
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "source": "route"
+        }
+      ],
+      "layout": {
+        "type": "DETAIL",
+        "areas": [
+          {
+            "id": "APPROVAL_SUMMARY",
+            "type": "PROFILE",
+            "componentRefs": [
+              "PLAN-APPROVAL-SUMMARY"
+            ]
+          },
+          {
+            "id": "APPROVAL_ACTIONS",
+            "type": "ACTION_BAR",
+            "componentRefs": [
+              "PLAN-APPROVAL-ACTIONS"
+            ]
+          }
+        ]
+      },
+      "functions": [
+        "查看待审批计划",
+        "批准计划",
+        "驳回计划并填写意见"
+      ],
+      "parameterBindings": [
+        {
+          "parameter": "id",
+          "targetComponentId": "PLAN-APPROVAL-SUMMARY",
+          "targetProp": "id"
+        },
+        {
+          "parameter": "id",
+          "targetComponentId": "PLAN-APPROVAL-ACTIONS",
+          "targetProp": "id"
+        }
+      ],
+      "responsive": {
+        "supported": true,
+        "defaultBreakpoint": "DESKTOP"
+      }
     }
   ]
 }

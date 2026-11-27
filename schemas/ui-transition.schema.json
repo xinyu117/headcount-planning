@@ -60,7 +60,29 @@
                 "type": "string"
               }
             },
-            "additionalProperties": false
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "ACTION"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "actionId"
+                  ]
+                },
+                "else": {
+                  "required": [
+                    "source",
+                    "event"
+                  ]
+                }
+              }
+            ]
           },
           "openMode": {
             "enum": [
@@ -72,15 +94,35 @@
             ]
           },
           "parameterMapping": {
-            "type": "object"
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
           },
           "returnMapping": {
-            "type": "object"
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
           },
           "returnEvent": {
             "type": "string"
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "returnMapping"
+              ]
+            },
+            "then": {
+              "required": [
+                "returnEvent"
+              ]
+            }
+          }
+        ]
       }
     }
   }

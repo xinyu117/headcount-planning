@@ -54,6 +54,27 @@
           "description": {
             "type": "string"
           },
+          "requestMapping": {
+            "type": "object",
+            "properties": {
+              "pathParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "queryParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "body": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
           "confirm": {
             "type": "object",
             "properties": {
@@ -89,6 +110,12 @@
               "targetComponentId": {
                 "type": "string"
               },
+              "parameterMapping": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
               "message": {
                 "type": "string"
               }
@@ -117,7 +144,38 @@
             ],
             "additionalProperties": false
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "API"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "apiId",
+                "httpMethod"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "NAVIGATION"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "transitionId"
+              ]
+            }
+          }
+        ]
       }
     }
   }

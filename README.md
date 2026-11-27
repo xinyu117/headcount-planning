@@ -25,13 +25,12 @@ V1.2 在 V1.1 业务规格基础上，重点将 UI 规格拆分为四个相互�
 - `specifications/`：项目、模块、工作流、数据模型、API、UI、外部集成规格
 - `architecture/`：架构设计
 - `ai-development/`：AI 开发规范
-- `scripts/validate_specs.py`：Schema 与跨文件引用校验
+- `scripts/validate_specs.mjs`：Schema 与跨文件引用校验（Node.js，无第三方依赖）
 
 ## 校验
-需要 Python 3.10+ 和 `jsonschema`：
+需要 Node.js 18+：
 ```bash
-python -m pip install jsonschema
-python scripts/validate_specs.py
+node scripts/validate_specs.mjs
 ```
 
 ## 重要约束

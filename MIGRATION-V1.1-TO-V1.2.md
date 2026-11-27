@@ -6,4 +6,4 @@
 - `specifications/project.json` 的 `documentRefs.ui` 指向 `ui/ui-index.json`；各 UI 文档路径由索引统一管理。
 - `schemas/ui.schema.json` 保留为 UI 索引 Schema；页面、迁移、动作、组件分别使用 `ui-page.schema.json`、`ui-transition.schema.json`、`ui-action.schema.json`、`ui-component.schema.json`。
 - 页面类型和打开方式分离：页面定义 `pageType`；迁移定义 `openMode`。
-- 运行 `python scripts/validate_specs.py` 执行 JSON Schema 与跨文件引用校验。
+- 运行 `node scripts/validate_specs.mjs` 执行 JSON Schema 与跨文件引用校验；Node.js 18+，无需额外依赖。

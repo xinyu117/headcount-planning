@@ -16,6 +16,17 @@
       }
     },
     {
+      "id": "NAV-PLAN-CREATE",
+      "from": "PLAN-WORKSPACE",
+      "to": "PLAN-NEW",
+      "trigger": {
+        "type": "ACTION",
+        "actionId": "ACT-CREATE-PLAN"
+      },
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
       "id": "NAV-PLAN-NEW-TAB",
       "from": "PLAN-WORKSPACE",
       "to": "PLAN-DETAIL",
@@ -25,7 +36,7 @@
       },
       "openMode": "NEW_TAB",
       "parameterMapping": {
-        "id": "context.planId"
+        "id": "event.row.id"
       }
     },
     {
@@ -41,10 +52,28 @@
         "selectionMode": "'SINGLE'"
       },
       "returnMapping": {
-        "organizationId": "form.organizationId",
-        "organizationName": "form.organizationName"
+        "organizationId": "event.organizationId",
+        "organizationName": "event.organizationName"
       },
-      "returnEvent": "CONFIRM"
+      "returnEvent": "confirm"
+    },
+    {
+      "id": "NAV-ORG-PICKER-NEW",
+      "from": "PLAN-NEW",
+      "to": "ORG-SELECT-DIALOG",
+      "trigger": {
+        "type": "ACTION",
+        "actionId": "ACT-SELECT-ORG-NEW"
+      },
+      "openMode": "MODAL",
+      "parameterMapping": {
+        "selectionMode": "'SINGLE'"
+      },
+      "returnMapping": {
+        "organizationId": "event.organizationId",
+        "organizationName": "event.organizationName"
+      },
+      "returnEvent": "confirm"
     },
     {
       "id": "NAV-PERSON-QUICK-VIEW",
@@ -56,7 +85,7 @@
       },
       "openMode": "DRAWER",
       "parameterMapping": {
-        "personId": "context.personId"
+        "personId": "event.personId"
       }
     },
     {
@@ -76,7 +105,8 @@
       "to": "ORG-MAINTENANCE",
       "trigger": {
         "type": "MENU_ITEM",
-        "source": "ADMIN_MENU"
+        "source": "ADMIN-MENU",
+        "event": "organizations"
       },
       "openMode": "SAME_TAB",
       "parameterMapping": {}
@@ -87,10 +117,37 @@
       "to": "SECURITY-ROLE",
       "trigger": {
         "type": "MENU_ITEM",
-        "source": "ADMIN_MENU"
+        "source": "ADMIN-MENU",
+        "event": "roles"
       },
       "openMode": "SAME_TAB",
       "parameterMapping": {}
+    },
+    {
+      "id": "NAV-PLAN-APPROVAL-WORKSPACE",
+      "from": "PLAN-WORKSPACE",
+      "to": "PLAN-APPROVAL-WORKSPACE",
+      "trigger": {
+        "type": "MENU_ITEM",
+        "source": "ADMIN-MENU",
+        "event": "approvals"
+      },
+      "openMode": "SAME_TAB",
+      "parameterMapping": {}
+    },
+    {
+      "id": "NAV-PLAN-APPROVAL-DETAIL",
+      "from": "PLAN-APPROVAL-WORKSPACE",
+      "to": "PLAN-APPROVAL-DETAIL",
+      "trigger": {
+        "type": "ROW_CLICK",
+        "source": "PLAN-APPROVAL-TASK-TABLE",
+        "event": "row-click"
+      },
+      "openMode": "SAME_TAB",
+      "parameterMapping": {
+        "id": "event.row.planId"
+      }
     }
   ]
 }

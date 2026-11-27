@@ -19,6 +19,59 @@
       "description": "创建计划草稿",
       "authorization": "PLAN_CREATE",
       "requestSchema": "PlanCreateRequest",
+      "responseSchema": "Plan",
+      "responseFields": [
+        "id"
+      ]
+    },
+    {
+      "id": "API-PLAN-UPDATE",
+      "method": "PUT",
+      "path": "/api/plans/{id}",
+      "moduleId": "plan",
+      "description": "更新已有计划草稿及其编制明细",
+      "authorization": "PLAN_EDIT",
+      "requestSchema": "PlanUpdateRequest",
+      "responseSchema": "Plan",
+      "responseFields": [
+        "id"
+      ]
+    },
+    {
+      "id": "API-PLAN-GET",
+      "method": "GET",
+      "path": "/api/plans/{id}",
+      "moduleId": "plan",
+      "description": "查询计划详情",
+      "authorization": "PLAN_VIEW",
+      "requestSchema": null,
+      "responseSchema": "Plan",
+      "responseFields": [
+        "id",
+        "items"
+      ]
+    },
+    {
+      "id": "API-PLAN-APPROVAL-TASKS",
+      "method": "GET",
+      "path": "/api/plans/approval-tasks",
+      "moduleId": "plan",
+      "description": "查询当前用户可处理的计划审批任务",
+      "authorization": "PLAN_APPROVE",
+      "requestSchema": null,
+      "responseSchema": "WorkflowTaskPage",
+      "responseFields": [
+        "planId"
+      ]
+    },
+    {
+      "id": "API-PLAN-APPROVE",
+      "method": "POST",
+      "path": "/api/plans/{id}/approve",
+      "moduleId": "plan",
+      "description": "批准计划并完成当前审批任务",
+      "authorization": "PLAN_APPROVE",
+      "requestSchema": null,
       "responseSchema": "Plan"
     },
     {

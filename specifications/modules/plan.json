@@ -60,6 +60,18 @@
       ],
       "status": "CONFIRMED",
       "openQuestion": null
+    },
+    {
+      "id": "PLAN-005",
+      "title": "审批计划",
+      "description": "审批人批准计划并完成当前审批任务。",
+      "priority": "MUST",
+      "acceptanceCriteria": [
+        "计划状态变为已批准",
+        "当前审批任务完成"
+      ],
+      "status": "CONFIRMED",
+      "openQuestion": null
     }
   ]
 }

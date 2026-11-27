@@ -41,6 +41,7 @@
               "TREE",
               "TIMELINE",
               "PAGINATION",
+              "MENU",
               "CUSTOM"
             ]
           },
@@ -75,6 +76,40 @@
             "items": {
               "type": "string"
             }
+          },
+          "eventPayloads": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "actionBindings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "event",
+                "actionId"
+              ],
+              "properties": {
+                "event": {
+                  "type": "string"
+                },
+                "actionId": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "scope": {
+            "enum": [
+              "GLOBAL",
+              "PAGE"
+            ]
           },
           "implementation": {
             "type": "object",

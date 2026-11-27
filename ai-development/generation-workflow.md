@@ -12,4 +12,4 @@
 
 
 ## UI 页面任务（V1.2）
-页面任务必须同时读取 pages.json、transitions.json、actions.json、components.json 与 architecture/ui-design.md；先核对页面迁移、打开方式、参数/返回值和权限，再生成 Vue Router、Dialog、Drawer、组件及测试。完成后运行 validate_specs.py。
+页面任务必须同时读取 pages.json、transitions.json、actions.json、components.json 与 architecture/ui-design.md；先核对页面迁移、打开方式、参数/返回值和权限，再生成 Vue Router、Dialog、Drawer、组件及测试。完成后运行 `node scripts/validate_specs.mjs`。

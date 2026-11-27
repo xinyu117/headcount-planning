@@ -24,6 +24,8 @@ UI 规格是可执行设计输入，不是截图级像素稿。它定义页面�
 每条迁移必须有唯一 ID、来源页、目标页、触发器、打开方式和参数映射。
 `parameterMapping` 的 key 是目标页参数名，value 是前端上下文表达式；表达式仅允许在已声明上下文中解析，禁止 eval/Function。
 覆盖层页面可定义 `returnMapping` 和 `returnEvent`；用户确认后才将返回值写回来源页面。取消、关闭、遮罩关闭不得伪装成确认返回。
+迁移触发器中的组件 `source` 和 `event` 必须存在于组件契约。页面级动作通过组件 `actionBindings` 声明事件到动作的绑定；参数表达式引用的事件字段必须列在该事件的 `eventPayloads` 中。
+同页组件间的数据传递通过页面 `componentBindings` 声明；路由参数到组件 prop 的传递通过 `parameterBindings` 声明；目标 prop 必须存在于组件契约中。
 
 ## 4. 页面布局
 页面由 `layout.type` 和 `layout.areas` 描述。区域按数组顺序渲染；每个区域通过 `componentRefs` 引用公共组件。复杂布局可由页面专属组件组合，但必须在规格中标识区域和职责。
@@ -31,6 +33,7 @@ UI 规格是可执行设计输入，不是截图级像素稿。它定义页面�
 
 ## 5. 动作与 API
 - API 动作必须引用 `api-spec.json` 中存在的 `apiId`；HTTP 方法必须与 API 定义一致。
+- API 动作使用 `requestMapping` 显式映射路径参数、查询参数和请求体；API 返回字段用于约束成功后的页面参数映射。
 - NAVIGATION 动作必须引用存在的 `transitionId`。
 - 提交、驳回、删除等不可逆或重要操作应定义确认提示。
 - success/failure 分别定义成功和失败行为；不得仅依赖前端提示代替后端结果。

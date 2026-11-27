@@ -17,6 +17,12 @@
         "search",
         "reset"
       ],
+      "actionBindings": [
+        {
+          "event": "search",
+          "actionId": "ACT-SEARCH-PLANS"
+        }
+      ],
       "implementation": {
         "framework": "Vue 3",
         "component": "PlanSearchForm.vue"
@@ -38,6 +44,12 @@
         "apply",
         "reset"
       ],
+      "actionBindings": [
+        {
+          "event": "apply",
+          "actionId": "ACT-SEARCH-PLANS"
+        }
+      ],
       "implementation": {
         "framework": "Vue 3",
         "component": "PlanAdvancedFilters.vue"
@@ -50,7 +62,18 @@
       "description": "创建计划及列表级操作。",
       "props": [],
       "events": [
-        "create"
+        "create",
+        "toggle-advanced-filters"
+      ],
+      "actionBindings": [
+        {
+          "event": "create",
+          "actionId": "ACT-CREATE-PLAN"
+        },
+        {
+          "event": "toggle-advanced-filters",
+          "actionId": "ACT-TOGGLE-ADVANCED-FILTERS"
+        }
       ],
       "implementation": {
         "framework": "Vue 3",
@@ -61,7 +84,7 @@
       "id": "PLAN-DATA-TABLE",
       "name": "计划数据表格",
       "category": "DATA_TABLE",
-      "description": "展示计划列表并支持行点击。",
+      "description": "展示计划列表；支持行点击查看和行级新标签页打开。",
       "props": [
         {
           "name": "rows",
@@ -71,7 +94,22 @@
       ],
       "events": [
         "row-click",
+        "open-in-new-tab",
         "selection-change"
+      ],
+      "eventPayloads": {
+        "row-click": [
+          "row.id"
+        ],
+        "open-in-new-tab": [
+          "row.id"
+        ]
+      },
+      "actionBindings": [
+        {
+          "event": "open-in-new-tab",
+          "actionId": "ACT-OPEN-PLAN-NEW-TAB"
+        }
       ],
       "implementation": {
         "framework": "Vue 3",
@@ -92,7 +130,47 @@
       ],
       "events": [
         "update:modelValue",
-        "change"
+        "change",
+        "load-existing",
+        "select-organization"
+      ],
+      "actionBindings": [
+        {
+          "event": "load-existing",
+          "actionId": "ACT-LOAD-PLAN"
+        },
+        {
+          "event": "select-organization",
+          "actionId": "ACT-SELECT-ORG"
+        }
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanBasicForm.vue"
+      }
+    },
+    {
+      "id": "PLAN-NEW-BASIC-FORM",
+      "name": "新计划基本信息表单",
+      "category": "FORM",
+      "description": "维护新计划年度、组织、负责人等字段。",
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "object",
+          "required": true
+        }
+      ],
+      "events": [
+        "update:modelValue",
+        "change",
+        "select-organization"
+      ],
+      "actionBindings": [
+        {
+          "event": "select-organization",
+          "actionId": "ACT-SELECT-ORG-NEW"
+        }
       ],
       "implementation": {
         "framework": "Vue 3",
@@ -117,6 +195,39 @@
         "delete",
         "view-person"
       ],
+      "eventPayloads": {
+        "view-person": [
+          "personId"
+        ]
+      },
+      "actionBindings": [
+        {
+          "event": "view-person",
+          "actionId": "ACT-VIEW-PERSON"
+        }
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "HeadcountLineTable.vue"
+      }
+    },
+    {
+      "id": "PLAN-NEW-LINE-TABLE",
+      "name": "新计划编制明细表格",
+      "category": "DATA_TABLE",
+      "description": "维护新计划的职位、人数、FTE、预算等编制明细。",
+      "props": [
+        {
+          "name": "rows",
+          "type": "array",
+          "required": true
+        }
+      ],
+      "events": [
+        "add",
+        "edit",
+        "delete"
+      ],
       "implementation": {
         "framework": "Vue 3",
         "component": "HeadcountLineTable.vue"
@@ -126,21 +237,72 @@
       "id": "PLAN-DETAIL-ACTIONS",
       "name": "计划详情操作栏",
       "category": "ACTION_BAR",
-      "description": "保存、提交审批等操作。",
+      "description": "保存计划及编制明细、提交审批等操作。",
       "props": [
         {
           "name": "status",
           "type": "string",
           "required": true
+        },
+        {
+          "name": "plan",
+          "type": "object",
+          "required": true
         }
       ],
       "events": [
-        "save",
+        "save-existing",
         "submit"
+      ],
+      "eventPayloads": {
+        "save-existing": [
+          "plan"
+        ]
+      },
+      "actionBindings": [
+        {
+          "event": "save-existing",
+          "actionId": "ACT-UPDATE-PLAN"
+        },
+        {
+          "event": "submit",
+          "actionId": "ACT-SUBMIT-PLAN"
+        }
       ],
       "implementation": {
         "framework": "Vue 3",
         "component": "PlanDetailActions.vue"
+      }
+    },
+    {
+      "id": "PLAN-NEW-ACTIONS",
+      "name": "新计划操作栏",
+      "category": "ACTION_BAR",
+      "description": "保存新建计划及其编制明细。",
+      "props": [
+        {
+          "name": "plan",
+          "type": "object",
+          "required": true
+        }
+      ],
+      "events": [
+        "save"
+      ],
+      "eventPayloads": {
+        "save": [
+          "plan"
+        ]
+      },
+      "actionBindings": [
+        {
+          "event": "save",
+          "actionId": "ACT-SAVE-PLAN"
+        }
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanNewActions.vue"
       }
     },
     {
@@ -159,9 +321,42 @@
         "node-click",
         "selection-change"
       ],
+      "eventPayloads": {
+        "selection-change": [
+          "organizationId",
+          "organizationName"
+        ]
+      },
       "implementation": {
         "framework": "Vue 3",
         "component": "OrganizationTree.vue"
+      }
+    },
+    {
+      "id": "ORG-SELECT-ACTIONS",
+      "name": "组织选择对话框操作栏",
+      "category": "ACTION_BAR",
+      "description": "确认或取消组织选择。",
+      "props": [
+        {
+          "name": "selectedOrganization",
+          "type": "object",
+          "required": true
+        }
+      ],
+      "events": [
+        "confirm",
+        "cancel"
+      ],
+      "eventPayloads": {
+        "confirm": [
+          "organizationId",
+          "organizationName"
+        ]
+      },
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "OrganizationSelectActions.vue"
       }
     },
     {
@@ -204,6 +399,117 @@
       "implementation": {
         "framework": "Vue 3",
         "component": "RolePermissionMatrix.vue"
+      }
+    },
+    {
+      "id": "ADMIN-MENU",
+      "name": "管理导航菜单",
+      "category": "MENU",
+      "description": "应用级导航菜单，提供组织管理、角色权限管理和审批待办入口。",
+      "props": [],
+      "events": [
+        "organizations",
+        "roles",
+        "approvals"
+      ],
+      "scope": "GLOBAL",
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "AdminMenu.vue"
+      }
+    },
+    {
+      "id": "PLAN-APPROVAL-TASK-TABLE",
+      "name": "计划审批待办表格",
+      "category": "DATA_TABLE",
+      "description": "展示当前用户可处理的计划审批任务；加载事件触发待办查询。",
+      "props": [
+        {
+          "name": "rows",
+          "type": "array",
+          "required": true
+        }
+      ],
+      "events": [
+        "load",
+        "row-click"
+      ],
+      "eventPayloads": {
+        "row-click": [
+          "row.planId"
+        ]
+      },
+      "actionBindings": [
+        {
+          "event": "load",
+          "actionId": "ACT-LOAD-APPROVAL-TASKS"
+        }
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanApprovalTaskTable.vue"
+      }
+    },
+    {
+      "id": "PLAN-APPROVAL-SUMMARY",
+      "name": "计划审批摘要",
+      "category": "CUSTOM",
+      "description": "展示待审批计划及其编制信息。",
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "events": [
+        "load"
+      ],
+      "actionBindings": [
+        {
+          "event": "load",
+          "actionId": "ACT-LOAD-PLAN-APPROVAL"
+        }
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanApprovalSummary.vue"
+      }
+    },
+    {
+      "id": "PLAN-APPROVAL-ACTIONS",
+      "name": "计划审批操作栏",
+      "category": "ACTION_BAR",
+      "description": "批准计划或驳回计划并录入驳回意见。",
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "events": [
+        "approve",
+        "reject"
+      ],
+      "eventPayloads": {
+        "reject": [
+          "reason"
+        ]
+      },
+      "actionBindings": [
+        {
+          "event": "approve",
+          "actionId": "ACT-APPROVE-PLAN"
+        },
+        {
+          "event": "reject",
+          "actionId": "ACT-REJECT-PLAN"
+        }
+      ],
+      "implementation": {
+        "framework": "Vue 3",
+        "component": "PlanApprovalActions.vue"
       }
     }
   ]

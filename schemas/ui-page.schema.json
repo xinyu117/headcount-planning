@@ -187,6 +187,60 @@
           },
           "responsive": {
             "type": "object"
+          },
+          "componentBindings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "sourceComponentId",
+                "event",
+                "targetComponentId",
+                "targetProp",
+                "value"
+              ],
+              "properties": {
+                "sourceComponentId": {
+                  "type": "string"
+                },
+                "event": {
+                  "type": "string"
+                },
+                "targetComponentId": {
+                  "type": "string"
+                },
+                "targetProp": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "parameterBindings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "parameter",
+                "targetComponentId",
+                "targetProp"
+              ],
+              "properties": {
+                "parameter": {
+                  "type": "string"
+                },
+                "targetComponentId": {
+                  "type": "string"
+                },
+                "targetProp": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
           }
         }
       }
