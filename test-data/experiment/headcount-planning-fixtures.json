@@ -1,0 +1,713 @@
+{
+  "schemaVersion": "experiment-1.0",
+  "datasetId": "HCP-EXPERIMENT-20261127",
+  "purpose": "仅用于需求分析、页面原型、接口契约和状态机实验，不是生产规则或数据库 DDL",
+  "sourceSpecs": [
+    "specifications/modules/plan.json",
+    "specifications/modules/organization.json",
+    "specifications/modules/person.json",
+    "specifications/modules/position.json",
+    "specifications/modules/account.json",
+    "specifications/modules/security.json",
+    "specifications/workflows/headcount-approval.json",
+    "specifications/data-model/entities.json",
+    "specifications/api/api-spec.json",
+    "specifications/integration/successfactors.json"
+  ],
+  "loadability": {
+    "masterDataAndPlans": "USES_DEFINED_ENTITY_FIELDS_ONLY",
+    "provenanceFieldsAreMetadata": true,
+    "experimentalAuthorizationRoles": "INFERRED_NOT_CONFIRMED",
+    "tbdInputs": "NOT_LOADABLE_TBD"
+  },
+  "masterData": {
+    "organizations": [
+      {
+        "id": 1001,
+        "org_code": "ORG-HQ",
+        "parent_id": null,
+        "requirementIds": [
+          "ORG-001",
+          "ORG-002"
+        ]
+      },
+      {
+        "id": 1101,
+        "org_code": "ORG-RD",
+        "parent_id": 1001,
+        "requirementIds": [
+          "ORG-001",
+          "ORG-002"
+        ]
+      },
+      {
+        "id": 1102,
+        "org_code": "ORG-RD-PLATFORM",
+        "parent_id": 1101,
+        "requirementIds": [
+          "ORG-001",
+          "ORG-002"
+        ]
+      },
+      {
+        "id": 1201,
+        "org_code": "ORG-SALES",
+        "parent_id": 1001,
+        "requirementIds": [
+          "ORG-001",
+          "ORG-002"
+        ]
+      },
+      {
+        "id": 1202,
+        "org_code": "ORG-SALES-EAST",
+        "parent_id": 1201,
+        "requirementIds": [
+          "ORG-001",
+          "ORG-002"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "id": 2001,
+        "position_code": "POS-SWE",
+        "organization_id": 1102,
+        "requirementIds": [
+          "POS-001",
+          "POS-002"
+        ]
+      },
+      {
+        "id": 2002,
+        "position_code": "POS-ENG-MGR",
+        "organization_id": 1101,
+        "requirementIds": [
+          "POS-001",
+          "POS-002"
+        ]
+      },
+      {
+        "id": 2003,
+        "position_code": "POS-SALES-MGR",
+        "organization_id": 1201,
+        "requirementIds": [
+          "POS-001",
+          "POS-002"
+        ]
+      },
+      {
+        "id": 2004,
+        "position_code": "POS-SALES-REP",
+        "organization_id": 1202,
+        "requirementIds": [
+          "POS-001",
+          "POS-002"
+        ]
+      }
+    ],
+    "persons": [
+      {
+        "id": 3001,
+        "person_code": "PER-1001",
+        "organization_id": 1102,
+        "requirementIds": [
+          "PER-001"
+        ]
+      },
+      {
+        "id": 3002,
+        "person_code": "PER-1002",
+        "organization_id": 1101,
+        "requirementIds": [
+          "PER-001"
+        ]
+      },
+      {
+        "id": 3003,
+        "person_code": "PER-1003",
+        "organization_id": 1001,
+        "requirementIds": [
+          "PER-001"
+        ]
+      },
+      {
+        "id": 3004,
+        "person_code": "PER-1004",
+        "organization_id": 1001,
+        "requirementIds": [
+          "PER-001"
+        ]
+      },
+      {
+        "id": 3005,
+        "person_code": "PER-1005",
+        "organization_id": 1202,
+        "requirementIds": [
+          "PER-001"
+        ]
+      }
+    ],
+    "accounts": [
+      {
+        "id": 4001,
+        "username": "planner.demo",
+        "person_id": 3001,
+        "requirementIds": [
+          "ACC-001",
+          "ACC-002"
+        ]
+      },
+      {
+        "id": 4002,
+        "username": "approver.rd.demo",
+        "person_id": 3002,
+        "requirementIds": [
+          "ACC-001",
+          "ACC-002"
+        ]
+      },
+      {
+        "id": 4003,
+        "username": "org.admin.demo",
+        "person_id": 3003,
+        "requirementIds": [
+          "ACC-001",
+          "ACC-002"
+        ]
+      },
+      {
+        "id": 4004,
+        "username": "security.admin.demo",
+        "person_id": 3004,
+        "requirementIds": [
+          "ACC-001",
+          "ACC-002"
+        ]
+      },
+      {
+        "id": 4005,
+        "username": "sales.planner.demo",
+        "person_id": 3005,
+        "requirementIds": [
+          "ACC-001",
+          "ACC-002"
+        ]
+      }
+    ]
+  },
+  "plans": [
+    {
+      "id": 5001,
+      "plan_code": "HC-2026-001",
+      "period": "2026",
+      "status": "DRAFT",
+      "requirementIds": [
+        "PLAN-001",
+        "PLAN-002",
+        "PLAN-003"
+      ],
+      "items": [
+        {
+          "id": 6001,
+          "plan_id": 5001,
+          "organization_id": 1102,
+          "position_id": 2001,
+          "planned_headcount": 2,
+          "requirementIds": [
+            "PLAN-002",
+            "POS-002"
+          ]
+        },
+        {
+          "id": 6002,
+          "plan_id": 5001,
+          "organization_id": 1101,
+          "position_id": 2002,
+          "planned_headcount": 1,
+          "requirementIds": [
+            "PLAN-002",
+            "POS-002"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5002,
+      "plan_code": "HC-2026-002",
+      "period": "2026",
+      "status": "IN_REVIEW",
+      "requirementIds": [
+        "PLAN-001",
+        "PLAN-003",
+        "PLAN-005"
+      ],
+      "items": [
+        {
+          "id": 6003,
+          "plan_id": 5002,
+          "organization_id": 1201,
+          "position_id": 2003,
+          "planned_headcount": 1,
+          "requirementIds": [
+            "PLAN-002",
+            "POS-002"
+          ]
+        },
+        {
+          "id": 6004,
+          "plan_id": 5002,
+          "organization_id": 1202,
+          "position_id": 2004,
+          "planned_headcount": 3,
+          "requirementIds": [
+            "PLAN-002",
+            "POS-002"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5003,
+      "plan_code": "HC-2026-003",
+      "period": "2026",
+      "status": "RETURNED",
+      "requirementIds": [
+        "PLAN-001",
+        "PLAN-003",
+        "PLAN-004"
+      ],
+      "items": [
+        {
+          "id": 6005,
+          "plan_id": 5003,
+          "organization_id": 1102,
+          "position_id": 2001,
+          "planned_headcount": 4,
+          "requirementIds": [
+            "PLAN-002",
+            "POS-002"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5004,
+      "plan_code": "HC-2026-004",
+      "period": "2026",
+      "status": "APPROVED",
+      "requirementIds": [
+        "PLAN-001",
+        "PLAN-003",
+        "PLAN-005"
+      ],
+      "items": [
+        {
+          "id": 6006,
+          "plan_id": 5004,
+          "organization_id": 1001,
+          "position_id": 2002,
+          "planned_headcount": 1,
+          "requirementIds": [
+            "PLAN-002",
+            "POS-002"
+          ]
+        }
+      ]
+    }
+  ],
+  "authorizationScenarios": {
+    "note": "除 PLAN_APPROVER 外，角色代码为本实验推导，不是规格已确认角色。",
+    "roles": [
+      {
+        "roleCode": "PLAN_APPLICANT",
+        "accountId": 4001,
+        "status": "INFERRED",
+        "permissions": [
+          "PLAN_VIEW",
+          "PLAN_CREATE",
+          "PLAN_EDIT",
+          "PLAN_SUBMIT",
+          "ORG_VIEW"
+        ],
+        "requirementIds": [
+          "PLAN-001",
+          "PLAN-002",
+          "PLAN-003",
+          "PLAN-004",
+          "ORG-001"
+        ]
+      },
+      {
+        "roleCode": "PLAN_APPROVER",
+        "accountId": 4002,
+        "status": "DOCUMENTED_ROLE_CODE_PERMISSIONS_PARTIALLY_INFERRED",
+        "permissions": [
+          "PLAN_VIEW",
+          "PLAN_APPROVE"
+        ],
+        "requirementIds": [
+          "PLAN-004",
+          "PLAN-005"
+        ]
+      },
+      {
+        "roleCode": "ORG_ADMIN",
+        "accountId": 4003,
+        "status": "INFERRED",
+        "permissions": [
+          "ORG_VIEW"
+        ],
+        "requirementIds": [
+          "ORG-001",
+          "ORG-002"
+        ]
+      },
+      {
+        "roleCode": "SECURITY_ADMIN",
+        "accountId": 4004,
+        "status": "INFERRED",
+        "permissions": [
+          "ROLE_ADMIN"
+        ],
+        "requirementIds": [
+          "SEC-001",
+          "SEC-002"
+        ]
+      },
+      {
+        "roleCode": "ACCOUNT_ADMIN",
+        "accountId": 4004,
+        "status": "INFERRED_NO_PERMISSION_ID",
+        "permissions": [],
+        "requirementIds": [
+          "ACC-001",
+          "ACC-002"
+        ]
+      }
+    ],
+    "dataScope": {
+      "status": "TBD",
+      "requirementIds": [
+        "SEC-002"
+      ],
+      "note": "是否包含下级组织及兼任规则见 open-questions.md 第 11 项。"
+    }
+  },
+  "apiAndWorkflowScenarios": [
+    {
+      "id": "TC-PLAN-001-001",
+      "requirementIds": [
+        "PLAN-001"
+      ],
+      "actorRole": "PLAN_APPLICANT",
+      "apiId": "API-PLAN-CREATE",
+      "inputPlan": {
+        "plan_code": "HC-2026-101",
+        "period": "2026"
+      },
+      "expected": {
+        "status": "DRAFT",
+        "planCodeUnique": true
+      }
+    },
+    {
+      "id": "TC-PLAN-002-001",
+      "requirementIds": [
+        "PLAN-002"
+      ],
+      "actorRole": "PLAN_APPLICANT",
+      "apiId": "API-PLAN-UPDATE",
+      "planId": 5001,
+      "change": {
+        "itemId": 6001,
+        "planned_headcount": 3
+      },
+      "expected": {
+        "itemPersisted": true,
+        "changeAuditable": true
+      },
+      "knownGap": "当前数据模型没有审计/版本字段。"
+    },
+    {
+      "id": "TC-PLAN-003-001",
+      "requirementIds": [
+        "PLAN-003"
+      ],
+      "actorRole": "PLAN_APPLICANT",
+      "apiId": "API-PLAN-SUBMIT",
+      "planId": 5001,
+      "workflowTransitionId": "T-SUBMIT",
+      "expected": {
+        "fromStatus": "DRAFT",
+        "toStatus": "IN_REVIEW",
+        "approvalTaskCreated": true
+      }
+    },
+    {
+      "id": "TC-PLAN-004-001",
+      "requirementIds": [
+        "PLAN-004"
+      ],
+      "actorRole": "PLAN_APPROVER",
+      "apiId": "API-PLAN-REJECT",
+      "planId": 5002,
+      "input": {
+        "reason": "Headcount rationale is incomplete."
+      },
+      "workflowTransitionId": "T-REJECT",
+      "expected": {
+        "fromStatus": "IN_REVIEW",
+        "toStatus": "RETURNED",
+        "reasonRequired": true
+      }
+    },
+    {
+      "id": "EXP-PLAN-RESUBMIT-001",
+      "requirementIds": [
+        "PLAN-004",
+        "PLAN-003"
+      ],
+      "actorRole": "PLAN_APPLICANT",
+      "apiId": "API-PLAN-SUBMIT",
+      "planId": 5003,
+      "workflowTransitionId": "T-RESUBMIT",
+      "expected": {
+        "fromStatus": "RETURNED",
+        "toStatus": "IN_REVIEW",
+        "approvalTaskCreated": true
+      },
+      "knownGap": "同一 API 同时承担首次提交和重提，文档未单独定义重提请求契约。"
+    },
+    {
+      "id": "TC-PLAN-005-001",
+      "requirementIds": [
+        "PLAN-005"
+      ],
+      "actorRole": "PLAN_APPROVER",
+      "apiId": "API-PLAN-APPROVE",
+      "planId": 5002,
+      "workflowTransitionId": "T-APPROVE",
+      "expected": {
+        "fromStatus": "IN_REVIEW",
+        "toStatus": "APPROVED",
+        "currentTaskCompleted": true
+      }
+    },
+    {
+      "id": "EXP-AUTH-APPROVER-LOAD-001",
+      "requirementIds": [
+        "PLAN-004",
+        "PLAN-005"
+      ],
+      "actorRole": "PLAN_APPROVER",
+      "apiId": "API-PLAN-GET",
+      "planId": 5002,
+      "expected": {
+        "loadApprovalDetail": true
+      },
+      "knownGap": "审批详情页要求 PLAN_APPROVE，但 API-PLAN-GET 要求 PLAN_VIEW。"
+    }
+  ],
+  "negativeCases": [
+    {
+      "id": "NEG-PLAN-DUPLICATE-CODE",
+      "requirementIds": [
+        "PLAN-001"
+      ],
+      "input": {
+        "plan_code": "HC-2026-001"
+      },
+      "expected": "REJECT"
+    },
+    {
+      "id": "NEG-REJECT-EMPTY-REASON",
+      "requirementIds": [
+        "PLAN-004"
+      ],
+      "input": {
+        "reason": ""
+      },
+      "expected": "REJECT"
+    },
+    {
+      "id": "NEG-UNAUTHORIZED-APPROVE",
+      "requirementIds": [
+        "PLAN-005",
+        "SEC-002"
+      ],
+      "actorRole": "PLAN_APPLICANT",
+      "apiId": "API-PLAN-APPROVE",
+      "expected": "REJECT_AND_AUDIT_ATTEMPT"
+    },
+    {
+      "id": "NEG-CROSS-ORG-VIEW",
+      "requirementIds": [
+        "SEC-002"
+      ],
+      "actorOrganizationId": 1102,
+      "targetPlanOrganizationId": 1202,
+      "expected": "REJECT_UNDER_CURRENT_MINIMUM_RULE",
+      "knownGap": "下级组织和兼任语义见 OQ-11。"
+    },
+    {
+      "id": "NEG-DUPLICATE-ORG-CODE",
+      "requirementIds": [
+        "ORG-001"
+      ],
+      "input": {
+        "org_code": "ORG-HQ"
+      },
+      "expected": "REJECT"
+    },
+    {
+      "id": "NEG-ORG-PARENT-CYCLE",
+      "requirementIds": [
+        "ORG-001"
+      ],
+      "input": {
+        "operations": [
+          {
+            "organizationId": 1101,
+            "parent_id": 1102
+          },
+          {
+            "organizationId": 1102,
+            "parent_id": 1101
+          }
+        ]
+      },
+      "expected": "REJECT_CYCLE"
+    },
+    {
+      "id": "NEG-DUPLICATE-POSITION-CODE",
+      "requirementIds": [
+        "POS-001"
+      ],
+      "input": {
+        "position_code": "POS-SWE"
+      },
+      "expected": "REJECT"
+    },
+    {
+      "id": "NEG-POSITION-INVALID-ORG",
+      "requirementIds": [
+        "POS-001"
+      ],
+      "input": {
+        "position_code": "POS-TEMP",
+        "organization_id": 999999
+      },
+      "expected": "REJECT_INVALID_REFERENCE"
+    },
+    {
+      "id": "NEG-DUPLICATE-PERSON-CODE",
+      "requirementIds": [
+        "PER-001"
+      ],
+      "input": {
+        "person_code": "PER-1001"
+      },
+      "expected": "REJECT"
+    },
+    {
+      "id": "NEG-DUPLICATE-ACCOUNT-PERSON",
+      "requirementIds": [
+        "ACC-002"
+      ],
+      "input": {
+        "person_id": 3001
+      },
+      "expected": "REJECT",
+      "knownGap": "实体未声明 person_id 唯一约束。"
+    }
+  ],
+  "tbdInputs": [
+    {
+      "id": "TBD-PLAN-BUDGET",
+      "status": "NOT_LOADABLE_TBD",
+      "requirementIds": [
+        "PLAN-002"
+      ],
+      "sampleOnly": {
+        "currency": "TBD",
+        "budget_amount": 1250000,
+        "rounding_rule": "TBD"
+      },
+      "reason": "金额口径、币种、汇率和舍入未确认。"
+    },
+    {
+      "id": "TBD-PLAN-FTE",
+      "status": "NOT_LOADABLE_TBD",
+      "requirementIds": [
+        "PLAN-002"
+      ],
+      "sampleOnly": {
+        "planned_fte": 2.5
+      },
+      "reason": "FTE 是否与人数并行管理未确认，实体没有该字段。"
+    },
+    {
+      "id": "TBD-PLAN-DEPARTMENT",
+      "status": "NOT_LOADABLE_TBD",
+      "requirementIds": [
+        "PLAN-001",
+        "PLAN-003"
+      ],
+      "sampleOnly": {
+        "departmentId": 1101
+      },
+      "reason": "流程使用 plan.departmentId，但 Plan 实体没有该字段；部门与组织的关系未定义。"
+    },
+    {
+      "id": "TBD-ORG-EFFECTIVE-DATE",
+      "status": "NOT_LOADABLE_TBD",
+      "requirementIds": [
+        "ORG-002"
+      ],
+      "sampleOnly": {
+        "effective_from": "2026-01-01",
+        "effective_to": null
+      },
+      "reason": "组织实体没有有效期字段。"
+    },
+    {
+      "id": "TBD-POSITION-EFFECTIVE-DATE",
+      "status": "NOT_LOADABLE_TBD",
+      "requirementIds": [
+        "POS-001"
+      ],
+      "sampleOnly": {
+        "name": "Software Engineer",
+        "effective_from": "2026-01-01",
+        "effective_to": null
+      },
+      "reason": "职位实体没有名称和有效期字段。"
+    },
+    {
+      "id": "TBD-ACCOUNT-STATUS",
+      "status": "NOT_LOADABLE_TBD",
+      "requirementIds": [
+        "ACC-001"
+      ],
+      "sampleOnly": {
+        "account_status": "DISABLED"
+      },
+      "reason": "账号实体没有启用/停用字段，安全会话失效规则未定义。"
+    },
+    {
+      "id": "TBD-SF-PERSON-SYNC",
+      "status": "NOT_LOADABLE_TBD",
+      "requirementIds": [
+        "PER-002"
+      ],
+      "sampleOnly": {
+        "system": "SUCCESSFACTORS",
+        "entity": "TBD",
+        "fieldMapping": "TBD",
+        "incrementalStrategy": "TBD"
+      },
+      "reason": "必须依据目标租户 OData $metadata、API 权限和实际响应确认。"
+    }
+  ]
+}
